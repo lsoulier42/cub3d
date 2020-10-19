@@ -12,6 +12,13 @@
 
 #ifndef LIBFT_H
 # define LIBFT_H
+# define GET_NEXT_LINE_H
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 32
+# endif
+# include <stdlib.h>
+# include <sys/types.h>
+# include <sys/uio.h>
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -27,6 +34,13 @@ typedef struct	s_btree
 	struct s_btree	*right;
 	void			*item;
 }				t_btree;
+
+typedef struct	s_list_file
+{
+	char				buff[BUFFER_SIZE];
+	int					fd;
+	struct s_list_file	*next;
+}				t_list_file;
 
 void			*ft_memset(void *b, int c, size_t len);
 void			ft_bzero(void *s, size_t n);
@@ -133,4 +147,11 @@ void			btree_insert_data(t_btree **root, void *item,
 		int (*cmpf)(void *, void *));
 void			btree_apply_by_level(t_btree *root, void (*applyf)(void *item,
 			int current_level, int is_first));
+
+int				set_begin_line(char *buff, char **line_begin);
+char			*join_buff(char *line, char *buff, int buff_len);
+int				move_buff(char (*buff)[BUFFER_SIZE], int offset);
+int				read_file(int fd, char (*buff)[BUFFER_SIZE], char **line);
+t_list_file		*get_or_put_buffer(int fd, t_list_file **first);
+int				get_next_line(int fd, char **line);
 #endif

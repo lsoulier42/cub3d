@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 16:05:48 by louise            #+#    #+#             */
-/*   Updated: 2020/10/18 19:22:26 by louise           ###   ########.fr       */
+/*   Updated: 2020/10/19 22:09:00 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,8 @@ char 	*get_filepath(char *file)
 	return (filepath);
 }
 
-t_file	*check_file(char *filestr)
+int		check_file(char *filestr, t_file *file)
 {
-	t_file	*file;
 	char	*ext;
 	char 	*filename;
 	char 	*path;
@@ -75,13 +74,14 @@ t_file	*check_file(char *filestr)
 
 	if (!(ext = get_extension(filestr)) || !(filename = get_filename(filestr))
 		|| !(path = get_filepath(filestr)))
-		return (NULL);
-	if ((fd = open(filestr, O_RDONLY)) == -1 || !(file = (t_file*)malloc(sizeof(t_file))))
+		return (0);
+	if ((fd = open(filestr, O_RDONLY)) == -1)
 		return (destroy_filevar(ext, filename, path));
+	init_file(file);
 	file->fullname = filestr;
 	file->ext = ext;
 	file->filename = filename;
 	file->path = path;
 	file->fd = fd;
-	return (file);
+	return (1);
 }

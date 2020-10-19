@@ -6,11 +6,11 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/24 23:46:57 by louise            #+#    #+#             */
-/*   Updated: 2020/09/27 22:47:31 by louise           ###   ########.fr       */
+/*   Updated: 2020/10/19 22:38:16 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 int			get_next_line(int fd, char **line)
 {

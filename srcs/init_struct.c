@@ -1,33 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/18 14:36:08 by louise            #+#    #+#             */
-/*   Updated: 2020/10/18 19:35:38 by louise           ###   ########.fr       */
+/*   Created: 2020/10/18 22:04:58 by louise            #+#    #+#             */
+/*   Updated: 2020/10/19 22:13:33 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "libft.h"
 
-int main(int argc, char **argv)
+void		init_point(t_point *point)
 {
-	t_game	*parsed_map;
-	t_file	*cubmap;
+	point->x = 0;
+	point->y = 0;
+}
 
-	if (argc >= 2 && argc <= 3)
-	{
-		if (!(cubmap = check_file(argv[1])))
-			return (0);
-		if (ft_strncmp("cub", cubmap->ext, 3) != 0)
-			return (destroy_file(cubmap));
-		if (!(parsed_map = parse_file(cubmap)))
-			return (destroy_file(cubmap));
-		//suite
-		close(cubmap->fd);
-	}
-	return (0);
+void		init_dimension(t_dimension *dimension)
+{
+	dimension->width = 0;
+	dimension->height = 0;
+}
+
+void		init_file(t_file *file)
+{
+	file->fullname = NULL;
+	file->ext = NULL;
+	file->filename = NULL;
+	file->path = NULL;
+	file->fd = 0;
+}
+
+void		init_color(t_color *color)
+{
+	color->r = 0;
+	color->g = 0;
+	color->b = 0;
 }

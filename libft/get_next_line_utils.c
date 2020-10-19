@@ -6,11 +6,11 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/26 21:16:18 by louise            #+#    #+#             */
-/*   Updated: 2020/09/27 22:47:02 by louise           ###   ########.fr       */
+/*   Updated: 2020/10/19 22:38:16 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 int			set_begin_line(char *buff, char **line_begin)
 {
