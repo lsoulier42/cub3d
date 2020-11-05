@@ -51,3 +51,17 @@ void test_opened_file(t_file file)
 	printf("Path: %s\n", file.path);
 	printf("File descriptor: %d\n", file.fd);
 }
+
+void debug_point(t_mlx_vars *vars, t_point point)
+{
+	char str[20];
+	static int i = 0;
+
+	ft_strcat(str, "point(");
+	ft_strcat(str, ft_itoa(point.x));
+	ft_strcat(str, ",");
+	ft_strcat(str, ft_itoa(point.y));
+	ft_strcat(str, ")");
+	mlx_string_put(vars->mlx, vars->win, 10, 500 + i * 10, create_trgb(0, 255, 0, 0), str);
+	i++;
+}

@@ -6,7 +6,11 @@ SRCS=		main.c \
 			set_settings.c \
 			set_struct.c \
 			test_fct.c \
-			pixel.c
+			mlx_utils.c \
+			render_map.c \
+			render_ray.c \
+			render_player.c \
+			init_vars.c
 OBJS=		${addprefix srcs/,${SRCS:.c=.o}}
 HEAD=		-I includes -I libft/includes -I minilibx
 CC=			gcc

@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/05 17:21:29 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/05 18:32:08 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,24 @@
 # include <math.h>
 # include <stdio.h>
 # include <mlx.h>
-# define OUTSIDE ' '
-# define EMPTY '0'
-# define WALL '1'
-# define OBJECT '2'
 # define CARD_CHARSET "NSEW"
 # define WALL_SIZE 30
-# define ARROW_LEFT 123
-# define ARROW_RIGHT 124
-# define ARROW_DOWN 125
-# define ARROW_UP 126
 
+typedef enum 	e_map_elem
+{
+	EMPTY,
+	WALL,
+	SPRITE,
+	ELEM_TOTAL
+}				t_map_elem;
+
+typedef enum	e_arrow
+{
+	ARROW_LEFT = 123,
+	ARROW_RIGHT,
+	ARROW_DOWN,
+	ARROW_UP
+}				t_arrow;
 
 typedef struct 	s_point
 {
@@ -135,6 +142,9 @@ t_image_data 	create_horizontal_ray(t_mlx_vars *vars);
 t_point 		print_ray(t_mlx_vars *vars, t_point current_pos);
 char 			change_card(int keycode);
 void			erase_previous_ray(t_mlx_vars *vars, t_point previous_pos, char previous_card);
+void 			set_map_elem(t_mlx_vars *vars, t_image_data elem[ELEM_TOTAL]);
+void			init_vars(t_mlx_vars *vars, t_game *parsed_map);
+void			init_game(t_mlx_vars *vars);
 
 //test functions
 void 			test_parsed_map(t_game *parsed_map);
