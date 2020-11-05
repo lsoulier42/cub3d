@@ -1,16 +1,17 @@
 NAME=		cub3d.out
 SRCS=		main.c \
-			check_file.c \
 			file_utils.c \
-			init_struct.c \
 			parse_file.c \
 			set_map.c \
-			set_settings.c
+			set_settings.c \
+			set_struct.c \
+			test_fct.c \
+			pixel.c
 OBJS=		${addprefix srcs/,${SRCS:.c=.o}}
-HEAD=		-I includes -I libft/includes
+HEAD=		-I includes -I libft/includes -I minilibx
 CC=			gcc
 CFLAGS=		-Wall -Werror -Wextra
-LIB_FILE=	libft/libft.a
+LIB_FILE=	-lft -L libft -lmlx -L minilibx -framework OpenGL -framework AppKit
 
 .c.o:
 		${CC} ${CFLAGS} ${HEAD} -c $< -o ${<:.c=.o}

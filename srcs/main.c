@@ -6,56 +6,61 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:36:08 by louise            #+#    #+#             */
-/*   Updated: 2020/10/19 23:12:51 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/05 17:21:46 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "libft.h"
 
-void test_parsed_map(t_game *parsed_map)
+int	exit_hook(t_mlx_vars *vars)
 {
-	int i;
-	t_color floor;
-	t_color ceiling;
+	mlx_destroy_window(vars->mlx, vars->win);
+	return (1);
+}
 
-	i = -1;
-	floor = parsed_map->floor_color;
-	ceiling = parsed_map->ceiling_color;
-	printf("Resolution fenetre largeur: %d\n", parsed_map->window_res.width);
-	printf("Resolution fenetre hauteur: %d\n", parsed_map->window_res.height);
-	printf("Resolution map largeur: %d\n", parsed_map->map_res.width);
-	printf("Resolution map hauteur: %d\n", parsed_map->map_res.height);
-	printf("Texture mur nord: %s\n", parsed_map->no_text.fullname);
-	printf("Texture mur sud: %s\n", parsed_map->so_text.fullname);
-	printf("Texture mur ouest: %s\n", parsed_map->we_text.fullname);
-	printf("Texture mur est: %s\n", parsed_map->ea_text.fullname);
-	printf("Texture sprite: %s\n", parsed_map->sprite_text.fullname);
-	printf("Couleur du sol: R:%d, G:%d, B:%d\n", floor.r, floor.g, floor.b);
-	printf("Couleur du plafond: R:%d, G:%d, B:%d\n", ceiling.r, ceiling.g, ceiling.b);
-	printf("La map : \n");
-	while (parsed_map->map[++i])
-		printf("%s\n", parsed_map->map[i]);
+void debug_point(t_mlx_vars *vars, t_point point)
+{
+	char str[20];
+	static int i = 0;
+
+	ft_strcat(str, "point(");
+	ft_strcat(str, ft_itoa(point.x));
+	ft_strcat(str, ",");
+	ft_strcat(str, ft_itoa(point.y));
+	ft_strcat(str, ")");
+	mlx_string_put(vars->mlx, vars->win, 10, 500 + i * 10, create_trgb(0, 255, 0, 0), str);
+	i++;
 }
 
 int main(int argc, char **argv)
 {
-	t_game	*parsed_map;
-	t_file	cubmap;
+	t_game			*parsed_map;
+	t_file			cubmap;
+	t_mlx_vars		vars;
 
 	if (argc >= 2 && argc <= 3)
 	{
-		if (!(check_file(argv[1], &cubmap)))
+		if (!(open_game_file(&cubmap, argv[1])))
 			return (0);
 		if (ft_strncmp("cub", cubmap.ext, 3) != 0)
 			return (destroy_file(cubmap));
 		if (!(parsed_map = parse_file(cubmap)))
 			return (destroy_file(cubmap));
-		test_parsed_map(parsed_map);
-
-		//suite
-		close(cubmap.fd);
-		free(parsed_map);
+		vars.mlx = mlx_init();
+		vars.win_res = parsed_map->window_res;
+		vars.win = mlx_new_window(vars.mlx, vars.win_res.width, vars.win_res.height, "Cub3d");
+		vars.map = parsed_map->map;
+		print_map(&vars, vars.map);
+		vars.player_img.img = mlx_new_image(vars.mlx, WALL_SIZE, WALL_SIZE);
+		vars.current_card = parsed_map->player_start_card;
+		draw_square(&vars.player_img, create_trgb(0, 255, 0, 0));
+		vars.current_pos = parsed_map->player_start;
+		print_player(&vars, vars.current_pos);
+		vars.wall_touched = print_ray(&vars, vars.current_pos);
+		mlx_key_hook(vars.win, &player_move, &vars);
+		mlx_loop(vars.mlx);
+		close_game_files(cubmap, parsed_map);
 	}
 	return (0);
 }

@@ -6,52 +6,53 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 22:06:07 by louise            #+#    #+#             */
-/*   Updated: 2020/10/19 22:52:08 by louise           ###   ########.fr       */
+/*   Updated: 2020/10/20 19:22:26 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "libft.h"
 
-void 	set_dimension(t_dimension *dimension, int width, int height)
-{
-	dimension->width = width;
-	dimension->height = height;
-}
-
 void	set_window_res(char *line, t_dimension *window_res)
 {
+	int width;
+	int height;
+
 	while (!ft_isdigit(*line))
 		line++;
-	window_res->width = (int)ft_atoi(line);
+	width = (int)ft_atoi(line);
 	while(ft_isdigit(*line))
 		line++;
-	window_res->height = (int)ft_atoi(line);
+	height = (int)ft_atoi(line);
+	set_dimension(window_res, width, height);
 }
 
 void	set_map_texture(char *line, t_file *text_file)
 {
-	char 	*filestr;
+	char 	*fullname;
 
 	while (ft_isalpha(*line))
 		line++;
-	filestr = ft_strtrim(line, " ");
-	text_file->fullname = ft_strdup(filestr);
-	//check_file(filestr, text_file);
-	free(filestr);
+	fullname = ft_strtrim(line, " ");
+	open_game_file(text_file, fullname);
 }
 
 void	set_map_color(char *line, t_color *color)
 {
+	unsigned char r;
+	unsigned char g;
+	unsigned char b;
+
 	while (ft_isalpha(*line))
 		line++;
-	color->r = (char)ft_atoi(line);
+	r = (unsigned char)ft_atoi(line);
 	while (*line != ',')
 		line++;
 	line++;
-	color->g = (char)ft_atoi(line);
+	g = (unsigned char)ft_atoi(line);
 	while (*line != ',')
 		line++;
 	line++;
-	color->b = (char)ft_atoi(line);
+	b = (unsigned char)ft_atoi(line);
+	set_color(color, r, g, b);
 }

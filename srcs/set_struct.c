@@ -1,42 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_struct.c                                      :+:      :+:    :+:   */
+/*   set_struct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/18 22:04:58 by louise            #+#    #+#             */
-/*   Updated: 2020/10/19 22:13:33 by louise           ###   ########.fr       */
+/*   Created: 2020/10/20 18:02:33 by louise            #+#    #+#             */
+/*   Updated: 2020/10/20 18:58:16 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "libft.h"
 
-void		init_point(t_point *point)
+void 	set_dimension(t_dimension *dimension, int width, int height)
 {
-	point->x = 0;
-	point->y = 0;
+	dimension->width = width;
+	dimension->height = height;
 }
 
-void		init_dimension(t_dimension *dimension)
+void 	set_point(t_point *point, int x, int y)
 {
-	dimension->width = 0;
-	dimension->height = 0;
+	point->x = x;
+	point->y = y;
 }
 
-void		init_file(t_file *file)
+void 	set_color(t_color *color, unsigned char r, unsigned char g,
+				unsigned char b)
 {
-	file->fullname = NULL;
-	file->ext = NULL;
-	file->filename = NULL;
-	file->path = NULL;
-	file->fd = 0;
-}
-
-void		init_color(t_color *color)
-{
-	color->r = 0;
-	color->g = 0;
-	color->b = 0;
+	color->r = r;
+	color->g = g;
+	color->b = b;
 }
