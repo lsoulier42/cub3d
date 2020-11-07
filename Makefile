@@ -10,7 +10,8 @@ SRCS=		main.c \
 			render_map.c \
 			render_ray.c \
 			render_player.c \
-			init_vars.c
+			init_vars.c \
+			draw_segment.c
 OBJS=		${addprefix srcs/,${SRCS:.c=.o}}
 HEAD=		-I includes -I libft/includes -I minilibx
 CC=			gcc

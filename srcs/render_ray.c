@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:20:24 by louise            #+#    #+#             */
-/*   Updated: 2020/11/05 18:20:49 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/07 15:41:15 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@ t_image_data create_vertical_ray(t_mlx_vars *vars)
 	int i;
 
 	i = -1;
-	vertical_line.img = mlx_new_image(vars->mlx, 1, WALL_SIZE);
-	vertical_line.addr = mlx_get_data_addr(vertical_line.img, &(vertical_line.bits_per_pixel), &(vertical_line.line_length), &(vertical_line.endian));
+	my_mlx_new_image(vars->mlx, &vertical_line, 1, WALL_SIZE);
 	while (++i < WALL_SIZE)
-		my_mlx_pixel_put(&vertical_line, 0, i, create_trgb(0, 255, 0, 0));
+		my_mlx_pixel_put(&vertical_line, 0, i, color_trgb(RED));
 	return (vertical_line);
 }
 
@@ -32,10 +31,9 @@ t_image_data create_horizontal_ray(t_mlx_vars *vars)
 	int j;
 
 	j = -1;
-	horizontal_line.img = mlx_new_image(vars->mlx, WALL_SIZE, 1);
-	horizontal_line.addr = mlx_get_data_addr(horizontal_line.img, &(horizontal_line.bits_per_pixel), &(horizontal_line.line_length), &(horizontal_line.endian));
+	my_mlx_new_image(vars->mlx, &horizontal_line, WALL_SIZE, 1);
 	while (++j < WALL_SIZE)
-		my_mlx_pixel_put(&horizontal_line, j, 0, create_trgb(0, 255, 0, 0));
+		my_mlx_pixel_put(&horizontal_line, j, 0, color_trgb(RED));
 	return (horizontal_line);
 }
 
@@ -76,8 +74,8 @@ void	erase_previous_ray(t_mlx_vars *vars, t_point previous_pos, char previous_ca
 	t_image_data	empty;
 
 	i = 0;
-	empty.img = mlx_new_image(vars->mlx, WALL_SIZE, WALL_SIZE);
-	draw_square(&empty, create_trgb(0, 255, 255, 255));
+	my_mlx_new_image(vars->mlx, &empty, WALL_SIZE, WALL_SIZE);
+	draw_square(&empty, color_trgb(WHITE));
 	if (previous_card == 'N')
 		while (++i < previous_pos.y - vars->wall_touched.y)
 			mlx_put_image_to_window(vars->mlx, vars->win, empty.img, vars->wall_touched.x * WALL_SIZE, (vars->wall_touched.y + i) * WALL_SIZE);

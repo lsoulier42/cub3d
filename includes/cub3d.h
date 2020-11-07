@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/05 18:32:08 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/07 15:21:15 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <stdio.h>
 # include <mlx.h>
 # define CARD_CHARSET "NSEW"
-# define WALL_SIZE 30
+# define WALL_SIZE 50
 
 typedef enum 	e_map_elem
 {
@@ -38,6 +38,19 @@ typedef enum	e_arrow
 	ARROW_DOWN,
 	ARROW_UP
 }				t_arrow;
+
+typedef enum 	e_const_color
+{
+	BLACK,
+	WHITE,
+	RED,
+	BLUE,
+	YELLOW,
+	GREEN,
+	PURPLE,
+	PINK,
+	ORANGE
+}				t_const_color;
 
 typedef struct 	s_point
 {
@@ -103,6 +116,10 @@ typedef struct  s_mlx_vars
 	t_image_data	player_img;
 	t_point			current_pos;
 	t_point			wall_touched;
+	t_image_data 	player_up;
+	t_image_data 	player_down;
+	t_image_data 	player_west;
+	t_image_data 	player_est;
 	char 			current_card;
 	char			**map;
 }               t_mlx_vars;
@@ -145,6 +162,14 @@ void			erase_previous_ray(t_mlx_vars *vars, t_point previous_pos, char previous_
 void 			set_map_elem(t_mlx_vars *vars, t_image_data elem[ELEM_TOTAL]);
 void			init_vars(t_mlx_vars *vars, t_game *parsed_map);
 void			init_game(t_mlx_vars *vars);
+void			get_sprite(t_image_data sprite_sheet, t_image_data *sprite, t_point sprite_location, int size);
+void			init_player_sprites(t_mlx_vars *vars);
+void 			change_player_img(t_mlx_vars *vars);
+void			my_mlx_new_image(void *mlx_ptr, t_image_data *img, int width, int height);
+void 			draw_segment(t_mlx_vars *vars, t_point start, t_point end, int color);
+void 			draw_segment_dy(t_image_data *segment, t_point start, t_point end, int color);
+void 			draw_segment_dx(t_image_data *segment, t_point start, t_point end, int color);
+int 			color_trgb(int const_color);
 
 //test functions
 void 			test_parsed_map(t_game *parsed_map);

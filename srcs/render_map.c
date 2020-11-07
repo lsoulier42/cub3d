@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 17:48:24 by louise            #+#    #+#             */
-/*   Updated: 2020/11/05 18:14:04 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/07 15:33:44 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,15 @@
 
 void	set_map_elem(t_mlx_vars *vars, t_image_data elem[ELEM_TOTAL])
 {
-	elem[EMPTY].img = mlx_new_image(vars->mlx, WALL_SIZE, WALL_SIZE);
-	elem[WALL].img = mlx_new_image(vars->mlx, WALL_SIZE, WALL_SIZE);
-	elem[SPRITE].img = mlx_new_image(vars->mlx, WALL_SIZE, WALL_SIZE);
-	draw_square(&elem[EMPTY], create_trgb(0, 255, 255, 255));
-	draw_square(&elem[WALL], create_trgb(0, 0, 0, 255));
-	draw_square(&elem[SPRITE], create_trgb(0, 255, 255, 0));
+	char		*path;
+	t_dimension	wall_dimension;
+
+	path = "./img/wall.xpm";
+	my_mlx_new_image(vars->mlx, &elem[EMPTY], WALL_SIZE, WALL_SIZE);
+	elem[WALL].img = mlx_xpm_file_to_image(vars->mlx, path, &wall_dimension.width, &wall_dimension.height);
+	my_mlx_new_image(vars->mlx, &elem[SPRITE], WALL_SIZE, WALL_SIZE);
+	draw_square(&elem[EMPTY], color_trgb(WHITE));
+	draw_square(&elem[SPRITE], color_trgb(YELLOW));
 }
 
 void	print_map(t_mlx_vars *vars, char **map)
