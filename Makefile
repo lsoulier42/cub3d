@@ -11,7 +11,8 @@ SRCS=		main.c \
 			render_ray.c \
 			render_player.c \
 			init_vars.c \
-			draw_segment.c
+			draw_line.c \
+			draw_line_utils.c
 OBJS=		${addprefix srcs/,${SRCS:.c=.o}}
 HEAD=		-I includes -I libft/includes -I minilibx
 CC=			gcc

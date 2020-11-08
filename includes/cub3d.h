@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/07 15:21:15 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/08 19:54:52 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,10 +166,16 @@ void			get_sprite(t_image_data sprite_sheet, t_image_data *sprite, t_point sprit
 void			init_player_sprites(t_mlx_vars *vars);
 void 			change_player_img(t_mlx_vars *vars);
 void			my_mlx_new_image(void *mlx_ptr, t_image_data *img, int width, int height);
-void 			draw_segment(t_mlx_vars *vars, t_point start, t_point end, int color);
-void 			draw_segment_dy(t_image_data *segment, t_point start, t_point end, int color);
-void 			draw_segment_dx(t_image_data *segment, t_point start, t_point end, int color);
+void			draw_line(t_mlx_vars *vars, t_point start, t_point end, int color);
+void			line_vertical(t_mlx_vars *vars, t_point start, t_point end,	t_image_data pixel);
+void			line_horizontal(t_mlx_vars *vars, t_point start, t_point end, t_image_data pixel);
+void 			line_diagonal(t_mlx_vars *vars, t_point start, t_point end, t_image_data pixel);
+void 			line_low_angle(t_mlx_vars *vars, t_point start, t_point end, t_image_data pixel);
+void 			line_big_angle(t_mlx_vars *vars, t_point start, t_point end, t_image_data pixel);
 int 			color_trgb(int const_color);
+void 			draw_half_line(t_mlx_vars *vars, t_point start, t_point one_point, int color);
+void 			draw_half_line_dy(t_point start, t_point one_point, int *x, int *y);
+void 			draw_half_line_dx(t_point start, t_point one_point, int *x, int *y);
 
 //test functions
 void 			test_parsed_map(t_game *parsed_map);
