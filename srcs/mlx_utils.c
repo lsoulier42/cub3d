@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 17:46:02 by louise            #+#    #+#             */
-/*   Updated: 2020/11/07 15:27:10 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/09 14:18:50 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,6 @@ void	get_sprite(t_image_data sprite_sheet, t_image_data *sprite, t_point sprite_
 			dst = sprite->addr + (y * sprite->line_length + x * (sprite->bits_per_pixel / 8));
 			*(unsigned int*)dst = *(unsigned int*)src;
 		}
-	}
-}
-
-void	draw_square(t_image_data *img, int color)
-{
-	int i;
-	int j;
-
-	i = -1;
-	while (++i < WALL_SIZE)
-	{
-		j = -1;
-		my_mlx_pixel_put(img, i, 0, color);
-		while (++j < WALL_SIZE)
-			my_mlx_pixel_put(img, i, j, color);
 	}
 }
 

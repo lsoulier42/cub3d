@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:27:36 by louise            #+#    #+#             */
-/*   Updated: 2020/11/07 11:24:07 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/09 14:25:36 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ void 	init_vars(t_mlx_vars *vars, t_game *parsed_map)
 	vars->map = parsed_map->map;
 	vars->current_card = parsed_map->player_start_card;
 	vars->current_pos = parsed_map->player_start;
-	init_player_sprites(vars);
-
+	vars->tile_size = parsed_map->window_res.width / parsed_map->map_res.width;
+	//init_player_sprites(vars);
+	my_mlx_new_image(vars->mlx, &vars->player_img, vars->tile_size, vars->tile_size);
+	draw_square(&vars->player_img, color_trgb(RED), vars->tile_size);
 }
 
 void	init_game(t_mlx_vars *vars)
@@ -32,7 +34,7 @@ void	init_game(t_mlx_vars *vars)
 	vars->wall_touched = print_ray(vars, vars->current_pos);
 }
 
-void	init_player_sprites(t_mlx_vars *vars)
+/*void	init_player_sprites(t_mlx_vars *vars)
 {
 	t_dimension up;
 	t_dimension down;
@@ -44,9 +46,9 @@ void	init_player_sprites(t_mlx_vars *vars)
 	vars->player_west.img = mlx_xpm_file_to_image(vars->mlx, "./img/player_west.xpm", &west.width, &west.height);
 	vars->player_est.img = mlx_xpm_file_to_image(vars->mlx, "./img/player_est.xpm", &est.width, &est.height);
 	change_player_img(vars);
-}
+}*/
 
-void change_player_img(t_mlx_vars *vars)
+/*void change_player_img(t_mlx_vars *vars)
 {
 	if (vars->current_card == 'N')
 		vars->player_img = vars->player_up;
@@ -56,4 +58,4 @@ void change_player_img(t_mlx_vars *vars)
 		vars->player_img = vars->player_west;
 	else if (vars->current_card == 'E')
 		vars->player_img = vars->player_est;
-}
+}*/

@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 17:51:12 by louise            #+#    #+#             */
-/*   Updated: 2020/11/07 15:41:29 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/09 14:29:48 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,27 @@ int player_move(int keycode, t_mlx_vars *vars)
 
 void	print_player(t_mlx_vars *vars, t_point player_pos)
 {
-	change_player_img(vars);
+	void *img;
+	int x;
+	int y;
+
+	//change_player_img(vars);
+	img = vars->player_img.img;
+	x = player_pos.x * vars->tile_size;
+	y = player_pos.y * vars->tile_size;
 	erase_previous_pos(vars, player_pos);
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->player_img.img, player_pos.x * WALL_SIZE, player_pos.y * WALL_SIZE);
+	mlx_put_image_to_window(vars->mlx, vars->win, img, x, y);
 }
 
 void erase_previous_pos(t_mlx_vars *vars, t_point player_pos)
 {
 	t_image_data empty;
+	int x;
+	int y;
 
-	my_mlx_new_image(vars->mlx, &empty, WALL_SIZE, WALL_SIZE);
-	draw_square(&empty, color_trgb(WHITE));
-	mlx_put_image_to_window(vars->mlx, vars->win, empty.img, player_pos.x * WALL_SIZE, player_pos.y * WALL_SIZE);
+	x = player_pos.x * vars->tile_size;
+	y = player_pos.y * vars->tile_size;
+	my_mlx_new_image(vars->mlx, &empty, vars->tile_size, vars->tile_size);
+	draw_square(&empty, color_trgb(WHITE), vars->tile_size);
+	mlx_put_image_to_window(vars->mlx, vars->win, empty.img, x, y);
 }

@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/08 19:54:52 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/09 14:25:01 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <stdio.h>
 # include <mlx.h>
 # define CARD_CHARSET "NSEW"
-# define WALL_SIZE 50
 
 typedef enum 	e_map_elem
 {
@@ -86,7 +85,6 @@ typedef struct	s_game
 	t_point		player_start;
 	char 		player_start_card;
 	t_dimension map_res;
-
 	t_dimension window_res;
 
 	t_file		no_text;
@@ -116,12 +114,13 @@ typedef struct  s_mlx_vars
 	t_image_data	player_img;
 	t_point			current_pos;
 	t_point			wall_touched;
-	t_image_data 	player_up;
+	/*t_image_data 	player_up;
 	t_image_data 	player_down;
 	t_image_data 	player_west;
-	t_image_data 	player_est;
+	t_image_data 	player_est;*/
 	char 			current_card;
 	char			**map;
+	int 			tile_size;
 }               t_mlx_vars;
 
 int				open_game_file(t_file *file, char *fullname);
@@ -149,7 +148,7 @@ int 			check_map(char **map, int map_height);
 
 int				create_trgb(int t, int r, int g, int b);
 void			my_mlx_pixel_put(t_image_data *img, int x, int y, int color);
-void 			draw_square(t_image_data *img, int color);
+void			draw_square(t_image_data *img, int color, int tile_size);
 void			print_map(t_mlx_vars *vars, char **map);
 int 			player_move(int keycode, t_mlx_vars *vars);
 void			print_player(t_mlx_vars *vars, t_point player_pos);
@@ -173,9 +172,11 @@ void 			line_diagonal(t_mlx_vars *vars, t_point start, t_point end, t_image_data
 void 			line_low_angle(t_mlx_vars *vars, t_point start, t_point end, t_image_data pixel);
 void 			line_big_angle(t_mlx_vars *vars, t_point start, t_point end, t_image_data pixel);
 int 			color_trgb(int const_color);
-void 			draw_half_line(t_mlx_vars *vars, t_point start, t_point one_point, int color);
-void 			draw_half_line_dy(t_point start, t_point one_point, int *x, int *y);
-void 			draw_half_line_dx(t_point start, t_point one_point, int *x, int *y);
+void 			draw_circle(t_mlx_vars *vars, t_point center, int ray, int color);
+void 			circle_pixelset(t_mlx_vars *vars, t_image_data pixel, t_point center, t_point coord);
+int 			distance_points(t_point start, t_point end);
+double 			radian_to_degree(double angle);
+double 			degree_to_radian(double angle);
 
 //test functions
 void 			test_parsed_map(t_game *parsed_map);
