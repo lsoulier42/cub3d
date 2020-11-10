@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 22:06:07 by louise            #+#    #+#             */
-/*   Updated: 2020/10/20 19:22:26 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/10 01:23:34 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,11 @@ void	set_window_res(char *line, t_dimension *window_res)
 	set_dimension(window_res, width, height);
 }
 
-void	set_map_texture(char *line, t_file *text_file)
+void	set_map_texture(char *line, char **file_path)
 {
-	char 	*fullname;
-
 	while (ft_isalpha(*line))
 		line++;
-	fullname = ft_strtrim(line, " ");
-	open_game_file(text_file, fullname);
+	*file_path = ft_strtrim(line, " ");
 }
 
 void	set_map_color(char *line, t_color *color)

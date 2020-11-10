@@ -6,24 +6,23 @@
 /*   By: louise <louise@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 14:19:30 by louise            #+#    #+#             */
-/*   Updated: 2020/11/09 14:19:42 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/09 23:50:12 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "cub3d.h"
 
-void	draw_square(t_image_data *img, int color, int tile_size)
+void 	draw_rect(t_image_data *map, t_point location, t_dimension dimension, int color)
 {
-	int i;
-	int j;
+	int x;
+	int y;
 
-	i = -1;
-	while (++i < tile_size)
+	x = -1;
+	while (++x < dimension.width)
 	{
-		j = -1;
-		my_mlx_pixel_put(img, i, 0, color);
-		while (++j < tile_size)
-			my_mlx_pixel_put(img, i, j, color);
+		y = -1;
+		while (++y < dimension.height)
+			my_mlx_pixel_put(map, location.x + x, location.y + y, color);
 	}
 }

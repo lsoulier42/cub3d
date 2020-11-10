@@ -8,10 +8,9 @@ SRCS=		main.c \
 			test_fct.c \
 			mlx_utils.c \
 			render_map.c \
-			render_ray.c \
 			render_player.c \
 			init_vars.c \
-			draw_square.c \
+			draw_rect.c \
 			draw_line.c \
 			draw_line_utils.c \
 			draw_circle.c \

@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 22:28:40 by louise            #+#    #+#             */
-/*   Updated: 2020/11/08 22:28:58 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/09 17:49:37 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,14 @@ void draw_circle(t_mlx_vars *vars, t_point center, int ray, int color)
 	my_mlx_new_image(vars, &pixel, 1, 1);
 	my_mlx_pixel_put(&pixel, 0, 0, color);
 	d = 3 - (2 * ray);
-	set_point(&coord, -1, ray);
-	while (coord.y >= coord.x)
-	{
+	set_point(&coord, 0, ray);
+	while (coord.y >= coord.x) {
 		circle_pixelset(vars, pixel, center, coord);
 		if (d < 0)
 			d += coord.x * 4 + 6;
-		else
-		{
+		else {
 			d += (coord.x - coord.y) * 4 + 10;
-			coord.y --;
+			coord.y--;
 		}
 		coord.x++;
 	}

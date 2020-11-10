@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 22:07:27 by louise            #+#    #+#             */
-/*   Updated: 2020/11/09 14:23:40 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/10 01:52:19 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,36 +49,6 @@ void 	set_player_start(t_game *parsed_map)
 	set_point(&(parsed_map->player_start), x, y);
 	parsed_map->player_start_card = parsed_map->map[y][x];
 	parsed_map->map[y][x] = '0';
-}
-
-void 	complete_map(t_game *parsed_map)
-{
-	int line_len;
-	int x;
-	int y;
-	char **map;
-	char *new_line;
-
-	y = -1;
-	map = parsed_map->map;
-	while (map[++y])
-	{
-		line_len = (int)ft_strlen(map[y]);
-		x = -1;
-		if (line_len < parsed_map->map_res.width)
-		{
-			new_line = malloc(sizeof(char) * (parsed_map->map_res.width + 1));
-			if (new_line)
-			{
-				ft_strlcpy(new_line, map[y], line_len + 1);
-				free(map[y]);
-				map[y] = new_line;
-				while (++x < parsed_map->map_res.width - line_len)
-					map[y][line_len + x] = ' ';
-				map[y][parsed_map->map_res.width] = '\0';
-			}
-		}
-	}
 }
 
 int 	check_map(char **map, int map_height)
@@ -130,7 +100,6 @@ void 	set_map(t_game *parsed_map, char **line, int fd)
 		{
 			parsed_map->map = map;
 			set_dimension(&(parsed_map->map_res), max_width, line_nb);
-			complete_map(parsed_map);
 			set_player_start(parsed_map);
 		}
 	}

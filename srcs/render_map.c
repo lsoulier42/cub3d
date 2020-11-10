@@ -6,46 +6,46 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 17:48:24 by louise            #+#    #+#             */
-/*   Updated: 2020/11/09 14:36:36 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/10 00:09:46 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "cub3d.h"
 
-void	set_map_elem(t_mlx_vars *vars, t_image_data elem[ELEM_TOTAL])
+int 	tile_color(char map_elem)
 {
-	int size;
+	int color;
 
-	size = vars->tile_size;
-	my_mlx_new_image(vars->mlx, &elem[EMPTY], size, size);
-	my_mlx_new_image(vars->mlx, &elem[WALL], size, size);
-	my_mlx_new_image(vars->mlx, &elem[SPRITE], size, size);
-	draw_square(&elem[EMPTY], color_trgb(WHITE), size);
-	draw_square(&elem[WALL], color_trgb(BLUE), size);
-	draw_square(&elem[SPRITE], color_trgb(YELLOW), size);
+	color = 0;
+	if (map_elem == EMPTY + '0')
+		color = color_trgb(WHITE);
+	else if (map_elem == WALL + '0')
+		color = color_trgb(BLUE);
+	else if (map_elem == SPRITE + '0')
+		color = color_trgb(YELLOW);
+	return (color);
 }
 
-void	print_map(t_mlx_vars *vars, char **map)
+void 	fill_map(t_image_data *map_img, char **map_array, int tile_size)
 {
-	t_image_data	elem[ELEM_TOTAL];
-	int 			i;
-	int 			j;
-	int 			x;
-	int 			y;
+	int 		i;
+	int 		j;
+	t_dimension	tile;
+	t_point		location;
+	int			color;
 
 	i = -1;
-	set_map_elem(vars, elem);
-	while (map[++i])
+	set_dimension(&tile, tile_size, tile_size);
+	while (map_array[++i])
 	{
 		j = -1;
-		while (map[i][++j])
-			if (map[i][j] >= '0' && map[i][j] < '0' + ELEM_TOTAL)
-			{
-				x = j * vars->tile_size;
-				y = i * vars->tile_size;
-				mlx_put_image_to_window(vars->mlx, vars->win,
-					elem[map[i][j] - '0'].img, x, y);
-			}
+		while (map_array[i][++j])
+		{
+			color = tile_color(map_array[i][j]);
+			set_point(&location, j * tile_size, i * tile_size);
+			draw_rect(map_img, location, tile, color);
+		}
+
 	}
 }

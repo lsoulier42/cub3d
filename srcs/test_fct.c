@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/22 18:37:15 by louise            #+#    #+#             */
-/*   Updated: 2020/10/22 18:37:37 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/10 01:25:16 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void test_parsed_map(t_game *parsed_map)
 	printf("Resolution map largeur: %d - hauteur: %d\n", parsed_map->map_res.width, parsed_map->map_res.height);
 	printf("Position de depart du joueur: (x:%d, y: %d)\n", parsed_map->player_start.x, parsed_map->player_start.y);
 	printf("Sens de depart: %c\n", parsed_map->player_start_card);
-	printf("Texture mur nord: %s\n", parsed_map->no_text.fullname);
-	printf("Texture mur sud: %s\n", parsed_map->so_text.fullname);
-	printf("Texture mur ouest: %s\n", parsed_map->we_text.fullname);
-	printf("Texture mur est: %s\n", parsed_map->ea_text.fullname);
-	printf("Texture sprite: %s\n", parsed_map->sprite_text.fullname);
+	printf("Texture mur nord: %s\n", parsed_map->no_text);
+	printf("Texture mur sud: %s\n", parsed_map->so_text);
+	printf("Texture mur ouest: %s\n", parsed_map->we_text);
+	printf("Texture mur est: %s\n", parsed_map->ea_text);
+	printf("Texture sprite: %s\n", parsed_map->sprite_text);
 	printf("Couleur du sol: R:%d, G:%d, B:%d\n", floor.r, floor.g, floor.b);
 	printf("Couleur du plafond: R:%d, G:%d, B:%d\n", ceiling.r, ceiling.g, ceiling.b);
 	printf("La map : \n");
@@ -40,16 +40,6 @@ void test_parsed_map(t_game *parsed_map)
 			printf("|%s|\n", parsed_map->map[i]);
 	else
 		printf("Map invalid\n");
-}
-
-void test_opened_file(t_file file)
-{
-	printf("---------Test de lecture du fichier .cub---------\n");
-	printf("Fullname: %s\n", file.fullname);
-	printf("Filename: %s\n", file.filename);
-	printf("Extension: %s\n", file.ext);
-	printf("Path: %s\n", file.path);
-	printf("File descriptor: %d\n", file.fd);
 }
 
 void debug_point(t_mlx_vars *vars, t_point point)

@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:27:36 by louise            #+#    #+#             */
-/*   Updated: 2020/11/09 14:25:36 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/10 00:15:39 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,47 +15,33 @@
 
 void 	init_vars(t_mlx_vars *vars, t_game *parsed_map)
 {
+	vars->map = parsed_map->map;
 	vars->mlx = mlx_init();
 	vars->win_res = parsed_map->window_res;
 	vars->win = mlx_new_window(vars->mlx, vars->win_res.width, vars->win_res.height, "Cub3d");
-	vars->map = parsed_map->map;
-	vars->current_card = parsed_map->player_start_card;
-	vars->current_pos = parsed_map->player_start;
 	vars->tile_size = parsed_map->window_res.width / parsed_map->map_res.width;
-	//init_player_sprites(vars);
-	my_mlx_new_image(vars->mlx, &vars->player_img, vars->tile_size, vars->tile_size);
-	draw_square(&vars->player_img, color_trgb(RED), vars->tile_size);
+	my_mlx_new_image(vars->mlx, &vars->map_img, parsed_map->map_res.width * vars->tile_size, parsed_map->map_res.height * vars->tile_size);
+	fill_map(&vars->map_img, vars->map, vars->tile_size);
+	init_player(&vars->player, parsed_map->player_start, parsed_map->player_start_card, vars->tile_size);
 }
 
-void	init_game(t_mlx_vars *vars)
+void	init_player(t_player *player, t_point start, char card, int tile_size)
 {
-	print_map(vars, vars->map);
-	print_player(vars, vars->current_pos);
-	vars->wall_touched = print_ray(vars, vars->current_pos);
+	double 		rad_angle;
+
+	set_point(&player->current_pos, start.x * tile_size, start.y * tile_size);
+	player->size = tile_size / 2;
+	player->turn_direction = 0;
+	player->walk_direction = 0;
+	if (card == 'S')
+		rad_angle = M_PI / 2;
+	else if (card == 'N')
+		rad_angle = 3 * M_PI / 2;
+	else if (card == 'E')
+		rad_angle = 0;
+	else
+		rad_angle = M_PI;
+	player->rotation_angle = rad_angle;
+	player->move_speed = 3;
+	player->rotation_speed = 3 * (M_PI / 180);
 }
-
-/*void	init_player_sprites(t_mlx_vars *vars)
-{
-	t_dimension up;
-	t_dimension down;
-	t_dimension west;
-	t_dimension est;
-
-	vars->player_up.img = mlx_xpm_file_to_image(vars->mlx, "./img/player_up.xpm", &up.width, &up.height);
-	vars->player_down.img = mlx_xpm_file_to_image(vars->mlx, "./img/player_down.xpm", &down.width, &down.height);
-	vars->player_west.img = mlx_xpm_file_to_image(vars->mlx, "./img/player_west.xpm", &west.width, &west.height);
-	vars->player_est.img = mlx_xpm_file_to_image(vars->mlx, "./img/player_est.xpm", &est.width, &est.height);
-	change_player_img(vars);
-}*/
-
-/*void change_player_img(t_mlx_vars *vars)
-{
-	if (vars->current_card == 'N')
-		vars->player_img = vars->player_up;
-	else if (vars->current_card == 'S')
-		vars->player_img = vars->player_down;
-	else if (vars->current_card == 'W')
-		vars->player_img = vars->player_west;
-	else if (vars->current_card == 'E')
-		vars->player_img = vars->player_est;
-}*/
