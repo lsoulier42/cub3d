@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/10 01:42:31 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/10 01:50:04 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ void 			print_player(t_mlx_vars *vars, t_player player);
 int				key_press_hook(int keycode, t_mlx_vars *vars);
 int 			key_release_hook(int keycode, t_mlx_vars *vars);
 int 			update_hook(t_mlx_vars *vars);
+void			event_mngt(t_mlx_vars *vars);
 
 //mlx utils
 void			my_mlx_new_image(void *mlx_ptr, t_image_data *img, int width, int height);

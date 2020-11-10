@@ -6,48 +6,12 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/02 17:51:12 by louise            #+#    #+#             */
-/*   Updated: 2020/11/10 00:16:12 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/10 02:40:15 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "libft.h"
-
-int key_press_hook(int keycode, t_mlx_vars *vars)
-{
-	t_player	*player;
-	t_point		*position;
-
-	player = &vars->player;
-	position = &player->current_pos;
-	if (keycode == ARROW_UP)
-		player->walk_direction = FORWARD;
-	else if (keycode == ARROW_DOWN)
-		player->walk_direction = BACKWARD;
-	else if (keycode == ARROW_LEFT)
-		player->turn_direction = ROT_LEFT;
-	else if (keycode == ARROW_RIGHT)
-		player->turn_direction = ROT_RIGHT;
-	else if (keycode == ESCAPE)
-		exit_game(vars);
-	return (1);
-}
-
-int key_release_hook(int keycode, t_mlx_vars *vars)
-{
-	t_player	*player;
-
-	player = &vars->player;
-	if (keycode == ARROW_UP)
-		player->walk_direction = 0;
-	else if (keycode == ARROW_DOWN)
-		player->walk_direction = 0;
-	else if (keycode == ARROW_LEFT)
-		player->turn_direction = 0;
-	else if (keycode == ARROW_RIGHT)
-		player->turn_direction = 0;
-	return (1);
-}
 
 void print_player(t_mlx_vars *vars, t_player player)
 {
@@ -61,18 +25,29 @@ void print_player(t_mlx_vars *vars, t_player player)
 	draw_line(vars, player.current_pos, direction, color_trgb(RED));
 }
 
+int is_wall(char **map, int x, int y, int tile_size)
+{
+	int index_x;
+	int index_y;
+
+	index_x = x / tile_size;
+	index_y = y / tile_size;
+	printf("x:%d, y:%d, %p", index_x, index_y, map);
+	return (map[index_y][index_x] == '1');
+}
+
 int update_hook(t_mlx_vars *vars)
 {
-	t_player	*player;
-	t_point		*current_pos;
 	int 		move_step;
+	int 		next_x;
+	int 		next_y;
 
-	player = &vars->player;
-	current_pos = &player->current_pos;
-	player->rotation_angle += player->turn_direction * player->rotation_speed;
-	move_step = player->walk_direction * player->move_speed;
-	current_pos->x += cos(player->rotation_angle) * move_step;
-	current_pos->y += sin(player->rotation_angle) * move_step;
+	vars->player.rotation_angle += vars->player.turn_direction * vars->player.rotation_speed;
+	move_step = vars->player.walk_direction * vars->player.move_speed;
+	next_x = vars->player.current_pos.x + cos(vars->player.rotation_angle) * move_step;
+	next_y = vars->player.current_pos.y + sin(vars->player.rotation_angle) * move_step;
+	vars->player.current_pos.x = next_x;
+	vars->player.current_pos.y = next_y;
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->map_img.img, 0, 0);
 	print_player(vars, vars->player);
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:36:08 by louise            #+#    #+#             */
-/*   Updated: 2020/11/10 01:36:29 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/10 02:52:26 by louise           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,8 @@ int main(int argc, char **argv)
 		if (!error_occured)
 		{
 			init_vars(&vars, parsed_map);
-			mlx_hook(vars.win, 2, 1L << 0, &key_press_hook, &vars);
-			mlx_hook(vars.win, 3, 1L<<1, &key_release_hook, &vars);
-			mlx_hook(vars.win, 17, 1L<<17, exit_game, &vars);
-			mlx_loop_hook(vars.mlx, &update_hook, &vars);
-			mlx_loop(vars.mlx);
-			close_game_files(parsed_map);
+			event_mngt(&vars);
+			//close_game_files(parsed_map);
 		}
 	}
 	else
