@@ -31,11 +31,9 @@ char		*ft_itoa(int n)
 {
 	char	*str;
 	int		nb_char;
-	int		i;
 	long	abs_n;
 
 	nb_char = count_char(n);
-	i = 0;
 	abs_n = n < 0 ? -(long)n : n;
 	if (!(str = (char*)malloc(sizeof(char) * (nb_char + 1))))
 		return (NULL);

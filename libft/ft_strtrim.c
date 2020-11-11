@@ -42,7 +42,7 @@ static int	char_to_rmv(const char *s1, const char *set, size_t len)
 	}
 	if (i != ft_strlen(s1))
 	{
-		while ((len - j - 1) >= 0 && is_charset(s1[len - j - 1], set))
+		while (len >= j + 1 && is_charset(s1[len - j - 1], set))
 		{
 			nb++;
 			j++;

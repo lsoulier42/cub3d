@@ -31,13 +31,11 @@ char		*ft_itoa_base(long long n, char *base)
 {
 	char		*str;
 	int			nb_char;
-	int			i;
 	long long	abs_n;
 	int			len;
 
 	len = ft_strlen(base);
 	nb_char = count_char_base(n, len);
-	i = 0;
 	abs_n = n < 0 ? -(long long)n : n;
 	if (!(str = (char*)malloc(sizeof(char) * (nb_char + 1))))
 		return (NULL);

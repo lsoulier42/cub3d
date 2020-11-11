@@ -13,9 +13,8 @@
 #include "libft.h"
 #include "cub3d.h"
 
-void	draw_line(t_mlx_vars *vars, t_point start, t_point end, int color)
+void	draw_line(t_image_data *map, t_point start, t_point end, int color)
 {
-	t_image_data pixel;
 	int dx;
 	int dy;
 	int absdx;
@@ -25,17 +24,15 @@ void	draw_line(t_mlx_vars *vars, t_point start, t_point end, int color)
 	dy = end.y - start.y;
 	absdx = ft_abs(dx);
 	absdy = ft_abs(dy);
-	my_mlx_new_image(vars, &pixel, 1, 1);
-	my_mlx_pixel_put(&pixel, 0, 0, color);
-	mlx_put_image_to_window(vars->mlx, vars->win, pixel.img, start.x, start.y);
+	my_mlx_pixel_put(map, start.x, start.y, color);
 	if (dx == 0)
-		line_vertical(vars, start, end, pixel);
+		line_vertical(map, start, end, color);
 	else if (dy == 0)
-		line_horizontal(vars, start, end, pixel);
+		line_horizontal(map, start, end, color);
 	else if (absdx == absdy)
-		line_diagonal(vars, start, end, pixel);
+		line_diagonal(map, start, end, color);
 	else if (absdx > absdy)
-		line_low_angle(vars, start, end, pixel);
+		line_low_angle(map, start, end, color);
 	else
-		line_big_angle(vars, start, end, pixel);
+		line_big_angle(map, start, end, color);
 }

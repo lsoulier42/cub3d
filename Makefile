@@ -21,12 +21,13 @@ OBJS=		${addprefix srcs/,${SRCS:.c=.o}}
 HEAD=		-I includes -I libft/includes -I minilibx
 CC=			gcc
 CFLAGS=		-Wall -Werror -Wextra
-LIB_FILE=	-lft -L libft -lmlx -L minilibx -framework OpenGL -framework AppKit
+LDFLAGS=	-L libft -L minilibx
+LIBS=		-lm -lft -lmlx -lXext -lX11
 
 .c.o:
 		${CC} ${CFLAGS} ${HEAD} -c $< -o ${<:.c=.o}
 ${NAME}:	${OBJS}
-		${CC} ${CFLAGS} ${LIB_FILE} ${OBJS} -o ${NAME}
+		${CC} ${CFLAGS} ${LDFLAGS} ${OBJS} -o ${NAME} ${LIBS}
 all:	${NAME}
 clean:
 		rm -rf ${OBJS}

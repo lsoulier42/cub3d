@@ -13,7 +13,7 @@
 #include "libft.h"
 #include "cub3d.h"
 
-void 	line_big_angle(t_mlx_vars *vars, t_point start, t_point end, t_image_data pixel)
+void 	line_big_angle(t_image_data *map, t_point start, t_point end, int color)
 {
 	t_point coord;
 	t_point pas;
@@ -36,11 +36,11 @@ void 	line_big_angle(t_mlx_vars *vars, t_point start, t_point end, t_image_data 
 			reste -= abs.y;
 			coord.x += pas.x;
 		}
-		mlx_put_image_to_window(vars->mlx, vars->win, pixel.img, coord.x, coord.y);
+		my_mlx_pixel_put(map, coord.x, coord.y, color);
 	}
 }
 
-void 	line_low_angle(t_mlx_vars *vars, t_point start, t_point end, t_image_data pixel)
+void 	line_low_angle(t_image_data *map, t_point start, t_point end, int color)
 {
 	t_point coord;
 	t_point pas;
@@ -63,11 +63,11 @@ void 	line_low_angle(t_mlx_vars *vars, t_point start, t_point end, t_image_data 
 			reste -= abs.x;
 			coord.y += pas.y;
 		}
-		mlx_put_image_to_window(vars->mlx, vars->win, pixel.img, coord.x, coord.y);
+        my_mlx_pixel_put(map, coord.x, coord.y, color);
 	}
 }
 
-void 	line_diagonal(t_mlx_vars *vars, t_point start, t_point end, t_image_data pixel)
+void 	line_diagonal(t_image_data *map, t_point start, t_point end, int color)
 {
 	t_point	coord;
 	int diff;
@@ -88,11 +88,11 @@ void 	line_diagonal(t_mlx_vars *vars, t_point start, t_point end, t_image_data p
 	{
 		coord.x += pasx;
 		coord.y += pasy;
-		mlx_put_image_to_window(vars->mlx, vars->win, pixel.img, coord.x, coord.y);
+        my_mlx_pixel_put(map, coord.x, coord.y, color);
 	}
 }
 
-void	line_horizontal(t_mlx_vars *vars, t_point start, t_point end, t_image_data pixel)
+void	line_horizontal(t_image_data *map, t_point start, t_point end, int color)
 {
 	int x;
 	int y;
@@ -111,11 +111,11 @@ void	line_horizontal(t_mlx_vars *vars, t_point start, t_point end, t_image_data 
 	while (++i < absdx)
 	{
 		x += pasx;
-		mlx_put_image_to_window(vars->mlx, vars->win, pixel.img, x, y);
+        my_mlx_pixel_put(map, x, y, color);
 	}
 }
 
-void	line_vertical(t_mlx_vars *vars, t_point start, t_point end,	t_image_data pixel)
+void	line_vertical(t_image_data *map, t_point start, t_point end, int color)
 {
 	int x;
 	int y;
@@ -134,6 +134,6 @@ void	line_vertical(t_mlx_vars *vars, t_point start, t_point end,	t_image_data pi
 	while (++i < absdy)
 	{
 		y += pasy;
-		mlx_put_image_to_window(vars->mlx, vars->win, pixel.img, x, y);
+        my_mlx_pixel_put(map, x, y, color);
 	}
 }

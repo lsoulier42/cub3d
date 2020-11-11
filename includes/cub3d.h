@@ -25,7 +25,8 @@
 # define BACKWARD -1
 # define ROT_RIGHT 1
 # define ROT_LEFT -1
-# define ESCAPE 53
+# define ESCAPE 65307
+# define FOV_ANGLE 60 * M_PI / 180
 
 typedef enum 	e_map_elem
 {
@@ -37,10 +38,10 @@ typedef enum 	e_map_elem
 
 typedef enum	e_arrow
 {
-	ARROW_LEFT = 123,
+	ARROW_LEFT = 65361,
+	ARROW_UP,
 	ARROW_RIGHT,
-	ARROW_DOWN,
-	ARROW_UP
+	ARROW_DOWN
 }				t_arrow;
 
 typedef enum 	e_const_color
@@ -132,6 +133,16 @@ typedef struct  s_mlx_vars
 	t_player		player;
 }               t_mlx_vars;
 
+typedef struct  s_ray
+{
+    t_point horizontal_intersection;
+    t_point	vertical_intersection;
+    int     length;
+    t_point	wall_hit;
+    double  ray_angle;
+    int		tile_size;
+}               t_ray;
+
 //file functions
 int 			check_file(char *path);
 void 			close_game_files(t_game *parsed_map);
@@ -183,17 +194,18 @@ void			get_sprite(t_image_data sprite_sheet, t_image_data *sprite, t_point sprit
 
 //geometry fct
 void 			draw_rect(t_image_data *map, t_point location, t_dimension dimension, int color);
-void			draw_line(t_mlx_vars *vars, t_point start, t_point end, int color);
-void			line_vertical(t_mlx_vars *vars, t_point start, t_point end,	t_image_data pixel);
-void			line_horizontal(t_mlx_vars *vars, t_point start, t_point end, t_image_data pixel);
-void 			line_diagonal(t_mlx_vars *vars, t_point start, t_point end, t_image_data pixel);
-void 			line_low_angle(t_mlx_vars *vars, t_point start, t_point end, t_image_data pixel);
-void 			line_big_angle(t_mlx_vars *vars, t_point start, t_point end, t_image_data pixel);
-void 			draw_circle(t_mlx_vars *vars, t_point center, int ray, int color);
-void 			circle_pixelset(t_mlx_vars *vars, t_image_data pixel, t_point center, t_point coord);
+void	        draw_line(t_image_data *map, t_point start, t_point end, int color);
+void			line_vertical(t_image_data *map, t_point start, t_point end, int color);
+void			line_horizontal(t_image_data *map, t_point start, t_point end, int color);
+void 			line_diagonal(t_image_data *map, t_point start, t_point end, int color);
+void 			line_low_angle(t_image_data *map, t_point start, t_point end, int color);
+void 	        line_big_angle(t_image_data *map, t_point start, t_point end, int color);
+void            draw_circle(t_image_data *map, t_point center, int ray, int color);
+void            circle_pixelset(t_image_data *map, t_point center, t_point coord, int color);
 int 			distance_points(t_point start, t_point end);
 double 			radian_to_degree(double angle);
 double 			degree_to_radian(double angle);
+double 			normalize_angle(double angle);
 
 //test functions
 void 			test_parsed_map(t_game *parsed_map);

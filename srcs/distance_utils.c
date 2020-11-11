@@ -21,6 +21,6 @@ int distance_points(t_point start, t_point end)
 
 	dx = end.x - start.x;
 	dy = end.y - start.y;
-	distance = sqrt(pow(dy, 2) + pow(dy, 2));
+	distance = sqrt(pow(dy, 2) + pow(dx, 2));
 	return (distance);
 }
