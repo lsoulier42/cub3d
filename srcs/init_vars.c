@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:27:36 by louise            #+#    #+#             */
-/*   Updated: 2020/11/10 02:51:46 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/12 01:19:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ void 	init_vars(t_mlx_vars *vars, t_game *parsed_map)
 	vars->map = parsed_map->map;
 	vars->mlx = mlx_init();
 	vars->win_res = parsed_map->window_res;
+	vars->map_res = parsed_map->map_res;
 	vars->win = mlx_new_window(vars->mlx, vars->win_res.width, vars->win_res.height, "Cub3d");
 	vars->tile_size = parsed_map->window_res.width / parsed_map->map_res.width;
-	my_mlx_new_image(vars->mlx, &vars->map_img, parsed_map->map_res.width * vars->tile_size, parsed_map->map_res.height * vars->tile_size);
+	my_mlx_new_image(vars->mlx, &vars->map_img, parsed_map->window_res.width, parsed_map->window_res.height);
 	init_player(&vars->player, parsed_map->player_start, parsed_map->player_start_card, vars->tile_size);
 }
 

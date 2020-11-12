@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/10 01:50:04 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/12 02:07:35 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,18 +129,20 @@ typedef struct  s_mlx_vars
 	char			**map;
 	t_image_data	map_img;
 	t_dimension		win_res;
+	t_dimension 	map_res;
 	int 			tile_size;
 	t_player		player;
 }               t_mlx_vars;
 
 typedef struct  s_ray
 {
-    t_point horizontal_intersection;
-    t_point	vertical_intersection;
-    int     length;
+    int     distance;
     t_point	wall_hit;
+    int 	was_hit_vertical;
     double  ray_angle;
-    int		tile_size;
+    int 	facing_down;
+    int 	facing_left;
+    int		column_index;
 }               t_ray;
 
 //file functions
@@ -178,6 +180,7 @@ void			init_player(t_player *player, t_point start, char card,
 void 			fill_map(t_image_data *map_img, char **map_array, int tile_size);
 int 			tile_color(char map_elem);
 void 			print_player(t_mlx_vars *vars, t_player player);
+int				is_wall(t_mlx_vars *vars, int x, int y);
 
 //event fcts
 int				key_press_hook(int keycode, t_mlx_vars *vars);
@@ -206,6 +209,13 @@ int 			distance_points(t_point start, t_point end);
 double 			radian_to_degree(double angle);
 double 			degree_to_radian(double angle);
 double 			normalize_angle(double angle);
+
+//raycasting fct
+t_point 		find_horizontal_intersection(t_mlx_vars *vars, t_ray ray);
+t_point 		find_vertical_intersection(t_mlx_vars *vars, t_ray ray);
+void 			cast_ray(t_mlx_vars *vars, t_ray *ray);
+void 			init_ray(t_ray *ray, double ray_angle, int column_index);
+t_ray    		*cast_all_rays(t_mlx_vars *vars);
 
 //test functions
 void 			test_parsed_map(t_game *parsed_map);

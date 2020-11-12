@@ -16,7 +16,8 @@ SRCS=		main.c \
 			draw_circle.c \
 			distance_utils.c \
 			angle_utils.c \
-			event_mngt.c
+			event_mngt.c \
+			raycasting.c
 OBJS=		${addprefix srcs/,${SRCS:.c=.o}}
 HEAD=		-I includes -I libft/includes -I minilibx
 CC=			gcc
