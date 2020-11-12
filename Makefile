@@ -18,7 +18,8 @@ SRCS=		main.c \
 			angle_utils.c \
 			event_mngt.c \
 			raycasting.c \
-			raycasting_intersection.c
+			raycasting_intersection.c \
+			render_wall.c
 OBJS=		${addprefix srcs/,${SRCS:.c=.o}}
 HEAD=		-I includes -I libft/includes -I minilibx
 CC=			gcc

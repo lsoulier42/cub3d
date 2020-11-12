@@ -21,7 +21,7 @@ void	set_window_res(char *line, t_dimension *window_res)
 	while (!ft_isdigit(*line))
 		line++;
 	width = (int)ft_atoi(line);
-	while(ft_isdigit(*line))
+	while (ft_isdigit(*line))
 		line++;
 	height = (int)ft_atoi(line);
 	set_dimension(window_res, width, height);

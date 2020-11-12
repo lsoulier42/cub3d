@@ -6,14 +6,14 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:27:36 by louise            #+#    #+#             */
-/*   Updated: 2020/11/12 13:28:12 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/12 15:04:30 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "libft.h"
 
-void 	init_vars(t_mlx_vars *vars, t_game *parsed_map)
+void	init_vars(t_mlx_vars *vars, t_game *parsed_map)
 {
 	vars->map = parsed_map->map;
 	vars->mlx = mlx_init();
@@ -31,7 +31,7 @@ void 	init_vars(t_mlx_vars *vars, t_game *parsed_map)
 
 void	init_player(t_player *player, t_point start, char card, int tile_size)
 {
-	double 		rad_angle;
+	double	rad_angle;
 
 	set_point(&player->current_pos, start.x * tile_size, start.y * tile_size);
 	player->size = tile_size / 2;

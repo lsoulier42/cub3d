@@ -6,21 +6,21 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:36:08 by louise            #+#    #+#             */
-/*   Updated: 2020/11/12 14:09:41 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/12 15:05:48 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "libft.h"
 
-int exit_game(t_mlx_vars *vars)
+int	exit_game(t_mlx_vars *vars)
 {
 	mlx_destroy_window(vars->mlx, vars->win);
 	exit(0);
 	return (1);
 }
 
-int error_msg(int error_type)
+int	error_msg(int error_type)
 {
 	if (error_type == EXT_ERROR)
 		ft_putstr("Erreur d'extension du fichier\n");
@@ -35,11 +35,11 @@ int error_msg(int error_type)
 	return (1);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_game		*parsed_map;
 	t_mlx_vars	vars;
-	int 		error_occured;
+	int			error_occured;
 
 	error_occured = 0;
 	if (argc >= 2 && argc <= 3)

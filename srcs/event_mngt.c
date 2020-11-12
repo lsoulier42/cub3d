@@ -6,14 +6,14 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 01:57:58 by louise            #+#    #+#             */
-/*   Updated: 2020/11/12 13:40:38 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/12 22:37:50 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "cub3d.h"
 
-int key_press_hook(int keycode, t_mlx_vars *vars)
+int		key_press_hook(int keycode, t_mlx_vars *vars)
 {
 	t_player	*player;
 
@@ -31,7 +31,7 @@ int key_press_hook(int keycode, t_mlx_vars *vars)
 	return (1);
 }
 
-int key_release_hook(int keycode, t_mlx_vars *vars)
+int		key_release_hook(int keycode, t_mlx_vars *vars)
 {
 	t_player	*player;
 
@@ -46,9 +46,10 @@ int key_release_hook(int keycode, t_mlx_vars *vars)
 		player->turn_direction = 0;
 	return (1);
 }
-int update_hook(t_mlx_vars *vars)
+
+int		update_hook(t_mlx_vars *vars)
 {
-	t_image_data    view;
+	t_image_data	view;
 	t_ray			*rays;
 
 	my_mlx_new_image(vars->mlx, &view,
@@ -57,17 +58,18 @@ int update_hook(t_mlx_vars *vars)
 	rays = cast_all_rays(vars);
 	if (rays == NULL)
 		return (0);
-	print_minimap(vars, rays);
+	//print_minimap(vars, rays);
+	render_wall(vars, &view, rays);
+	mlx_put_image_to_window(vars->mlx, vars->win, view.img, 0, 0);
 	free(rays);
 	return (1);
 }
 
-
 void	event_mngt(t_mlx_vars *vars)
 {
-	mlx_hook(vars->win, 2, 1L <<0, &key_press_hook, vars);
-	mlx_hook(vars->win, 3, 1L<<1, &key_release_hook, vars);
-	mlx_hook(vars->win, 17, 1L<<17, exit_game, vars);
+	mlx_hook(vars->win, 2, 1L << 0, &key_press_hook, vars);
+	mlx_hook(vars->win, 3, 1L << 1, &key_release_hook, vars);
+	mlx_hook(vars->win, 17, 1L << 17, exit_game, vars);
 	mlx_loop_hook(vars->mlx, &update_hook, vars);
 	mlx_loop(vars->mlx);
 }

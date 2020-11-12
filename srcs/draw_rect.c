@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "cub3d.h"
 
-void 	draw_rect(t_image_data *map, t_point location,
+void	draw_rect(t_image_data *map, t_point location,
 	t_dimension dimension, int color)
 {
 	int x;

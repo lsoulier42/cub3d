@@ -3,37 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting_intersection.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/12 13:48:00 by louise		       #+#    #+#             */
-/*   Updated: 2020/11/12 13:58:38 by user42           ###   ########.fr       */
+/*   Created: 2020/11/12 16:00:41 by lsoulier          #+#    #+#             */
+/*   Updated: 2020/11/12 22:30:55 by user42           ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-t_point	first_intersection_horizontal(t_mlx_vars *vars, t_ray ray)
+t_point	first_horizontal_intercept(t_mlx_vars *vars, t_ray ray)
 {
-	t_point	first_intersection;
+	t_point	horizontal;
 
-	first_intersection.y = floor(vars->player.current_pos.y / vars->tile_size)
+	horizontal.y = floor(vars->player.current_pos.y / vars->tile_size)
 		* vars->tile_size;
 	if (ray.facing_down)
-		first_intersection.y += vars->tile_size;
-	first_intersection.x = vars->player.current_pos.x
-		+ ((first_intersection.y - vars->player.current_pos.y)
-		/ tan(ray.ray_angle));
-	return (first_intersection);
+		horizontal.y += vars->tile_size;
+	horizontal.x = vars->player.current_pos.x
+		+ ((horizontal.y - vars->player.current_pos.y) / tan(ray.ray_angle));
+	return (horizontal);
 }
 
-t_point	find_horizontal_intersection(t_mlx_vars *vars, t_ray ray)
+t_point	find_horizontal_intercept(t_mlx_vars *vars, t_ray ray)
 {
-	t_point	next_intersection;
-	int		xstep;
-	int		ystep;
+	t_point	next;
+	double	xstep;
+	double	ystep;
 	int		offset_facing_up;
 
 	offset_facing_up = 0;
-	next_intersection = first_intersection_horizontal(vars, ray);
+	next = first_horizontal_intercept(vars, ray);
 	ystep = vars->tile_size;
 	if (!ray.facing_down)
 		ystep *= -1;
@@ -42,36 +42,36 @@ t_point	find_horizontal_intersection(t_mlx_vars *vars, t_ray ray)
 		xstep *= -1;
 	if (!ray.facing_down)
 		offset_facing_up = 1;
-	while (!is_wall(vars, next_intersection.x,
-		next_intersection.y - offset_facing_up))
-		set_point(&next_intersection,
-			next_intersection.x + xstep, next_intersection.y + ystep);
-	return(next_intersection);
+	while (!is_wall(vars, next.x, next.y - offset_facing_up))
+	{
+		next.x += xstep;
+		next.y += ystep;
+	}
+	return (next);
 }
 
-t_point	first_intersection_vertical(t_mlx_vars *vars, t_ray ray)
+t_point	first_vertical_intercept(t_mlx_vars *vars, t_ray ray)
 {
-	t_point	first_intersection;
+	t_point	vertical;
 
-	first_intersection.x = floor(vars->player.current_pos.x / vars->tile_size)
+	vertical.x = floor(vars->player.current_pos.x / vars->tile_size)
 		* vars->tile_size;
 	if (!ray.facing_left)
-		first_intersection.x += vars->tile_size;
-	first_intersection.y = vars->player.current_pos.y
-		+ ((first_intersection.x - vars->player.current_pos.x)
-		* tan(ray.ray_angle));
-	return (first_intersection);
+		vertical.x += vars->tile_size;
+	vertical.y = vars->player.current_pos.y
+		+ ((vertical.x - vars->player.current_pos.x) * tan(ray.ray_angle));
+	return (vertical);
 }
 
-t_point	find_vertical_intersection(t_mlx_vars *vars, t_ray ray)
+t_point	find_vertical_intercept(t_mlx_vars *vars, t_ray ray)
 {
-	t_point	next_intersection;
-	int		xstep;
-	int		ystep;
+	t_point	next;
+	double	xstep;
+	double	ystep;
 	int		offset_facing_left;
 
 	offset_facing_left = 0;
-	next_intersection = first_intersection_vertical(vars, ray);
+	next = first_vertical_intercept(vars, ray);
 	xstep = vars->tile_size;
 	if (ray.facing_left)
 		xstep *= -1;
@@ -80,9 +80,10 @@ t_point	find_vertical_intersection(t_mlx_vars *vars, t_ray ray)
 		ystep *= -1;
 	if (ray.facing_left)
 		offset_facing_left = 1;
-	while (!is_wall(vars, next_intersection.x - offset_facing_left,
-		next_intersection.y))
-		set_point(&next_intersection,
-			next_intersection.x + xstep, next_intersection.y + ystep);
-	return(next_intersection);
+	while (!is_wall(vars, next.x - offset_facing_left, next.y))
+	{
+		next.x += xstep;
+		next.y += ystep;
+	}
+	return (next);
 }

@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 19:25:00 by louise            #+#    #+#             */
-/*   Updated: 2020/11/10 01:49:52 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/12 15:57:57 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_game	*init_parsed_map(void)
 {
 	t_game	*parsed_map;
 
-	if(!(parsed_map = (t_game*)malloc(sizeof(t_game))))
+	if (!(parsed_map = (t_game*)malloc(sizeof(t_game))))
 		return (NULL);
 	parsed_map->map = NULL;
 	parsed_map->player_start_card = 0;
@@ -34,7 +34,7 @@ t_game	*init_parsed_map(void)
 	return (parsed_map);
 }
 
-void	check_config(t_game	*parsed_map, char **line, int fd)
+void	check_config(t_game *parsed_map, char **line, int fd)
 {
 	if (ft_strnstr(*line, "R ", 2) != NULL)
 		set_window_res(*line, &parsed_map->window_res);
@@ -52,16 +52,16 @@ void	check_config(t_game	*parsed_map, char **line, int fd)
 		set_map_color(*line, &parsed_map->floor_color);
 	else if (ft_strnstr(*line, "C ", 2) != NULL)
 		set_map_color(*line, &parsed_map->ceiling_color);
-	else if(**line)
+	else if (**line)
 		set_map(parsed_map, line, fd);
 }
 
 t_game	*parse_file(char *path)
 {
 	char	*line;
-	int 	ret_gnl;
+	int		ret_gnl;
 	t_game	*parsed_map;
-	int fd;
+	int		fd;
 
 	ret_gnl = 1;
 	fd = check_file(path);

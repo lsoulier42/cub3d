@@ -6,22 +6,22 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 20:03:06 by user42            #+#    #+#             */
-/*   Updated: 2020/11/12 13:46:26 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/12 22:21:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "cub3d.h"
 
-void 	cast_ray(t_mlx_vars *vars, t_ray *ray)
+void	cast_ray(t_mlx_vars *vars, t_ray *ray)
 {
 	t_point	horizontal_intersection;
 	t_point	vertical_intersection;
-	int		horizontal_distance;
-	int		vertical_distance;
+	double	horizontal_distance;
+	double	vertical_distance;
 
-	horizontal_intersection = find_horizontal_intersection(vars, *ray);
-	vertical_intersection = find_vertical_intersection(vars, *ray);
+	horizontal_intersection = find_horizontal_intercept(vars, *ray);
+	vertical_intersection = find_vertical_intercept(vars, *ray);
 	horizontal_distance = distance_points(vars->player.current_pos,
 		horizontal_intersection);
 	vertical_distance = distance_points(vars->player.current_pos,
@@ -39,7 +39,7 @@ void 	cast_ray(t_mlx_vars *vars, t_ray *ray)
 	}
 }
 
-void 	init_ray(t_ray *ray, double ray_angle, int column_index)
+void	init_ray(t_ray *ray, double ray_angle, int column_index)
 {
 	ray->ray_angle = ray_angle;
 	set_point(&ray->wall_hit, 0, 0);
@@ -54,7 +54,7 @@ void 	init_ray(t_ray *ray, double ray_angle, int column_index)
 	ray->column_index = column_index;
 }
 
-t_ray    *cast_all_rays(t_mlx_vars *vars)
+t_ray	*cast_all_rays(t_mlx_vars *vars)
 {
 	int		column_index;
 	double	ray_angle;
@@ -65,7 +65,8 @@ t_ray    *cast_all_rays(t_mlx_vars *vars)
 	nb_column = vars->win_res.width;
 	column_index = 0;
 	i = -1;
-	ray_angle = vars->player.rotation_angle - (FOV_ANGLE / 2);
+	ray_angle = vars->player.rotation_angle
+		- (degree_to_radian(FOV_ANGLE / 2));
 	rays = (t_ray*)malloc(sizeof(t_ray) * nb_column);
 	if (!rays)
 		return (NULL);
@@ -73,7 +74,7 @@ t_ray    *cast_all_rays(t_mlx_vars *vars)
 	{
 		init_ray(&rays[i], normalize_angle(ray_angle), column_index);
 		cast_ray(vars, rays + i);
-		ray_angle += FOV_ANGLE / nb_column;
+		ray_angle += degree_to_radian(FOV_ANGLE) / nb_column;
 		column_index++;
 	}
 	return (rays);

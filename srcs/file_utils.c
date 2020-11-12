@@ -13,12 +13,12 @@
 #include "cub3d.h"
 #include "libft.h"
 
-int 	check_file(char *path)
+int		check_file(char *path)
 {
 	int fd;
 
 	fd = 0;
-	if(ft_strncmp(ft_strrev(path), "buc.", 4) != 0)
+	if (ft_strncmp(ft_strrev(path), "buc.", 4) != 0)
 		return (-1);
 	fd = open(path, O_RDONLY);
 	if (fd <= 0)
@@ -27,7 +27,7 @@ int 	check_file(char *path)
 		return (fd);
 }
 
-void 	close_game_files(t_game *parsed_map)
+void	close_game_files(t_game *parsed_map)
 {
 	int i;
 
