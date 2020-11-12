@@ -13,7 +13,7 @@
 #include "libft.h"
 #include "cub3d.h"
 
-double radian_to_degree(double angle)
+double	radian_to_degree(double angle)
 {
 	double degree;
 
@@ -21,7 +21,7 @@ double radian_to_degree(double angle)
 	return (degree);
 }
 
-double degree_to_radian(double angle)
+double	degree_to_radian(double angle)
 {
 	double radian;
 
@@ -29,7 +29,7 @@ double degree_to_radian(double angle)
 	return (radian);
 }
 
-double normalize_angle(double angle)
+double	normalize_angle(double angle)
 {
 	angle = fmod(angle, (2 * M_PI));
 	if (angle < 0)

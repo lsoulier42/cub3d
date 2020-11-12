@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:36:08 by louise            #+#    #+#             */
-/*   Updated: 2020/11/10 02:52:26 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/12 14:09:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ int main(int argc, char **argv)
 		{
 			init_vars(&vars, parsed_map);
 			event_mngt(&vars);
-			//close_game_files(parsed_map);
+			close_game_files(parsed_map);
 		}
 	}
 	else
-		error_occured = error_msg(ARG_ERROR);
+		error_msg(ARG_ERROR);
 	return (0);
 }

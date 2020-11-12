@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 01:57:58 by louise            #+#    #+#             */
-/*   Updated: 2020/11/10 02:45:46 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/12 13:40:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,22 @@ int key_release_hook(int keycode, t_mlx_vars *vars)
 		player->turn_direction = 0;
 	return (1);
 }
+int update_hook(t_mlx_vars *vars)
+{
+	t_image_data    view;
+	t_ray			*rays;
+
+	my_mlx_new_image(vars->mlx, &view,
+		vars->win_res.width, vars->win_res.height);
+	update_player_position(vars);
+	rays = cast_all_rays(vars);
+	if (rays == NULL)
+		return (0);
+	print_minimap(vars, rays);
+	free(rays);
+	return (1);
+}
+
 
 void	event_mngt(t_mlx_vars *vars)
 {

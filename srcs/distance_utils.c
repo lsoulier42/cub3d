@@ -13,7 +13,7 @@
 #include "libft.h"
 #include "cub3d.h"
 
-int distance_points(t_point start, t_point end)
+int	distance_points(t_point start, t_point end)
 {
 	int distance;
 	int dx;

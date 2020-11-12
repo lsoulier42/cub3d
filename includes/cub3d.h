@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/12 02:07:35 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/12 14:55:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,13 @@ typedef struct  s_ray
     int		column_index;
 }               t_ray;
 
+typedef struct	s_line_drawing
+{
+	t_point	coord;
+	t_point	step;
+	t_point	abs;
+}				t_line_drawing;
+
 //file functions
 int 			check_file(char *path);
 void 			close_game_files(t_game *parsed_map);
@@ -177,10 +184,13 @@ void			init_player(t_player *player, t_point start, char card,
 				   int tile_size);
 
 //render fct
-void 			fill_map(t_image_data *map_img, char **map_array, int tile_size);
+void 			fill_map(t_image_data *map_img, char **map_array,
+					int tile_size);
 int 			tile_color(char map_elem);
 void 			print_player(t_mlx_vars *vars, t_player player);
 int				is_wall(t_mlx_vars *vars, int x, int y);
+void 			update_player_position(t_mlx_vars *vars);
+void 			print_minimap(t_mlx_vars *vars, t_ray *rays);
 
 //event fcts
 int				key_press_hook(int keycode, t_mlx_vars *vars);
@@ -189,35 +199,49 @@ int 			update_hook(t_mlx_vars *vars);
 void			event_mngt(t_mlx_vars *vars);
 
 //mlx utils
-void			my_mlx_new_image(void *mlx_ptr, t_image_data *img, int width, int height);
+void			my_mlx_new_image(void *mlx_ptr, t_image_data *img,
+					int width, int height);
 void			my_mlx_pixel_put(t_image_data *img, int x, int y, int color);
 int				create_trgb(int t, int r, int g, int b);
 int 			color_trgb(int const_color);
-void			get_sprite(t_image_data sprite_sheet, t_image_data *sprite, t_point sprite_location, int size);
+void			get_sprite(t_image_data sprite_sheet, t_image_data *sprite,
+					t_point sprite_location, int size);
 
 //geometry fct
-void 			draw_rect(t_image_data *map, t_point location, t_dimension dimension, int color);
-void	        draw_line(t_image_data *map, t_point start, t_point end, int color);
-void			line_vertical(t_image_data *map, t_point start, t_point end, int color);
-void			line_horizontal(t_image_data *map, t_point start, t_point end, int color);
-void 			line_diagonal(t_image_data *map, t_point start, t_point end, int color);
-void 			line_low_angle(t_image_data *map, t_point start, t_point end, int color);
-void 	        line_big_angle(t_image_data *map, t_point start, t_point end, int color);
-void            draw_circle(t_image_data *map, t_point center, int ray, int color);
-void            circle_pixelset(t_image_data *map, t_point center, t_point coord, int color);
+void 			draw_rect(t_image_data *map, t_point location,
+					t_dimension dimension, int color);
+void	        draw_line(t_image_data *map, t_point start,
+					t_point end, int color);
+void			line_vertical(t_image_data *map, t_point start,
+					t_point end, int color);
+void			line_horizontal(t_image_data *map, t_point start,
+					t_point end, int color);
+void 			line_diagonal(t_image_data *map, t_point start,
+					t_point end, int color);
+void 			line_low_angle(t_image_data *map, t_point start,
+					t_point end, int color);
+void 			line_low_angle_loop(t_image_data *map,
+							t_line_drawing low, int color);
+void 	        line_big_angle(t_image_data *map, t_point start,
+					t_point end, int color);
+void 			line_big_angle_loop(t_image_data *map,
+					t_line_drawing big, int color);
+void            draw_circle(t_image_data *map, t_point center,
+					int ray, int color);
+void 			cl_pixelset(t_image_data *map, t_point center,
+					t_point coord, int color);
 int 			distance_points(t_point start, t_point end);
 double 			radian_to_degree(double angle);
 double 			degree_to_radian(double angle);
 double 			normalize_angle(double angle);
 
 //raycasting fct
-t_point 		find_horizontal_intersection(t_mlx_vars *vars, t_ray ray);
-t_point 		find_vertical_intersection(t_mlx_vars *vars, t_ray ray);
-void 			cast_ray(t_mlx_vars *vars, t_ray *ray);
-void 			init_ray(t_ray *ray, double ray_angle, int column_index);
 t_ray    		*cast_all_rays(t_mlx_vars *vars);
+void 			init_ray(t_ray *ray, double ray_angle, int column_index);
+void 			cast_ray(t_mlx_vars *vars, t_ray *ray);
+t_point 		find_horizontal_intersection(t_mlx_vars *vars, t_ray ray);
+t_point			first_intersection_horizontal(t_mlx_vars *vars, t_ray ray);
+t_point 		find_vertical_intersection(t_mlx_vars *vars, t_ray ray);
+t_point			first_intersection_vertical(t_mlx_vars *vars, t_ray ray);
 
-//test functions
-void 			test_parsed_map(t_game *parsed_map);
-void			debug_point(t_mlx_vars *vars, t_point point);
 #endif

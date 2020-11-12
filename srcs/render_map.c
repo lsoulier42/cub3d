@@ -49,3 +49,16 @@ void 	fill_map(t_image_data *map_img, char **map_array, int tile_size)
 
 	}
 }
+
+void print_minimap(t_mlx_vars *vars, t_ray *rays)
+{
+	int i;
+
+	i = -1;
+	fill_map(&vars->map_img, vars->map, vars->tile_size);
+	print_player(vars, vars->player);
+	while (++i < vars->win_res.width)
+		draw_line(&vars->map_img, vars->player.current_pos,
+				  rays[i].wall_hit, color_trgb(YELLOW));
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->map_img.img, 0, 0);
+}

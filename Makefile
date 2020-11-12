@@ -5,7 +5,6 @@ SRCS=		main.c \
 			set_map.c \
 			set_settings.c \
 			set_struct.c \
-			test_fct.c \
 			mlx_utils.c \
 			render_map.c \
 			render_player.c \
@@ -13,11 +12,13 @@ SRCS=		main.c \
 			draw_rect.c \
 			draw_line.c \
 			draw_line_utils.c \
+			draw_line_angle_utils.c \
 			draw_circle.c \
 			distance_utils.c \
 			angle_utils.c \
 			event_mngt.c \
-			raycasting.c
+			raycasting.c \
+			raycasting_intersection.c
 OBJS=		${addprefix srcs/,${SRCS:.c=.o}}
 HEAD=		-I includes -I libft/includes -I minilibx
 CC=			gcc
