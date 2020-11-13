@@ -6,26 +6,27 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 17:05:47 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/13 00:56:24 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/13 01:25:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "cub3d.h"
 
-double	fishbowl_correction(double ray_distance,
-	double ray_angle, double player_angle)
+double	fishbowl_correct(t_mlx_vars *vars, t_ray ray,
+	double projection_plane_distance)
 {
 	double correct_distance;
 	double correct_angle;
+	double wall_height;
 
-	correct_angle = ray_angle - player_angle;
-	correct_distance = ray_distance
-		* cos(degree_to_radian(correct_angle));
-	return (correct_distance);
+	correct_angle = ray.ray_angle - vars->player.rotation_angle;
+	correct_distance = ray.distance * cos(degree_to_radian(correct_angle));
+	wall_height = projection_plane_distance * (vars->tile_size / correct_distance);
+	return (wall_height);
 }
 
-double 	wall_height_correction(double calculated_wall_height,
+double 	max_height_correct(double calculated_wall_height,
 	double win_height)
 {
 	double correct_wall_height;
@@ -35,6 +36,18 @@ double 	wall_height_correction(double calculated_wall_height,
 	else
 		correct_wall_height = calculated_wall_height;
 	return (correct_wall_height);
+}
+
+t_point	ylocation_correct(double win_height, double wall_height, int i)
+{
+	t_point new_location;
+	int 	ylocation;
+
+	ylocation = (win_height / 2) - (wall_height / 2);
+	if (ylocation < 0)
+		ylocation = 0;
+	set_point(&new_location, i, ylocation);
+	return (new_location);
 }
 
 void	render_wall(t_mlx_vars *vars, t_image_data *view, t_ray *rays)
@@ -50,16 +63,11 @@ void	render_wall(t_mlx_vars *vars, t_image_data *view, t_ray *rays)
 		/ tan(degree_to_radian(FOV_ANGLE / 2));
 	while (++i < vars->win_res.width)
 	{
-		wall_height = distance_to_projection_plane
-			* (vars->tile_size
-			/ fishbowl_correction(rays[i].distance,
-			rays[i].ray_angle, vars->player.rotation_angle));
-		set_point(&location, i,
-			(vars->win_res.height / 2) - (wall_height / 2));
-		if (location.y < 0)
-			location.y = 0;
+		wall_height = fishbowl_correct(vars, rays[i],
+			distance_to_projection_plane);
+		location = ylocation_correct(vars->win_res.height, wall_height, i);
 		set_dimension(&wall_dimension, 1,
-			wall_height_correction(wall_height, vars->win_res.height));
+			max_height_correct(wall_height, vars->win_res.height));
 		draw_rect(view, location, wall_dimension, color_trgb(WHITE));
 	}
 }

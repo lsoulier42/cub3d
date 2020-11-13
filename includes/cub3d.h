@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/13 00:58:53 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/13 01:25:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,10 +195,12 @@ void			print_minimap(t_mlx_vars *vars, t_ray *rays);
 void			render_ray(t_mlx_vars *vars, t_ray *rays);
 void 			render_wall(t_mlx_vars *vars, t_image_data *view,
 					t_ray *rays);
-double			fishbowl_correction(double ray_distance,
-					double ray_angle, double player_angle);
-double 			wall_height_correction(double calculated_wall_height,
+double			fishbowl_correct(t_mlx_vars *vars, t_ray ray,
+					double projection_plane_distance);
+double 			max_height_correct(double calculated_wall_height,
 					double win_height);
+t_point			ylocation_correct(double win_height,
+					double wall_height, int i);
 
 //event fcts
 int				key_press_hook(int keycode, t_mlx_vars *vars);
