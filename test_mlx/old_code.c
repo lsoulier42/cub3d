@@ -358,3 +358,28 @@ void 	complete_map(t_game *parsed_map)
 		}
 	}
 }
+
+void	get_sprite(t_image_data sprite_sheet,
+				   t_image_data *sprite, t_point sprite_location, int size)
+{
+	int		x;
+	int		y;
+	char	*dst;
+	char	*src;
+
+	x = -1;
+	while (++x < size)
+	{
+		y = -1;
+		while (++y < size)
+		{
+			src = sprite_sheet.addr
+				  + (((int)sprite_location.y + y) * sprite_sheet.line_length
+					 + ((int)sprite_location.x + x)
+					   * (sprite_sheet.bits_per_pixel / 8));
+			dst = sprite->addr
+				  + (y * sprite->line_length + x * (sprite->bits_per_pixel / 8));
+			*(unsigned int*)dst = *(unsigned int*)src;
+		}
+	}
+}

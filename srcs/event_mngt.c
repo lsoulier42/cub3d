@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 01:57:58 by louise            #+#    #+#             */
-/*   Updated: 2020/11/12 22:37:50 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/13 01:00:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,17 @@ int		update_hook(t_mlx_vars *vars)
 	t_image_data	view;
 	t_ray			*rays;
 
-	my_mlx_new_image(vars->mlx, &view,
-		vars->win_res.width, vars->win_res.height);
+	my_mlx_new_image(vars->mlx, &view, vars->win_res.width,
+		vars->win_res.height);
 	update_player_position(vars);
 	rays = cast_all_rays(vars);
 	if (rays == NULL)
 		return (0);
-	//print_minimap(vars, rays);
 	render_wall(vars, &view, rays);
+	print_minimap(vars, rays);
 	mlx_put_image_to_window(vars->mlx, vars->win, view.img, 0, 0);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->map_img.img, 0, 0);
+	mlx_destroy_image(vars->mlx, view.img);
 	free(rays);
 	return (1);
 }

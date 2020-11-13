@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/12 22:36:51 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/13 00:58:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,8 +192,13 @@ void			print_player(t_mlx_vars *vars, t_player player);
 int				is_wall(t_mlx_vars *vars, double x, double y);
 void			update_player_position(t_mlx_vars *vars);
 void			print_minimap(t_mlx_vars *vars, t_ray *rays);
-void 			render_wall(t_mlx_vars *vars, t_image_data *view, t_ray *rays);
 void			render_ray(t_mlx_vars *vars, t_ray *rays);
+void 			render_wall(t_mlx_vars *vars, t_image_data *view,
+					t_ray *rays);
+double			fishbowl_correction(double ray_distance,
+					double ray_angle, double player_angle);
+double 			wall_height_correction(double calculated_wall_height,
+					double win_height);
 
 //event fcts
 int				key_press_hook(int keycode, t_mlx_vars *vars);
@@ -207,8 +212,6 @@ void			my_mlx_new_image(void *mlx_ptr, t_image_data *img,
 void			my_mlx_pixel_put(t_image_data *img, int x, int y, int color);
 int				create_trgb(int t, int r, int g, int b);
 int				color_trgb(int const_color);
-void			get_sprite(t_image_data sprite_sheet, t_image_data *sprite,
-					t_point sprite_location, int size);
 
 //geometry fct
 void			draw_rect(t_image_data *map, t_point location,
@@ -234,11 +237,9 @@ void			draw_circle(t_image_data *map, t_point center,
 void			cl_pixelset(t_image_data *map, t_point center,
 					t_point coord, int color);
 double			distance_points(t_point start, t_point end);
-double			radian_to_degree(double angle);
 double			degree_to_radian(double angle);
 double			normalize_angle(double angle);
-double			fishbowl_correct(double ray_distance,
-					double ray_angle, double player_angle);
+
 
 //raycasting fct
 t_ray			*cast_all_rays(t_mlx_vars *vars);

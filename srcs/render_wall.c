@@ -6,14 +6,14 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 17:05:47 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/12 22:31:39 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/13 00:56:24 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "cub3d.h"
 
-double	fishbowl_correct(double ray_distance,
+double	fishbowl_correction(double ray_distance,
 	double ray_angle, double player_angle)
 {
 	double correct_distance;
@@ -23,6 +23,18 @@ double	fishbowl_correct(double ray_distance,
 	correct_distance = ray_distance
 		* cos(degree_to_radian(correct_angle));
 	return (correct_distance);
+}
+
+double 	wall_height_correction(double calculated_wall_height,
+	double win_height)
+{
+	double correct_wall_height;
+
+	if (calculated_wall_height > win_height)
+		correct_wall_height = win_height;
+	else
+		correct_wall_height = calculated_wall_height;
+	return (correct_wall_height);
 }
 
 void	render_wall(t_mlx_vars *vars, t_image_data *view, t_ray *rays)
@@ -40,13 +52,14 @@ void	render_wall(t_mlx_vars *vars, t_image_data *view, t_ray *rays)
 	{
 		wall_height = distance_to_projection_plane
 			* (vars->tile_size
-			/ fishbowl_correct(rays[i].distance,
+			/ fishbowl_correction(rays[i].distance,
 			rays[i].ray_angle, vars->player.rotation_angle));
 		set_point(&location, i,
 			(vars->win_res.height / 2) - (wall_height / 2));
 		if (location.y < 0)
 			location.y = 0;
-		set_dimension(&wall_dimension, 1, wall_height);
+		set_dimension(&wall_dimension, 1,
+			wall_height_correction(wall_height, vars->win_res.height));
 		draw_rect(view, location, wall_dimension, color_trgb(WHITE));
 	}
 }

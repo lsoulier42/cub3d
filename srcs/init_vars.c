@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:27:36 by louise            #+#    #+#             */
-/*   Updated: 2020/11/12 15:04:30 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/13 00:42:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	init_vars(t_mlx_vars *vars, t_game *parsed_map)
 	vars->tile_size = parsed_map->window_res.width
 		/ parsed_map->map_res.width;
 	my_mlx_new_image(vars->mlx, &vars->map_img,
-		parsed_map->window_res.width, parsed_map->window_res.height);
+		parsed_map->window_res.width * MINIMAP_SCALE,
+		parsed_map->window_res.height * MINIMAP_SCALE);
 	init_player(&vars->player, parsed_map->player_start,
 		parsed_map->player_start_card, vars->tile_size);
 }

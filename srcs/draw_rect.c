@@ -15,8 +15,8 @@
 void	draw_rect(t_image_data *map, t_point location,
 	t_dimension dimension, int color)
 {
-	int x;
-	int y;
+	double x;
+	double y;
 
 	x = -1;
 	while (++x < dimension.width)
