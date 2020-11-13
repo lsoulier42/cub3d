@@ -65,8 +65,10 @@ t_game	*parse_file(char *path)
 
 	ret_gnl = 1;
 	fd = check_file(path);
+	if (fd < 0)
+		return (NULL);
 	parsed_map = init_parsed_map();
-	if (fd <= 0 || !parsed_map)
+	if (!parsed_map)
 		return (NULL);
 	while (ret_gnl)
 	{

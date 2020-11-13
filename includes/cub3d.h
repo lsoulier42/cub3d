@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/13 01:25:53 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/13 02:08:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,14 +193,15 @@ int				is_wall(t_mlx_vars *vars, double x, double y);
 void			update_player_position(t_mlx_vars *vars);
 void			print_minimap(t_mlx_vars *vars, t_ray *rays);
 void			render_ray(t_mlx_vars *vars, t_ray *rays);
-void 			render_wall(t_mlx_vars *vars, t_image_data *view,
+void			render_wall(t_mlx_vars *vars, t_image_data *view,
 					t_ray *rays);
 double			fishbowl_correct(t_mlx_vars *vars, t_ray ray,
 					double projection_plane_distance);
-double 			max_height_correct(double calculated_wall_height,
+double			max_height_correct(double calculated_wall_height,
 					double win_height);
 t_point			ylocation_correct(double win_height,
 					double wall_height, int i);
+int				wall_color(double wall_height, double win_height);
 
 //event fcts
 int				key_press_hook(int keycode, t_mlx_vars *vars);
@@ -241,7 +242,6 @@ void			cl_pixelset(t_image_data *map, t_point center,
 double			distance_points(t_point start, t_point end);
 double			degree_to_radian(double angle);
 double			normalize_angle(double angle);
-
 
 //raycasting fct
 t_ray			*cast_all_rays(t_mlx_vars *vars);

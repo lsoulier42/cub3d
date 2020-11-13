@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 19:16:46 by louise            #+#    #+#             */
-/*   Updated: 2020/11/10 01:25:51 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/13 01:38:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,15 @@
 
 int		check_file(char *path)
 {
-	int fd;
+	int		fd;
+	char	*invert_ext;
+	int		strcmp_ret;
 
 	fd = 0;
-	if (ft_strncmp(ft_strrev(path), "buc.", 4) != 0)
+	invert_ext = ft_strrev(path);
+	strcmp_ret = ft_strncmp(invert_ext, "buc.", 4);
+	free(invert_ext);
+	if (strcmp_ret != 0)
 		return (-1);
 	fd = open(path, O_RDONLY);
 	if (fd <= 0)
