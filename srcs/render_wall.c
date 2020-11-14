@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 17:05:47 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/14 03:34:12 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 14:55:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ double	fishbowl_correct(t_mlx_vars *vars, t_ray ray,
 	correct_angle = ray.angle - normalize_angle(vars->player->rotation_angle);
 	correct_distance = ray.distance * cos(correct_angle);
 	wall_height = projection_plane_distance
-		* (vars->parsed_file->tile_size / correct_distance);
+		* (vars->cell_size / correct_distance);
 	return (wall_height);
 }
 
@@ -56,9 +56,9 @@ int		wall_color(t_ray ray)
 	int color;
 
 	if (ray.was_hit_vertical)
-		color = color_trgb(BLUE);
+		color = color_trgb(WHITE);
 	else
-		color = color_trgb(GREEN);
+		color = create_trgb(0, 180, 180, 180);
 	return (color);
 }
 

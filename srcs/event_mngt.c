@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 01:57:58 by louise            #+#    #+#             */
-/*   Updated: 2020/11/14 03:53:57 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 15:39:15 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ int		update_hook(t_mlx_vars *vars)
 	t_image_data	view;
 	t_image_data	minimap;
 	t_ray			*rays;
-	t_dimension		win_res;
 
-	win_res = vars->parsed_file->win_res;
-	my_mlx_new_image(vars->mlx, &view, win_res.width, win_res.height);
+	my_mlx_new_image(vars->mlx, &view,
+		vars->parsed_file->win_res.width, vars->parsed_file->win_res.height);
 	my_mlx_new_image(vars->mlx, &minimap,
-		win_res.width * MINIMAP_SCALE, win_res.height * MINIMAP_SCALE);
+	vars->parsed_file->map_res.width * vars->cell_size,
+	vars->parsed_file->map_res.height * vars->cell_size);
 	update_player_position(vars);
 	rays = cast_all_rays(vars);
 	if (rays == NULL)
@@ -59,6 +59,7 @@ int		update_hook(t_mlx_vars *vars)
 		error_msg_alloc(RAYS_ALLOC_ERROR);
 		return (0);
 	}
+	render_background(vars, &view);
 	render_wall(vars, &view, rays);
 	render_minimap(vars, &minimap, rays);
 	mlx_put_image_to_window(vars->mlx, vars->win, view.img, 0, 0);

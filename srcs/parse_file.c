@@ -60,7 +60,6 @@ t_game_file	*init_parsed_file(void)
 	parsed_file->sprite_text = NULL;
 	parsed_file->floor_color = color_trgb(BLACK);
 	parsed_file->ceiling_color = color_trgb(BLACK);
-	parsed_file->tile_size = 0;
 	return (parsed_file);
 }
 

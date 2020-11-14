@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:27:36 by louise            #+#    #+#             */
-/*   Updated: 2020/11/14 04:16:40 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 15:55:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ t_mlx_vars	*create_vars_struct(t_game_file *parsed_file)
 		return (NULL);
 	}
 	vars->parsed_file = parsed_file;
-	vars->player = init_player(parsed_file);
+	vars->cell_size = 16;
+	vars->player = init_player(parsed_file, vars->cell_size);
 	if (vars->player == NULL)
 		return (NULL);
 	return (vars);
@@ -66,11 +67,10 @@ double		set_rotation_angle(char card)
 	return (angle);
 }
 
-t_player	*init_player(t_game_file *parsed_file)
+t_player	*init_player(t_game_file *parsed_file, int cell_size)
 {
 	t_player	*player;
 	t_point		start;
-	int			tile_size;
 	char		card;
 
 	player = (t_player*)malloc(sizeof(t_player));
@@ -79,15 +79,14 @@ t_player	*init_player(t_game_file *parsed_file)
 		error_msg_alloc(PLAYER_ALLOC_ERROR);
 		return (NULL);
 	}
-	tile_size = parsed_file->tile_size;
 	start = parsed_file->player_start;
 	card = parsed_file->player_start_card;
-	set_point(&player->current_pos, start.x * tile_size, start.y * tile_size);
-	player->size = tile_size / 4;
+	set_point(&player->current_pos, start.x * cell_size, start.y * cell_size);
+	player->size = cell_size / 4;
 	player->turn_direction = 0;
 	player->walk_direction = 0;
 	player->rotation_angle = set_rotation_angle(card);
-	player->move_speed = 2;
-	player->rotation_speed = (2 * M_PI) / 180;
+	player->move_speed = 4.0;
+	player->rotation_speed = (4.0 * M_PI) / 180;
 	return (player);
 }

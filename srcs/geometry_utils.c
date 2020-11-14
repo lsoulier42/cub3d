@@ -16,8 +16,8 @@
 double	distance_points(t_point start, t_point end)
 {
 	double	distance;
-	int		dx;
-	int		dy;
+	double	dx;
+	double	dy;
 
 	dx = end.x - start.x;
 	dy = end.y - start.y;

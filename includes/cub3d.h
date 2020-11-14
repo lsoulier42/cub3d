@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/14 04:12:25 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 15:53:00 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # define ROT_LEFT -1
 # define ESCAPE 65307
 # define FOV_ANGLE 50
-# define MINIMAP_SCALE 1
 
 typedef enum	e_map_elem
 {
@@ -91,7 +90,6 @@ typedef struct	s_game_file
 	char		player_start_card;
 	t_dimension	map_res;
 	t_dimension	win_res;
-	int 		tile_size;
 	char		*no_text;
 	char		*so_text;
 	char		*we_text;
@@ -113,7 +111,7 @@ typedef struct	s_image_data
 typedef struct	s_player
 {
 	t_point			current_pos;
-	int				size;
+	double			size;
 	int				turn_direction;
 	int				walk_direction;
 	double			rotation_angle;
@@ -127,6 +125,7 @@ typedef struct	s_mlx_vars
 	void			*win;
 	t_game_file		*parsed_file;
 	t_player		*player;
+	int 			cell_size;
 }				t_mlx_vars;
 
 typedef struct	s_ray
@@ -172,7 +171,7 @@ void			set_parsed_file(t_game_file *parsed_file, char **map,
 //initialize mlx game vars
 t_mlx_vars		*create_vars_struct(t_game_file *parsed_file);
 int				create_window(t_mlx_vars *vars);
-t_player		*init_player(t_game_file *parsed_file);
+t_player		*init_player(t_game_file *parsed_file, int cell_size);
 double			set_rotation_angle(char card);
 void			free_game_struct(t_mlx_vars *vars);
 void 			free_parsed_file(t_game_file *parsed_file);
@@ -195,6 +194,7 @@ double			max_height_correct(double calculated_wall_height,
 t_point			ylocation_correct(double win_height,
 					double wall_height, int i);
 int				wall_color(t_ray ray);
+void			render_background(t_mlx_vars *vars, t_image_data *view);
 
 //event fcts
 int				key_press_hook(int keycode, t_mlx_vars *vars);

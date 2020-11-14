@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 22:07:27 by louise            #+#    #+#             */
-/*   Updated: 2020/11/14 03:47:26 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 15:35:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ void	set_parsed_file(t_game_file *parsed_file, char **map,
 	parsed_file->map = map;
 	set_dimension(&(parsed_file->map_res), map_width, map_height);
 	set_player_start(parsed_file);
-	parsed_file->tile_size = parsed_file->win_res.width
-		/ parsed_file->map_res.width;
 }
 
 void	set_map(t_game_file *parsed_file, char **line, int fd)

@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 03:26:35 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/14 04:17:41 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 15:32:16 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,12 @@ int		is_wall(t_mlx_vars *vars, double x, double y)
 	int			index_x;
 	int			index_y;
 	char		**map;
-	int			tile_size;
 	t_dimension	map_res;
 
 	map = vars->parsed_file->map;
-	tile_size = vars->parsed_file->tile_size;
 	map_res = vars->parsed_file->map_res;
-	index_x = floor(x / tile_size);
-	index_y = floor(y / tile_size);
+	index_x = floor(x / vars->cell_size);
+	index_y = floor(y / vars->cell_size);
 	if (index_x < 0 || index_y < 0
 		|| index_x >= map_res.width || index_y >= map_res.height)
 		return (1);
