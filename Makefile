@@ -24,7 +24,7 @@ SRCS=		main.c \
 OBJS=		${addprefix srcs/,${SRCS:.c=.o}}
 HEAD=		-I includes -I libft/includes -I minilibx
 CC=			gcc
-CFLAGS=
+CFLAGS=		-Wall -Werror -Wextra
 LDFLAGS=	-L libft -L minilibx
 LIBS=		-lm -lft -lmlx -lXext -lX11
 

@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 20:03:06 by user42            #+#    #+#             */
-/*   Updated: 2020/11/14 00:27:43 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 16:43:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,20 @@ void	init_ray(t_ray *ray, double ray_angle)
 	ray->was_hit_vertical = 0;
 }
 
-t_ray	*cast_all_rays(t_mlx_vars *vars)
+void	cast_all_rays(t_mlx_vars *vars)
 {
 	double	ray_angle;
 	int		i;
-	t_ray	*rays;
 	int		nb_column;
 
 	i = -1;
 	nb_column = vars->parsed_file->win_res.width;
 	ray_angle = normalize_angle(vars->player->rotation_angle)
 		- (degree_to_radian(FOV_ANGLE / 2));
-	rays = (t_ray*)malloc(sizeof(t_ray) * nb_column);
-	if (!rays)
-		return (NULL);
 	while (++i < nb_column)
 	{
-		init_ray(&rays[i], normalize_angle(ray_angle));
-		cast_ray(vars, rays + i);
+		init_ray(&vars->rays[i], normalize_angle(ray_angle));
+		cast_ray(vars, vars->rays + i);
 		ray_angle += degree_to_radian(FOV_ANGLE) / nb_column;
 	}
-	return (rays);
 }

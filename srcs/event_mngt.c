@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 01:57:58 by louise            #+#    #+#             */
-/*   Updated: 2020/11/14 15:39:15 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 19:55:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,58 +15,45 @@
 
 int		key_press_hook(int keycode, t_mlx_vars *vars)
 {
-	if (keycode == ARROW_UP)
-		vars->player->walk_direction = FORWARD;
-	else if (keycode == ARROW_DOWN)
-		vars->player->walk_direction = BACKWARD;
+	if (keycode == ARROW_UP
+		|| keycode == W_KEY || keycode == D_KEY)
+		vars->player->walk_direction = 1;
+	else if (keycode == ARROW_DOWN
+		|| keycode == S_KEY || keycode == A_KEY)
+		vars->player->walk_direction = -1;
+	if (keycode == A_KEY || keycode == D_KEY)
+		vars->player->direction_angle = M_PI / 2;
+	if (keycode == ARROW_RIGHT)
+		vars->player->turn_direction = 1;
 	else if (keycode == ARROW_LEFT)
-		vars->player->turn_direction = ROT_LEFT;
-	else if (keycode == ARROW_RIGHT)
-		vars->player->turn_direction = ROT_RIGHT;
-	else if (keycode == ESCAPE)
+		vars->player->turn_direction = -1;
+	if (keycode == ESCAPE)
 		exit_game(vars);
 	return (1);
 }
 
 int		key_release_hook(int keycode, t_mlx_vars *vars)
 {
-	if (keycode == ARROW_UP)
+	if (keycode == ARROW_UP || keycode == ARROW_DOWN
+		|| keycode == W_KEY || keycode == S_KEY
+		|| keycode == A_KEY || keycode == D_KEY)
 		vars->player->walk_direction = 0;
-	else if (keycode == ARROW_DOWN)
-		vars->player->walk_direction = 0;
-	else if (keycode == ARROW_LEFT)
-		vars->player->turn_direction = 0;
-	else if (keycode == ARROW_RIGHT)
+	if (keycode == A_KEY || keycode == D_KEY)
+		vars->player->direction_angle = 0;
+	if (keycode == ARROW_LEFT || keycode == ARROW_RIGHT)
 		vars->player->turn_direction = 0;
 	return (1);
 }
 
 int		update_hook(t_mlx_vars *vars)
 {
-	t_image_data	view;
-	t_image_data	minimap;
-	t_ray			*rays;
-
-	my_mlx_new_image(vars->mlx, &view,
-		vars->parsed_file->win_res.width, vars->parsed_file->win_res.height);
-	my_mlx_new_image(vars->mlx, &minimap,
-	vars->parsed_file->map_res.width * vars->cell_size,
-	vars->parsed_file->map_res.height * vars->cell_size);
 	update_player_position(vars);
-	rays = cast_all_rays(vars);
-	if (rays == NULL)
-	{
-		error_msg_alloc(RAYS_ALLOC_ERROR);
-		return (0);
-	}
-	render_background(vars, &view);
-	render_wall(vars, &view, rays);
-	render_minimap(vars, &minimap, rays);
-	mlx_put_image_to_window(vars->mlx, vars->win, view.img, 0, 0);
-	mlx_put_image_to_window(vars->mlx, vars->win, minimap.img, 0, 0);
-	mlx_destroy_image(vars->mlx, view.img);
-	mlx_destroy_image(vars->mlx, minimap.img);
-	free(rays);
+	cast_all_rays(vars);
+	render_background(vars);
+	render_wall(vars);
+	render_minimap(vars);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->view->img, 0, 0);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->minimap->img, 0, 0);
 	return (1);
 }
 

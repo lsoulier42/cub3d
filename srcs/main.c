@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:36:08 by louise            #+#    #+#             */
-/*   Updated: 2020/11/14 15:28:34 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 17:13:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv)
 		else
 		{
 			vars = create_vars_struct(parsed_file);
-			if (vars != NULL && create_window(vars) == 1)
+			if (vars != NULL && create_window(vars) == 1 && create_images(vars) == 1)
 			{
 				event_mngt(vars);
 				free_game_struct(vars);

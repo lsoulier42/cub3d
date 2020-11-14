@@ -42,6 +42,8 @@ void	error_msg_alloc(int error_type)
 		ft_putstr("structure -rays-.\n");
 	else if (error_type == PARSED_FILE_ALLOC_ERROR)
 		ft_putstr("structure -parsed_file-.\n");
+	else if (error_type == IMAGE_ALLOC_ERROR)
+		ft_putstr("structure -image_data-.\n");
 	else
 		ft_putstr("structure inconnue.\n");
 }

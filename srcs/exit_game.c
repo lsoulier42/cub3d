@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 01:36:40 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/14 02:52:23 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 16:57:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,18 @@ void	free_game_struct(t_mlx_vars *vars)
 {
 	if (vars->player)
 		free(vars->player);
+	if (vars->rays)
+		free(vars->rays);
+	if (vars->view)
+	{
+		mlx_destroy_image(vars->mlx, vars->view->img);
+		free(vars->view);
+	}
+	if (vars->minimap)
+	{
+		mlx_destroy_image(vars->mlx, vars->minimap->img);
+		free(vars->minimap);
+	}
 	free(vars);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 17:05:47 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/14 14:55:14 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 16:00:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int		wall_color(t_ray ray)
 	return (color);
 }
 
-void	render_wall(t_mlx_vars *vars, t_image_data *view, t_ray *rays)
+void	render_wall(t_mlx_vars *vars)
 {
 	double		wall_height;
 	double		distance_to_projection_plane;
@@ -75,14 +75,14 @@ void	render_wall(t_mlx_vars *vars, t_image_data *view, t_ray *rays)
 		/ tan(degree_to_radian(FOV_ANGLE / 2));
 	while (++i < vars->parsed_file->win_res.width)
 	{
-		wall_height = fishbowl_correct(vars, rays[i],
+		wall_height = fishbowl_correct(vars, vars->rays[i],
 			distance_to_projection_plane);
 		location = ylocation_correct(vars->parsed_file->win_res.height,
 			wall_height, i);
 		set_dimension(&wall_dimension, 1,
 			max_height_correct(wall_height,
 				vars->parsed_file->win_res.height));
-		draw_rect(view, location, wall_dimension,
-			wall_color(rays[i]));
+		draw_rect(vars->view, location, wall_dimension,
+			wall_color(vars->rays[i]));
 	}
 }

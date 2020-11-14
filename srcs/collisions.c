@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 03:26:35 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/14 15:32:16 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 19:56:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,18 @@ void	update_player_position(t_mlx_vars *vars)
 {
 	double			move_step;
 	t_point			next_position;
+	double 			xstep;
+	double 			ystep;
 
 	vars->player->rotation_angle += vars->player->turn_direction
 									* vars->player->rotation_speed;
 	move_step = vars->player->walk_direction * vars->player->move_speed;
+	xstep = cos(vars->player->rotation_angle + vars->player->direction_angle);
+	ystep = sin(vars->player->rotation_angle + vars->player->direction_angle);
 	next_position.x = vars->player->current_pos.x
-		+ (cos(vars->player->rotation_angle) * move_step);
+		+ (xstep * move_step);
 	next_position.y = vars->player->current_pos.y
-		+ (sin(vars->player->rotation_angle) * move_step);
+		+ (ystep * move_step);
 	if (!is_wall(vars, next_position.x, next_position.y))
 	{
 		vars->player->current_pos.x = next_position.x;

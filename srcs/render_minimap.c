@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 17:48:24 by louise            #+#    #+#             */
-/*   Updated: 2020/11/14 16:05:50 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 17:25:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ void	fill_ray(t_mlx_vars *vars, t_image_data *minimap, t_ray *rays)
 	}
 }
 
-void	render_minimap(t_mlx_vars *vars, t_image_data *minimap, t_ray *rays)
+void	render_minimap(t_mlx_vars *vars)
 {
-	fill_map(vars, minimap);
-	fill_player(vars, minimap);
-	fill_ray(vars, minimap, rays);
+	fill_map(vars, vars->minimap);
+	fill_player(vars, vars->minimap);
+	fill_ray(vars, vars->minimap, vars->rays);
 }
 
 void	fill_player(t_mlx_vars *vars, t_image_data *minimap)

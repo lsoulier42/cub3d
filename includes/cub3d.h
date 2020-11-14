@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/14 15:53:00 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 19:51:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,14 @@
 # include <math.h>
 # include <stdio.h>
 # include <mlx.h>
+# include <time.h>
 # define CARD_CHARSET "NSEW"
-# define FORWARD 1
-# define BACKWARD -1
-# define ROT_RIGHT 1
-# define ROT_LEFT -1
 # define ESCAPE 65307
-# define FOV_ANGLE 50
-
-typedef enum	e_map_elem
-{
-	EMPTY,
-	WALL,
-	SPRITE,
-	ELEM_TOTAL
-}				t_map_elem;
+# define W_KEY 119
+# define S_KEY 115
+# define A_KEY 97
+# define D_KEY 100
+# define FOV_ANGLE 60
 
 typedef enum	e_arrow
 {
@@ -43,6 +36,14 @@ typedef enum	e_arrow
 	ARROW_RIGHT,
 	ARROW_DOWN
 }				t_arrow;
+
+typedef enum	e_map_elem
+{
+	EMPTY,
+	WALL,
+	SPRITE,
+	ELEM_TOTAL
+}				t_map_elem;
 
 typedef enum	e_const_color
 {
@@ -68,7 +69,8 @@ typedef enum	e_const_error
 	VARS_ALLOC_ERROR,
 	PLAYER_ALLOC_ERROR,
 	RAYS_ALLOC_ERROR,
-	PARSED_FILE_ALLOC_ERROR
+	PARSED_FILE_ALLOC_ERROR,
+	IMAGE_ALLOC_ERROR
 }				t_const_error;
 
 typedef struct	s_point
@@ -114,19 +116,11 @@ typedef struct	s_player
 	double			size;
 	int				turn_direction;
 	int				walk_direction;
+	double 			direction_angle;
 	double			rotation_angle;
 	double			move_speed;
 	double			rotation_speed;
 }				t_player;
-
-typedef struct	s_mlx_vars
-{
-	void			*mlx;
-	void			*win;
-	t_game_file		*parsed_file;
-	t_player		*player;
-	int 			cell_size;
-}				t_mlx_vars;
 
 typedef struct	s_ray
 {
@@ -137,6 +131,18 @@ typedef struct	s_ray
 	int		facing_down;
 	int		facing_left;
 }				t_ray;
+
+typedef struct	s_mlx_vars
+{
+	void			*mlx;
+	void			*win;
+	t_game_file		*parsed_file;
+	t_player		*player;
+	t_ray			*rays;
+	int 			cell_size;
+	t_image_data 	*minimap;
+	t_image_data 	*view;
+}				t_mlx_vars;
 
 typedef struct	s_line_drawing
 {
@@ -175,18 +181,18 @@ t_player		*init_player(t_game_file *parsed_file, int cell_size);
 double			set_rotation_angle(char card);
 void			free_game_struct(t_mlx_vars *vars);
 void 			free_parsed_file(t_game_file *parsed_file);
-int				exit_game(t_mlx_vars *vars);;
+int				exit_game(t_mlx_vars *vars);
+int 			create_images(t_mlx_vars *vars);
 
 //render fct
-void			render_minimap(t_mlx_vars *vars, t_image_data *minimap, t_ray *rays);
+void			render_minimap(t_mlx_vars *vars);
 void			fill_map(t_mlx_vars *vars, t_image_data *minimap);
 void			fill_ray(t_mlx_vars *vars, t_image_data *minimap, t_ray *rays);
 void			fill_player(t_mlx_vars *vars, t_image_data *minimap);
 int				minimap_colors(char map_elem);
 int				is_wall(t_mlx_vars *vars, double x, double y);
 void			update_player_position(t_mlx_vars *vars);
-void			render_wall(t_mlx_vars *vars, t_image_data *view,
-					t_ray *rays);
+void			render_wall(t_mlx_vars *vars);
 double			fishbowl_correct(t_mlx_vars *vars, t_ray ray,
 					double projection_plane_distance);
 double			max_height_correct(double calculated_wall_height,
@@ -194,7 +200,7 @@ double			max_height_correct(double calculated_wall_height,
 t_point			ylocation_correct(double win_height,
 					double wall_height, int i);
 int				wall_color(t_ray ray);
-void			render_background(t_mlx_vars *vars, t_image_data *view);
+void			render_background(t_mlx_vars *vars);
 
 //event fcts
 int				key_press_hook(int keycode, t_mlx_vars *vars);
@@ -237,7 +243,7 @@ double			degree_to_radian(double angle);
 double			normalize_angle(double angle);
 
 //raycasting fct
-t_ray			*cast_all_rays(t_mlx_vars *vars);
+void			cast_all_rays(t_mlx_vars *vars);
 void			init_ray(t_ray *ray, double ray_angle);
 void			cast_ray(t_mlx_vars *vars, t_ray *ray);
 t_point			find_horizontal_intercept(t_mlx_vars *vars, t_ray ray);
