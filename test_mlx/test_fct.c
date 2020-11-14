@@ -13,31 +13,31 @@
 #include "cub3d.h"
 #include "libft.h"
 
-void test_parsed_map(t_game *parsed_map)
+void test_parsed_map(t_game_file *parsed_file)
 {
 	int i;
-	t_color floor;
-	t_color ceiling;
+	int floor;
+	int ceiling;
 
 	i = -1;
-	floor = parsed_map->floor_color;
-	ceiling = parsed_map->ceiling_color;
+	floor = parsed_file->floor_color;
+	ceiling = parsed_file->ceiling_color;
 	printf("---------Test de parsing du fichier de la map---------\n");
-	printf("Resolution fenetre largeur: %d - hauteur: %d\n", parsed_map->window_res.width, parsed_map->window_res.height);
-	printf("Resolution map largeur: %d - hauteur: %d\n", parsed_map->map_res.width, parsed_map->map_res.height);
-	printf("Position de depart du joueur: (x:%d, y: %d)\n", parsed_map->player_start.x, parsed_map->player_start.y);
-	printf("Sens de depart: %c\n", parsed_map->player_start_card);
-	printf("Texture mur nord: %s\n", parsed_map->no_text);
-	printf("Texture mur sud: %s\n", parsed_map->so_text);
-	printf("Texture mur ouest: %s\n", parsed_map->we_text);
-	printf("Texture mur est: %s\n", parsed_map->ea_text);
-	printf("Texture sprite: %s\n", parsed_map->sprite_text);
-	printf("Couleur du sol: R:%d, G:%d, B:%d\n", floor.r, floor.g, floor.b);
-	printf("Couleur du plafond: R:%d, G:%d, B:%d\n", ceiling.r, ceiling.g, ceiling.b);
+	printf("Resolution fenetre largeur: %d - hauteur: %d\n", parsed_file->win_res.width, parsed_file->win_res.height);
+	printf("Resolution map largeur: %d - hauteur: %d\n", parsed_file->map_res.width, parsed_file->map_res.height);
+	printf("Position de depart du joueur: (x:%f, y: %f)\n", parsed_file->player_start.x, parsed_file->player_start.y);
+	printf("Sens de depart: %c\n", parsed_file->player_start_card);
+	printf("Texture mur nord: %s\n", parsed_file->no_text);
+	printf("Texture mur sud: %s\n", parsed_file->so_text);
+	printf("Texture mur ouest: %s\n", parsed_file->we_text);
+	printf("Texture mur est: %s\n", parsed_file->ea_text);
+	printf("Texture sprite: %s\n", parsed_file->sprite_text);
+	printf("Couleur du sol: %d\n", floor);
+	printf("Couleur du plafond: %d\n", ceiling);
 	printf("La map : \n");
-	if (parsed_map->map)
-		while (parsed_map->map[++i])
-			printf("|%s|\n", parsed_map->map[i]);
+	if (parsed_file->map)
+		while (parsed_file->map[++i])
+			printf("|%s|\n", parsed_file->map[i]);
 	else
 		printf("Map invalid\n");
 }

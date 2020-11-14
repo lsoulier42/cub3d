@@ -16,7 +16,7 @@
 void	line_big_angle_loop(t_image_data *map, t_line_drawing big, int color)
 {
 	int		i;
-	int		rest;
+	double	rest;
 	t_point	coord;
 	t_point	step;
 	t_point	abs;
@@ -63,7 +63,7 @@ void	line_big_angle(t_image_data *map,
 
 void	line_low_angle_loop(t_image_data *map, t_line_drawing low, int color)
 {
-	int		rest;
+	double	rest;
 	int		i;
 	t_point	coord;
 	t_point	step;

@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/07 15:03:30 by louise            #+#    #+#             */
-/*   Updated: 2020/11/08 19:58:15 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/13 02:13:55 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 void	draw_line(t_image_data *map, t_point start, t_point end, int color)
 {
-	int dx;
-	int dy;
-	int absdx;
-	int absdy;
+	double dx;
+	double dy;
+	double absdx;
+	double absdy;
 
 	dx = end.x - start.x;
 	dy = end.y - start.y;

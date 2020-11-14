@@ -24,3 +24,19 @@ double	distance_points(t_point start, t_point end)
 	distance = sqrt(pow(dy, 2) + pow(dx, 2));
 	return (distance);
 }
+
+double	degree_to_radian(double angle)
+{
+	double radian;
+
+	radian = (M_PI * angle) / 180;
+	return (radian);
+}
+
+double	normalize_angle(double angle)
+{
+	angle = fmod(angle, (2 * M_PI));
+	if (angle < 0)
+		angle += (2 * M_PI);
+	return (angle);
+}

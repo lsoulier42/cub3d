@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 01:57:58 by louise            #+#    #+#             */
-/*   Updated: 2020/11/13 01:00:11 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 03:53:57 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,14 @@
 
 int		key_press_hook(int keycode, t_mlx_vars *vars)
 {
-	t_player	*player;
-
-	player = &vars->player;
 	if (keycode == ARROW_UP)
-		player->walk_direction = FORWARD;
+		vars->player->walk_direction = FORWARD;
 	else if (keycode == ARROW_DOWN)
-		player->walk_direction = BACKWARD;
+		vars->player->walk_direction = BACKWARD;
 	else if (keycode == ARROW_LEFT)
-		player->turn_direction = ROT_LEFT;
+		vars->player->turn_direction = ROT_LEFT;
 	else if (keycode == ARROW_RIGHT)
-		player->turn_direction = ROT_RIGHT;
+		vars->player->turn_direction = ROT_RIGHT;
 	else if (keycode == ESCAPE)
 		exit_game(vars);
 	return (1);
@@ -33,36 +30,41 @@ int		key_press_hook(int keycode, t_mlx_vars *vars)
 
 int		key_release_hook(int keycode, t_mlx_vars *vars)
 {
-	t_player	*player;
-
-	player = &vars->player;
 	if (keycode == ARROW_UP)
-		player->walk_direction = 0;
+		vars->player->walk_direction = 0;
 	else if (keycode == ARROW_DOWN)
-		player->walk_direction = 0;
+		vars->player->walk_direction = 0;
 	else if (keycode == ARROW_LEFT)
-		player->turn_direction = 0;
+		vars->player->turn_direction = 0;
 	else if (keycode == ARROW_RIGHT)
-		player->turn_direction = 0;
+		vars->player->turn_direction = 0;
 	return (1);
 }
 
 int		update_hook(t_mlx_vars *vars)
 {
 	t_image_data	view;
+	t_image_data	minimap;
 	t_ray			*rays;
+	t_dimension		win_res;
 
-	my_mlx_new_image(vars->mlx, &view, vars->win_res.width,
-		vars->win_res.height);
+	win_res = vars->parsed_file->win_res;
+	my_mlx_new_image(vars->mlx, &view, win_res.width, win_res.height);
+	my_mlx_new_image(vars->mlx, &minimap,
+		win_res.width * MINIMAP_SCALE, win_res.height * MINIMAP_SCALE);
 	update_player_position(vars);
 	rays = cast_all_rays(vars);
 	if (rays == NULL)
+	{
+		error_msg_alloc(RAYS_ALLOC_ERROR);
 		return (0);
+	}
 	render_wall(vars, &view, rays);
-	print_minimap(vars, rays);
+	render_minimap(vars, &minimap, rays);
 	mlx_put_image_to_window(vars->mlx, vars->win, view.img, 0, 0);
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->map_img.img, 0, 0);
+	mlx_put_image_to_window(vars->mlx, vars->win, minimap.img, 0, 0);
 	mlx_destroy_image(vars->mlx, view.img);
+	mlx_destroy_image(vars->mlx, minimap.img);
 	free(rays);
 	return (1);
 }

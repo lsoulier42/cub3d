@@ -78,7 +78,7 @@ void			ft_putstr_fd(char *s, int fd);
 void			ft_putendl_fd(char *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
 
-long			ft_abs(int n);
+double			ft_abs(double n);
 int				ft_atoi_base(char *str, char *base);
 int				ft_check_base(char *base);
 char			*ft_convert_base(char *nbr, char *base_from, char *base_to);

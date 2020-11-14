@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 22:06:07 by louise            #+#    #+#             */
-/*   Updated: 2020/11/10 01:23:34 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/14 02:10:30 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ void	set_map_texture(char *line, char **file_path)
 	*file_path = ft_strtrim(line, " ");
 }
 
-void	set_map_color(char *line, t_color *color)
+void	set_map_color(char *line, int *color)
 {
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
 
 	while (ft_isalpha(*line))
 		line++;
@@ -51,5 +51,5 @@ void	set_map_color(char *line, t_color *color)
 		line++;
 	line++;
 	b = (unsigned char)ft_atoi(line);
-	set_color(color, r, g, b);
+	*color = create_trgb(0, r, g, b);
 }

@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 16:00:41 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/12 22:30:55 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 04:20:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 t_point	first_horizontal_intercept(t_mlx_vars *vars, t_ray ray)
 {
 	t_point	horizontal;
+	int		tile_size;
 
-	horizontal.y = floor(vars->player.current_pos.y / vars->tile_size)
-		* vars->tile_size;
+	tile_size = vars->parsed_file->tile_size;
+	horizontal.y = floor(vars->player->current_pos.y / tile_size) * tile_size;
 	if (ray.facing_down)
-		horizontal.y += vars->tile_size;
-	horizontal.x = vars->player.current_pos.x
-		+ ((horizontal.y - vars->player.current_pos.y) / tan(ray.ray_angle));
+		horizontal.y += tile_size;
+	horizontal.x = vars->player->current_pos.x
+		+ ((horizontal.y - vars->player->current_pos.y) / tan(ray.angle));
 	return (horizontal);
 }
 
@@ -34,10 +35,10 @@ t_point	find_horizontal_intercept(t_mlx_vars *vars, t_ray ray)
 
 	offset_facing_up = 0;
 	next = first_horizontal_intercept(vars, ray);
-	ystep = vars->tile_size;
+	ystep = vars->parsed_file->tile_size;
 	if (!ray.facing_down)
 		ystep *= -1;
-	xstep = vars->tile_size / tan(ray.ray_angle);
+	xstep = vars->parsed_file->tile_size / tan(ray.angle);
 	if ((ray.facing_left && xstep > 0) || (!ray.facing_left && xstep < 0))
 		xstep *= -1;
 	if (!ray.facing_down)
@@ -53,13 +54,14 @@ t_point	find_horizontal_intercept(t_mlx_vars *vars, t_ray ray)
 t_point	first_vertical_intercept(t_mlx_vars *vars, t_ray ray)
 {
 	t_point	vertical;
+	int		tile_size;
 
-	vertical.x = floor(vars->player.current_pos.x / vars->tile_size)
-		* vars->tile_size;
+	tile_size = vars->parsed_file->tile_size;
+	vertical.x = floor(vars->player->current_pos.x / tile_size) * tile_size;
 	if (!ray.facing_left)
-		vertical.x += vars->tile_size;
-	vertical.y = vars->player.current_pos.y
-		+ ((vertical.x - vars->player.current_pos.x) * tan(ray.ray_angle));
+		vertical.x += tile_size;
+	vertical.y = vars->player->current_pos.y
+		+ ((vertical.x - vars->player->current_pos.x) * tan(ray.angle));
 	return (vertical);
 }
 
@@ -72,10 +74,10 @@ t_point	find_vertical_intercept(t_mlx_vars *vars, t_ray ray)
 
 	offset_facing_left = 0;
 	next = first_vertical_intercept(vars, ray);
-	xstep = vars->tile_size;
+	xstep = vars->parsed_file->tile_size;
 	if (ray.facing_left)
 		xstep *= -1;
-	ystep = vars->tile_size * tan(ray.ray_angle);
+	ystep = vars->parsed_file->tile_size * tan(ray.angle);
 	if ((!ray.facing_down && ystep > 0) || (ray.facing_down && ystep < 0))
 		ystep *= -1;
 	if (ray.facing_left)

@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 22:07:27 by louise            #+#    #+#             */
-/*   Updated: 2020/11/13 01:04:06 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 03:47:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	**create_map(char **map, char *line, int line_nb)
 	return (new_map);
 }
 
-void	set_player_start(t_game *parsed_map)
+void	set_player_start(t_game_file *parsed_file)
 {
 	int		x;
 	int		y;
@@ -38,19 +38,19 @@ void	set_player_start(t_game *parsed_map)
 	int		found;
 
 	y = -1;
-	line = parsed_map->map[0];
+	line = parsed_file->map[0];
 	found = 0;
 	while (!found && line)
 	{
 		x = -1;
-		line = parsed_map->map[++y];
+		line = parsed_file->map[++y];
 		while (!found && line[++x])
 			if (ft_strchr(CARD_CHARSET, line[x]) != NULL)
 				found = 1;
 	}
-	set_point(&(parsed_map->player_start), x, y);
-	parsed_map->player_start_card = parsed_map->map[y][x];
-	parsed_map->map[y][x] = '0';
+	set_point(&(parsed_file->player_start), x, y);
+	parsed_file->player_start_card = parsed_file->map[y][x];
+	parsed_file->map[y][x] = '0';
 }
 
 int		check_map(char **map, int map_height)
@@ -76,15 +76,17 @@ int		check_map(char **map, int map_height)
 	return (1);
 }
 
-void	set_parsed_map(t_game *parsed_map, char **map,
+void	set_parsed_file(t_game_file *parsed_file, char **map,
 	int map_width, int map_height)
 {
-	parsed_map->map = map;
-	set_dimension(&(parsed_map->map_res), map_width, map_height);
-	set_player_start(parsed_map);
+	parsed_file->map = map;
+	set_dimension(&(parsed_file->map_res), map_width, map_height);
+	set_player_start(parsed_file);
+	parsed_file->tile_size = parsed_file->win_res.width
+		/ parsed_file->map_res.width;
 }
 
-void	set_map(t_game *parsed_map, char **line, int fd)
+void	set_map(t_game_file *parsed_file, char **line, int fd)
 {
 	int		line_nb;
 	int		max_width;
@@ -108,6 +110,6 @@ void	set_map(t_game *parsed_map, char **line, int fd)
 			ret_gnl = get_next_line(fd, line);
 		}
 		if (check_map(map, line_nb))
-			set_parsed_map(parsed_map, map, max_width, line_nb);
+			set_parsed_file(parsed_file, map, max_width, line_nb);
 	}
 }

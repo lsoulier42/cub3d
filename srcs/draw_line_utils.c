@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/08 19:55:26 by louise            #+#    #+#             */
-/*   Updated: 2020/11/12 14:42:15 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/13 02:16:21 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	line_diagonal(t_image_data *map,
 	t_point start, t_point end, int color)
 {
 	t_point	coord;
-	int		diff;
+	double	diff;
 	int		xstep;
 	int		ystep;
 	int		i;
@@ -42,11 +42,11 @@ void	line_diagonal(t_image_data *map,
 void	line_horizontal(t_image_data *map,
 	t_point start, t_point end, int color)
 {
-	int	x;
-	int	y;
-	int	absdx;
-	int	xstep;
-	int	i;
+	double	x;
+	double	y;
+	double	absdx;
+	double	xstep;
+	int		i;
 
 	x = start.x;
 	y = start.y;
@@ -66,11 +66,11 @@ void	line_horizontal(t_image_data *map,
 void	line_vertical(t_image_data *map,
 	t_point start, t_point end, int color)
 {
-	int x;
-	int y;
-	int ystep;
-	int i;
-	int absdy;
+	double	x;
+	double	y;
+	double	ystep;
+	int		i;
+	double	absdy;
 
 	x = start.x;
 	y = start.y;

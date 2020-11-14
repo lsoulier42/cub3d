@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/13 02:08:34 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/14 04:12:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # define ROT_RIGHT 1
 # define ROT_LEFT -1
 # define ESCAPE 65307
-# define FOV_ANGLE 60
-# define MINIMAP_SCALE 0.2
+# define FOV_ANGLE 50
+# define MINIMAP_SCALE 1
 
 typedef enum	e_map_elem
 {
@@ -63,7 +63,13 @@ typedef enum	e_const_error
 	EXT_ERROR,
 	PARSING_ERROR,
 	FILE_ERROR,
-	ARG_ERROR
+	ARG_ERROR,
+	MLX_INIT_ERROR,
+	MLX_WINDOW_ERROR,
+	VARS_ALLOC_ERROR,
+	PLAYER_ALLOC_ERROR,
+	RAYS_ALLOC_ERROR,
+	PARSED_FILE_ALLOC_ERROR
 }				t_const_error;
 
 typedef struct	s_point
@@ -78,28 +84,22 @@ typedef struct	s_dimension
 	double height;
 }				t_dimension;
 
-typedef struct	s_color
-{
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
-}				t_color;
-
-typedef struct	s_game
+typedef struct	s_game_file
 {
 	char		**map;
 	t_point		player_start;
 	char		player_start_card;
 	t_dimension	map_res;
-	t_dimension	window_res;
+	t_dimension	win_res;
+	int 		tile_size;
 	char		*no_text;
 	char		*so_text;
 	char		*we_text;
 	char		*ea_text;
 	char		*sprite_text;
-	t_color		floor_color;
-	t_color		ceiling_color;
-}				t_game;
+	int 		floor_color;
+	int 		ceiling_color;
+}				t_game_file;
 
 typedef struct	s_image_data
 {
@@ -125,23 +125,18 @@ typedef struct	s_mlx_vars
 {
 	void			*mlx;
 	void			*win;
-	char			**map;
-	t_image_data	map_img;
-	t_dimension		win_res;
-	t_dimension		map_res;
-	int				tile_size;
-	t_player		player;
+	t_game_file		*parsed_file;
+	t_player		*player;
 }				t_mlx_vars;
 
 typedef struct	s_ray
 {
 	double	distance;
+	double	angle;
 	t_point	wall_hit;
 	int		was_hit_vertical;
-	double	ray_angle;
 	int		facing_down;
 	int		facing_left;
-	int		column_index;
 }				t_ray;
 
 typedef struct	s_line_drawing
@@ -151,48 +146,46 @@ typedef struct	s_line_drawing
 	t_point	abs;
 }				t_line_drawing;
 
-//file functions
-int				check_file(char *path);
-void			close_game_files(t_game *parsed_map);
-
-//exit and error fct
-int				exit_game(t_mlx_vars *vars);
-int				error_msg(int error_type);
+//error fct
+void			error_msg(int error_type);
+void			error_msg_alloc(int error_type);
 
 //basic struct fct
 void			set_point(t_point *point, double x, double y);
-void			set_dimension(t_dimension *dimension, int width, int height);
-void			set_color(t_color *color, unsigned char r, unsigned char g,
-					unsigned char b);
+void			set_dimension(t_dimension *dimension, double width, double height);
 
 //parsing functions
-t_game			*parse_file(char *path);
-t_game			*init_parsed_map(void);
-void			check_config(t_game	*parsed_map, char **line, int fd);
+int				check_file(char *path);
+t_game_file		*parse_file(char *path);
+t_game_file		*init_parsed_file(void);
+void			check_config(t_game_file *parsed_file, char **line, int fd);
 void			set_window_res(char *line, t_dimension *window_res);
 void			set_map_texture(char *line, char **file_path);
-void			set_map_color(char *line, t_color *color);
-void			set_map(t_game *parsed_map, char **line, int fd);
+void			set_map_color(char *line, int *color);
+void			set_map(t_game_file *parsed_file, char **line, int fd);
 char			**create_map(char **map, char *line, int nb_lines);
-void			set_player_start(t_game *parsed_map);
+void			set_player_start(t_game_file *parsed_file);
 int				check_map(char **map, int map_height);
-void			set_parsed_map(t_game *parsed_map, char **map,
+void			set_parsed_file(t_game_file *parsed_file, char **map,
 					int map_width, int map_height);
 
 //initialize mlx game vars
-void			init_vars(t_mlx_vars *vars, t_game *parsed_map);
-void			init_player(t_player *player, t_point start, char card,
-					int tile_size);
+t_mlx_vars		*create_vars_struct(t_game_file *parsed_file);
+int				create_window(t_mlx_vars *vars);
+t_player		*init_player(t_game_file *parsed_file);
+double			set_rotation_angle(char card);
+void			free_game_struct(t_mlx_vars *vars);
+void 			free_parsed_file(t_game_file *parsed_file);
+int				exit_game(t_mlx_vars *vars);;
 
 //render fct
-void			fill_map(t_image_data *map_img, char **map_array,
-					int tile_size);
-int				tile_color(char map_elem);
-void			print_player(t_mlx_vars *vars, t_player player);
+void			render_minimap(t_mlx_vars *vars, t_image_data *minimap, t_ray *rays);
+void			fill_map(t_mlx_vars *vars, t_image_data *minimap);
+void			fill_ray(t_mlx_vars *vars, t_image_data *minimap, t_ray *rays);
+void			fill_player(t_mlx_vars *vars, t_image_data *minimap);
+int				minimap_colors(char map_elem);
 int				is_wall(t_mlx_vars *vars, double x, double y);
 void			update_player_position(t_mlx_vars *vars);
-void			print_minimap(t_mlx_vars *vars, t_ray *rays);
-void			render_ray(t_mlx_vars *vars, t_ray *rays);
 void			render_wall(t_mlx_vars *vars, t_image_data *view,
 					t_ray *rays);
 double			fishbowl_correct(t_mlx_vars *vars, t_ray ray,
@@ -201,7 +194,7 @@ double			max_height_correct(double calculated_wall_height,
 					double win_height);
 t_point			ylocation_correct(double win_height,
 					double wall_height, int i);
-int				wall_color(double wall_height, double win_height);
+int				wall_color(t_ray ray);
 
 //event fcts
 int				key_press_hook(int keycode, t_mlx_vars *vars);
@@ -245,7 +238,7 @@ double			normalize_angle(double angle);
 
 //raycasting fct
 t_ray			*cast_all_rays(t_mlx_vars *vars);
-void			init_ray(t_ray *ray, double ray_angle, int column_index);
+void			init_ray(t_ray *ray, double ray_angle);
 void			cast_ray(t_mlx_vars *vars, t_ray *ray);
 t_point			find_horizontal_intercept(t_mlx_vars *vars, t_ray ray);
 t_point			first_horizontal_intercept(t_mlx_vars *vars, t_ray ray);
