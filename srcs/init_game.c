@@ -6,12 +6,38 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:27:36 by louise            #+#    #+#             */
-/*   Updated: 2020/11/14 20:08:10 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/15 21:16:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "libft.h"
+
+int load_game(t_mlx_vars **vars, t_game_file *parsed_file)
+{
+	*vars = create_vars_struct(parsed_file);
+	if (!(*vars))
+	{
+		error_msg(STRUCT_ERROR);
+		return (0);
+	}
+	if (create_window(*vars) != 1)
+	{
+		error_msg(MLX_ERROR);
+		return (0);
+	}
+	if (create_images(*vars) != 1)
+	{
+		error_msg(IMAGE_ERROR);
+		return (0);
+	}
+	if (init_texture_files(*vars) != 1)
+	{
+		error_msg(TEXTURE_ERROR);
+		return (0);
+	}
+	return (1);
+}
 
 t_mlx_vars	*create_vars_struct(t_game_file *parsed_file)
 {
@@ -69,60 +95,21 @@ int 		create_images(t_mlx_vars *vars)
 	win_res = vars->parsed_file->win_res;
 	map_res = vars->parsed_file->map_res;
 	vars->view = (t_image_data*)malloc(sizeof(t_image_data));
-	if (!vars->view)
+	vars->minimap = (t_image_data*)malloc(sizeof(t_image_data));
+	if (!vars->view || !vars->minimap)
 	{
 		error_msg_alloc(IMAGE_ALLOC_ERROR);
 		return (0);
 	}
 	my_mlx_new_image(vars->mlx, vars->view, win_res.width, win_res.height);
-	vars->minimap = (t_image_data*)malloc(sizeof(t_image_data));
-	if (!vars->minimap)
+	my_mlx_new_image(vars->mlx, vars->minimap,
+	map_res.width * vars->cell_size,
+	map_res.height * vars->cell_size);
+	if (!vars->view->img || !vars->view->addr
+		||!vars->minimap->img || !vars->minimap->addr)
 	{
-		error_msg_alloc(IMAGE_ALLOC_ERROR);
+		error_msg(IMAGE_CREATION_ERROR);
 		return (0);
 	}
-	my_mlx_new_image(vars->mlx, vars->minimap,
-		map_res.width * vars->cell_size,
-		map_res.height * vars->cell_size);
 	return (1);
-}
-
-double		set_rotation_angle(char card)
-{
-	double angle;
-
-	if (card == 'S')
-		angle = M_PI / 2;
-	else if (card == 'N')
-		angle = (3 * M_PI) / 2;
-	else if (card == 'E')
-		angle = 0;
-	else
-		angle = M_PI;
-	return (angle);
-}
-
-t_player	*init_player(t_game_file *parsed_file, int cell_size)
-{
-	t_player	*player;
-	t_point		start;
-	char		card;
-
-	player = (t_player*)malloc(sizeof(t_player));
-	if (!player)
-	{
-		error_msg_alloc(PLAYER_ALLOC_ERROR);
-		return (NULL);
-	}
-	start = parsed_file->player_start;
-	card = parsed_file->player_start_card;
-	set_point(&player->current_pos, start.x * cell_size, start.y * cell_size);
-	player->size = cell_size / 4;
-	player->turn_direction = 0;
-	player->walk_direction = 0;
-	player->rotation_angle = set_rotation_angle(card);
-	player->move_speed = 3.0;
-	player->rotation_speed = (3.0 * M_PI) / 180;
-	player->direction_angle = 0;
-	return (player);
 }

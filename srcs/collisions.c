@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 03:26:35 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/14 19:56:03 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/15 15:28:37 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		is_wall(t_mlx_vars *vars, double x, double y)
 		|| index_x >= map_res.width || index_y >= map_res.height)
 		return (1);
 	else
-		return (map[index_y][index_x] == '1');
+		return (map[index_y][index_x] != '0');
 }
 
 void	update_player_position(t_mlx_vars *vars)

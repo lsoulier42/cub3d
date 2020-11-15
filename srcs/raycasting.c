@@ -6,37 +6,29 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 20:03:06 by user42            #+#    #+#             */
-/*   Updated: 2020/11/14 16:43:26 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/15 17:05:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "cub3d.h"
 
-void	cast_ray(t_mlx_vars *vars, t_ray *ray)
+char	is_wall_raycasting(t_mlx_vars *vars, t_point next_touch)
 {
-	t_point	horizontal_intercept;
-	t_point	vertical_intercept;
-	double	horizontal_distance;
-	double	vertical_distance;
+	int			index_x;
+	int			index_y;
+	char		**map;
+	t_dimension	map_res;
 
-	horizontal_intercept = find_horizontal_intercept(vars, *ray);
-	vertical_intercept = find_vertical_intercept(vars, *ray);
-	horizontal_distance = distance_points(vars->player->current_pos,
-		horizontal_intercept);
-	vertical_distance = distance_points(vars->player->current_pos,
-		vertical_intercept);
-	if (vertical_distance >= horizontal_distance)
-	{
-		ray->distance = horizontal_distance;
-		ray->wall_hit = horizontal_intercept;
-	}
+	map = vars->parsed_file->map;
+	map_res = vars->parsed_file->map_res;
+	index_x = floor(next_touch.x / vars->cell_size);
+	index_y = floor(next_touch.y / vars->cell_size);
+	if (index_x < 0 || index_y < 0
+		|| index_x >= map_res.width || index_y >= map_res.height)
+		return ('1');
 	else
-	{
-		ray->distance = vertical_distance;
-		ray->wall_hit = vertical_intercept;
-		ray->was_hit_vertical = 1;
-	}
+		return (map[index_y][index_x]);
 }
 
 void	init_ray(t_ray *ray, double ray_angle)
@@ -50,6 +42,11 @@ void	init_ray(t_ray *ray, double ray_angle)
 		ray->facing_down = 1;
 	if (ray_angle > (M_PI * 0.5) && ray_angle < (1.5 * M_PI))
 		ray->facing_left = 1;
+	ray->was_hit_north = 0;
+	ray->was_hit_south = 0;
+	ray->was_hit_west = 0;
+	ray->was_hit_east = 0;
+	ray->wall_hit_content = '1';
 	ray->was_hit_vertical = 0;
 }
 
@@ -66,7 +63,8 @@ void	cast_all_rays(t_mlx_vars *vars)
 	while (++i < nb_column)
 	{
 		init_ray(&vars->rays[i], normalize_angle(ray_angle));
-		cast_ray(vars, vars->rays + i);
+		find_horizontal_intercept(vars, &vars->rays[i]);
+		find_vertical_intercept(vars, &vars->rays[i]);
 		ray_angle += degree_to_radian(FOV_ANGLE) / nb_column;
 	}
 }

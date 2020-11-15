@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 01:36:40 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/14 16:57:19 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/15 21:09:30 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,30 @@ void	free_parsed_file(t_game_file *parsed_file)
 	free(parsed_file);
 }
 
+void 	free_textures(t_mlx_vars *vars)
+{
+	if (vars->south_text)
+	{
+		mlx_destroy_image(vars->mlx, vars->south_text->img);
+		free(vars->south_text);
+	}
+	if (vars->north_text)
+	{
+		mlx_destroy_image(vars->mlx, vars->north_text->img);
+		free(vars->north_text);
+	}
+	if (vars->west_text)
+	{
+		mlx_destroy_image(vars->mlx, vars->west_text->img);
+		free(vars->west_text);
+	}
+	if (vars->east_text)
+	{
+		mlx_destroy_image(vars->mlx, vars->east_text->img);
+		free(vars->east_text);
+	}
+}
+
 void	free_game_struct(t_mlx_vars *vars)
 {
 	if (vars->player)
@@ -45,6 +69,7 @@ void	free_game_struct(t_mlx_vars *vars)
 		mlx_destroy_image(vars->mlx, vars->minimap->img);
 		free(vars->minimap);
 	}
+	free_textures(vars);
 	free(vars);
 }
 

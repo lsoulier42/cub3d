@@ -20,11 +20,13 @@ SRCS=		main.c \
 			raycasting.c \
 			raycasting_intercept.c \
 			render_wall.c \
-			render_background.c
+			render_background.c \
+			texture.c \
+			init_game_utils.c
 OBJS=		${addprefix srcs/,${SRCS:.c=.o}}
 HEAD=		-I includes -I libft/includes -I minilibx
 CC=			gcc
-CFLAGS=		-Wall -Werror -Wextra
+CFLAGS=
 LDFLAGS=	-L libft -L minilibx
 LIBS=		-lm -lft -lmlx -lXext -lX11
 

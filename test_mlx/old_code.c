@@ -383,3 +383,20 @@ void	get_sprite(t_image_data sprite_sheet,
 		}
 	}
 }
+
+int wall_line;
+double height_ratio;
+int color;
+int y;
+
+y = -1;
+if (vars->rays[ray_index].was_hit_north)
+{
+wall_line = fmod(vars->rays[ray_index].wall_hit.x, vars->south_text->width);
+height_ratio = elem_dimension.height / vars->south_text->height;
+while (++y < elem_dimension.height)
+{
+color = get_texture_color(vars->south_text, wall_line, y / height_ratio);
+my_mlx_pixel_put(vars->view, location.x, location.y + y, color);
+}
+}

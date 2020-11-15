@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/14 19:51:39 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/16 00:01:38 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <math.h>
 # include <stdio.h>
 # include <mlx.h>
-# include <time.h>
 # define CARD_CHARSET "NSEW"
 # define ESCAPE 65307
 # define W_KEY 119
@@ -55,7 +54,8 @@ typedef enum	e_const_color
 	GREEN,
 	PURPLE,
 	PINK,
-	ORANGE
+	ORANGE,
+	GRAY
 }				t_const_color;
 
 typedef enum	e_const_error
@@ -64,14 +64,23 @@ typedef enum	e_const_error
 	PARSING_ERROR,
 	FILE_ERROR,
 	ARG_ERROR,
+	STRUCT_ERROR,
+	MLX_ERROR,
 	MLX_INIT_ERROR,
 	MLX_WINDOW_ERROR,
+	IMAGE_ERROR,
 	VARS_ALLOC_ERROR,
 	PLAYER_ALLOC_ERROR,
 	RAYS_ALLOC_ERROR,
 	PARSED_FILE_ALLOC_ERROR,
-	IMAGE_ALLOC_ERROR
+	IMAGE_ALLOC_ERROR,
+	TEXTURE_ERROR,
+	TEXTURE_ALLOC_ERROR,
+	TEXTURE_ADDR_ERROR,
+	IMAGE_CREATION_ERROR
 }				t_const_error;
+
+
 
 typedef struct	s_point
 {
@@ -110,6 +119,17 @@ typedef struct	s_image_data
 	int			endian;
 }				t_image_data;
 
+typedef struct	s_texture_data
+{
+	void		*img;
+	char		*addr;
+	int			bits_per_pixel;
+	int			line_length;
+	int			endian;
+	int 		width;
+	int 		height;
+}				t_texture_data;
+
 typedef struct	s_player
 {
 	t_point			current_pos;
@@ -127,9 +147,14 @@ typedef struct	s_ray
 	double	distance;
 	double	angle;
 	t_point	wall_hit;
-	int		was_hit_vertical;
 	int		facing_down;
 	int		facing_left;
+	char 	wall_hit_content;
+	int 	was_hit_vertical;
+	int 	was_hit_north;
+	int 	was_hit_south;
+	int 	was_hit_west;
+	int 	was_hit_east;
 }				t_ray;
 
 typedef struct	s_mlx_vars
@@ -142,6 +167,10 @@ typedef struct	s_mlx_vars
 	int 			cell_size;
 	t_image_data 	*minimap;
 	t_image_data 	*view;
+	t_texture_data	*south_text;
+	t_texture_data	*north_text;
+	t_texture_data	*west_text;
+	t_texture_data	*east_text;
 }				t_mlx_vars;
 
 typedef struct	s_line_drawing
@@ -154,6 +183,7 @@ typedef struct	s_line_drawing
 //error fct
 void			error_msg(int error_type);
 void			error_msg_alloc(int error_type);
+void 			error_msg_texture(char *filepath);
 
 //basic struct fct
 void			set_point(t_point *point, double x, double y);
@@ -175,6 +205,7 @@ void			set_parsed_file(t_game_file *parsed_file, char **map,
 					int map_width, int map_height);
 
 //initialize mlx game vars
+int 			load_game(t_mlx_vars **vars, t_game_file *parsed_file);
 t_mlx_vars		*create_vars_struct(t_game_file *parsed_file);
 int				create_window(t_mlx_vars *vars);
 t_player		*init_player(t_game_file *parsed_file, int cell_size);
@@ -195,11 +226,6 @@ void			update_player_position(t_mlx_vars *vars);
 void			render_wall(t_mlx_vars *vars);
 double			fishbowl_correct(t_mlx_vars *vars, t_ray ray,
 					double projection_plane_distance);
-double			max_height_correct(double calculated_wall_height,
-					double win_height);
-t_point			ylocation_correct(double win_height,
-					double wall_height, int i);
-int				wall_color(t_ray ray);
 void			render_background(t_mlx_vars *vars);
 
 //event fcts
@@ -245,10 +271,19 @@ double			normalize_angle(double angle);
 //raycasting fct
 void			cast_all_rays(t_mlx_vars *vars);
 void			init_ray(t_ray *ray, double ray_angle);
-void			cast_ray(t_mlx_vars *vars, t_ray *ray);
-t_point			find_horizontal_intercept(t_mlx_vars *vars, t_ray ray);
-t_point			first_horizontal_intercept(t_mlx_vars *vars, t_ray ray);
-t_point			find_vertical_intercept(t_mlx_vars *vars, t_ray ray);
-t_point			first_vertical_intercept(t_mlx_vars *vars, t_ray ray);
+void			find_horizontal_intercept(t_mlx_vars *vars, t_ray *ray);
+void 			find_horizontal_intercept_loop(t_mlx_vars *vars, t_ray *ray, t_point next, t_point step);
+char			is_wall_raycasting(t_mlx_vars *vars, t_point next_touch);
+void			find_vertical_intercept(t_mlx_vars *vars, t_ray *ray);
+void 			find_vertical_intercept_loop(t_mlx_vars *vars, t_ray *ray, t_point next, t_point step);
+void			reset_ray_setting(t_ray *ray, double vertical_len, t_point wall_found,
+						  char hit_content);
 
+//textures fct
+int 			init_texture_files(t_mlx_vars *vars);
+int 			get_texture_color(t_texture_data *img, int x, int y);
+void 			map_texture(t_mlx_vars *vars, t_dimension elem_dimension, int ray_index);
+void			set_line_texture(t_mlx_vars *vars, t_texture_data *text, t_dimension elem_dimension, int ray_index);
+int				get_texture_offset_x(t_point wall_hit, int was_hit_vertical,
+							int cell_size, int text_width);
 #endif

@@ -41,6 +41,8 @@ int		color_trgb(int const_color)
 		color = create_trgb(0, 255, 192, 203);
 	else if (const_color == ORANGE)
 		color = create_trgb(0, 255, 168, 0);
+	else if (const_color == GRAY)
+		color = create_trgb(0, 180, 180, 180);
 	return (color);
 }
 
