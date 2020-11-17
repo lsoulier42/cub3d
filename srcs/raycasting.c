@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 20:03:06 by user42            #+#    #+#             */
-/*   Updated: 2020/11/15 17:05:43 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/17 23:48:33 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,19 @@ void	cast_all_rays(t_mlx_vars *vars)
 	double	ray_angle;
 	int		i;
 	int		nb_column;
+	double	to_projection_plane;
 
 	i = -1;
 	nb_column = vars->parsed_file->win_res.width;
-	ray_angle = normalize_angle(vars->player->rotation_angle)
-		- (degree_to_radian(FOV_ANGLE / 2));
+	//ray_angle = vars->player->rotation_angle - degree_to_radian(FOV_ANGLE / 2);
+	to_projection_plane = (vars->parsed_file->win_res.width / 2)
+			/ tan (degree_to_radian(FOV_ANGLE / 2));
 	while (++i < nb_column)
 	{
+		ray_angle = vars->player->rotation_angle + atan((i - (nb_column / 2)) / to_projection_plane);
 		init_ray(&vars->rays[i], normalize_angle(ray_angle));
 		find_horizontal_intercept(vars, &vars->rays[i]);
 		find_vertical_intercept(vars, &vars->rays[i]);
-		ray_angle += degree_to_radian(FOV_ANGLE) / nb_column;
+		//ray_angle += degree_to_radian(FOV_ANGLE) / nb_column;
 	}
 }

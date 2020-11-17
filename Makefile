@@ -35,7 +35,6 @@ LIBS=		-lm -lft -lmlx -lXext -lX11
 ${NAME}:	${OBJS}
 		${CC} ${CFLAGS} ${LDFLAGS} ${OBJS} -o ${NAME} ${LIBS}
 all:	${NAME}
-		./${NAME} map.cub;
 clean:
 		rm -rf ${OBJS}
 fclean:	clean

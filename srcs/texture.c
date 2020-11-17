@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 17:59:34 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/16 00:12:38 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/18 00:10:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int		get_texture_color(t_texture_data *img, int x, int y)
 {
 	char	*dst;
 
+	if (y < 0)
+		y = 0;
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	return (*(unsigned int*)dst);
 }
@@ -59,8 +61,9 @@ void	set_line_texture(t_mlx_vars *vars, t_texture_data *text,
 		texture_offset.y = (int)(y + (elem_dimension.height / 2)
 			- (vars->parsed_file->win_res.height / 2))
 			* (text->height / elem_dimension.height);
+		int test = get_texture_color(text, texture_offset.x, texture_offset.y);
 		my_mlx_pixel_put(vars->view, ray_index, y,
-			get_texture_color(text, texture_offset.x, texture_offset.y));
+			test);
 	}
 }
 

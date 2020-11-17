@@ -80,8 +80,6 @@ typedef enum	e_const_error
 	IMAGE_CREATION_ERROR
 }				t_const_error;
 
-
-
 typedef struct	s_point
 {
 	double x;
