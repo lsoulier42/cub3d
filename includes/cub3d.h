@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/20 20:36:09 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/21 00:10:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct	s_mlx_vars
 	t_game_file		*parsed_file;
 	t_player		*player;
 	t_ray			*rays;
+	int 			save;
 	int 			cell_size;
 	t_image_data 	*minimap;
 	t_image_data 	*view;
@@ -152,7 +153,9 @@ int				check_color_config(t_game_file *parsed_file, char *line);
 int 			check_resolution_config(t_game_file *parsed_file, char *line);
 
 //initialize mlx game vars
-int 			load_game(t_mlx_vars **vars, t_game_file *parsed_file);
+int 			init_game(t_mlx_vars *vars, char *first_arg, int save_opt);
+int 			create_game_struct(t_mlx_vars **vars,
+						  t_game_file *parsed_file, int save_opt);
 t_mlx_vars		*create_vars_struct(t_game_file *parsed_file);
 int				create_window(t_mlx_vars *vars);
 t_player		*init_player(t_game_file *parsed_file, int cell_size);

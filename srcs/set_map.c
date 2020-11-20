@@ -51,14 +51,14 @@ int		check_map(char **map)
 	int		map_height;
 
 	y = -1;
-	not_wall = "02NSWE ";
+	not_wall = "02NSWE";
 	map_height = 0;
 	while (map[map_height])
 		map_height++;
 	while (map[++y])
 	{
 		x = -1;
-		printf("%s\n", map[y]);
+		printf("%s\n", map[y]);///////////////////////////// a retirer
 		line_len = (int)ft_strlen(map[y]);
 		while (map[y][++x])
 			if ((ft_strchr(not_wall, map[y][x]) != NULL) && (y == 0 || x == 0

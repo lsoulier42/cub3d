@@ -6,14 +6,35 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:27:36 by louise            #+#    #+#             */
-/*   Updated: 2020/11/20 18:04:02 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/21 00:10:18 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "libft.h"
 
-int load_game(t_mlx_vars **vars, t_game_file *parsed_file)
+int init_game(t_mlx_vars *vars, char *first_arg, int save_opt)
+{
+	t_game_file	*parsed_file;
+
+	parsed_file = parse_file(first_arg);
+	if (!parsed_file)
+	{
+		error_msg(PARSING_ERROR);
+		return (0);
+	}
+	else
+	{
+		if (create_game_struct(&vars, parsed_file, save_opt))
+			event_mngt(vars);
+		if (vars)
+			free_game_struct(vars);
+		free_parsed_file(parsed_file);
+	}
+	return (1);
+}
+
+int create_game_struct(t_mlx_vars **vars, t_game_file *parsed_file, int save_opt)
 {
 	*vars = create_vars_struct(parsed_file);
 	if (!(*vars))
@@ -21,6 +42,7 @@ int load_game(t_mlx_vars **vars, t_game_file *parsed_file)
 		error_msg(STRUCT_ERROR);
 		return (0);
 	}
+	(*vars)->save = save_opt;
 	if (create_window(*vars) != 1)
 		return (0);
 	if (create_images(*vars) != 1)
