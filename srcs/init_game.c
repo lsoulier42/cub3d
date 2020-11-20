@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:27:36 by louise            #+#    #+#             */
-/*   Updated: 2020/11/15 21:16:45 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/20 18:04:02 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ int load_game(t_mlx_vars **vars, t_game_file *parsed_file)
 		return (0);
 	}
 	if (create_window(*vars) != 1)
-	{
-		error_msg(MLX_ERROR);
 		return (0);
-	}
 	if (create_images(*vars) != 1)
 	{
 		error_msg(IMAGE_ERROR);
@@ -68,17 +65,24 @@ t_mlx_vars	*create_vars_struct(t_game_file *parsed_file)
 
 int			create_window(t_mlx_vars *vars)
 {
-	t_dimension win_res;
+	t_dimension *win_res;
+	int 		screen_width;
+	int 		screen_height;
 
-	win_res = vars->parsed_file->win_res;
+	win_res = &vars->parsed_file->win_res;
 	vars->mlx = mlx_init();
 	if (vars->mlx == NULL)
 	{
 		error_msg(MLX_INIT_ERROR);
 		return (0);
 	}
+	mlx_get_screen_size(vars->mlx, &screen_width, &screen_height);
+	if (screen_width < win_res->width)
+		set_dimension(win_res, screen_width, win_res->height);
+	if (screen_height < win_res->height)
+		set_dimension(win_res, win_res->width, screen_height);
 	vars->win = mlx_new_window(vars->mlx,
-		win_res.width, win_res.height, "Cub3d");
+		win_res->width, win_res->height, "Cub3d");
 	if (vars->win == NULL)
 	{
 		error_msg(MLX_WINDOW_ERROR);

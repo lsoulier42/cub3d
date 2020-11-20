@@ -59,7 +59,6 @@ void	cast_all_rays(t_mlx_vars *vars)
 
 	i = -1;
 	nb_column = vars->parsed_file->win_res.width;
-	//ray_angle = vars->player->rotation_angle - degree_to_radian(FOV_ANGLE / 2);
 	to_projection_plane = (vars->parsed_file->win_res.width / 2)
 			/ tan (degree_to_radian(FOV_ANGLE / 2));
 	while (++i < nb_column)
@@ -68,6 +67,5 @@ void	cast_all_rays(t_mlx_vars *vars)
 		init_ray(&vars->rays[i], normalize_angle(ray_angle));
 		find_horizontal_intercept(vars, &vars->rays[i]);
 		find_vertical_intercept(vars, &vars->rays[i]);
-		//ray_angle += degree_to_radian(FOV_ANGLE) / nb_column;
 	}
 }

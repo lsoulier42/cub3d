@@ -1,4 +1,4 @@
-NAME=		cub3d.out
+NAME=		Cub3D
 SRCS=		main.c \
 			parse_file.c \
 			set_map.c \
@@ -22,17 +22,22 @@ SRCS=		main.c \
 			render_wall.c \
 			render_background.c \
 			texture.c \
-			init_game_utils.c
+			init_game_utils.c \
+			check_config.c
 OBJS=		${addprefix srcs/,${SRCS:.c=.o}}
 HEAD=		-I includes -I libft/includes -I minilibx
 CC=			gcc
-CFLAGS=
-LDFLAGS=	-L libft -L minilibx
+CFLAGS=		-Wall -Werror -Wextra
+LIBFT_DIR=	libft
+MLX_DIR=	minilibx
+LDFLAGS=	-L ${LIBFT_DIR} -L ${MLX_DIR}
 LIBS=		-lm -lft -lmlx -lXext -lX11
 
 .c.o:
 		${CC} ${CFLAGS} ${HEAD} -c $< -o ${<:.c=.o}
 ${NAME}:	${OBJS}
+		make -C ${LIBFT_DIR}
+		make -C ${MLX_DIR}
 		${CC} ${CFLAGS} ${LDFLAGS} ${OBJS} -o ${NAME} ${LIBS}
 all:	${NAME}
 clean:

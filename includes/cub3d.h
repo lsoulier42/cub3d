@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/16 00:01:38 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/20 20:36:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,65 +20,7 @@
 # include <math.h>
 # include <stdio.h>
 # include <mlx.h>
-# define CARD_CHARSET "NSEW"
-# define ESCAPE 65307
-# define W_KEY 119
-# define S_KEY 115
-# define A_KEY 97
-# define D_KEY 100
-# define FOV_ANGLE 60
-
-typedef enum	e_arrow
-{
-	ARROW_LEFT = 65361,
-	ARROW_UP,
-	ARROW_RIGHT,
-	ARROW_DOWN
-}				t_arrow;
-
-typedef enum	e_map_elem
-{
-	EMPTY,
-	WALL,
-	SPRITE,
-	ELEM_TOTAL
-}				t_map_elem;
-
-typedef enum	e_const_color
-{
-	BLACK,
-	WHITE,
-	RED,
-	BLUE,
-	YELLOW,
-	GREEN,
-	PURPLE,
-	PINK,
-	ORANGE,
-	GRAY
-}				t_const_color;
-
-typedef enum	e_const_error
-{
-	EXT_ERROR,
-	PARSING_ERROR,
-	FILE_ERROR,
-	ARG_ERROR,
-	STRUCT_ERROR,
-	MLX_ERROR,
-	MLX_INIT_ERROR,
-	MLX_WINDOW_ERROR,
-	IMAGE_ERROR,
-	VARS_ALLOC_ERROR,
-	PLAYER_ALLOC_ERROR,
-	RAYS_ALLOC_ERROR,
-	PARSED_FILE_ALLOC_ERROR,
-	IMAGE_ALLOC_ERROR,
-	TEXTURE_ERROR,
-	TEXTURE_ALLOC_ERROR,
-	TEXTURE_ADDR_ERROR,
-	IMAGE_CREATION_ERROR
-}				t_const_error;
+# include "constants.h"
 
 typedef struct	s_point
 {
@@ -178,29 +120,36 @@ typedef struct	s_line_drawing
 	t_point	abs;
 }				t_line_drawing;
 
+char			**realloc_map(char **data, int prev_size, int new_size);
+
 //error fct
 void			error_msg(int error_type);
 void			error_msg_alloc(int error_type);
 void 			error_msg_texture(char *filepath);
+void 			error_msg_parsing(int error_type);
 
 //basic struct fct
 void			set_point(t_point *point, double x, double y);
 void			set_dimension(t_dimension *dimension, double width, double height);
 
 //parsing functions
-int				check_file(char *path);
+int				check_cub_file(char *path);
+int 			check_extension_file(char *path, char *ext);
 t_game_file		*parse_file(char *path);
 t_game_file		*init_parsed_file(void);
-void			check_config(t_game_file *parsed_file, char **line, int fd);
-void			set_window_res(char *line, t_dimension *window_res);
-void			set_map_texture(char *line, char **file_path);
-void			set_map_color(char *line, int *color);
-void			set_map(t_game_file *parsed_file, char **line, int fd);
-char			**create_map(char **map, char *line, int nb_lines);
-void			set_player_start(t_game_file *parsed_file);
-int				check_map(char **map, int map_height);
-void			set_parsed_file(t_game_file *parsed_file, char **map,
-					int map_width, int map_height);
+int				read_cub_file(t_game_file *parsed_file, int fd);
+int				set_window_res(char *line, t_dimension *win_res);
+int				set_map_texture(char *line, char **text_path);
+int 			set_map_color(char *line, int *color);
+int 			check_color_format(char *line);
+int 			set_map(t_game_file *parsed_file, char **line, int fd);
+char			**create_map(char **line, int fd);
+int 			set_player_start(t_game_file *parsed_file);
+int				check_map(char **map);
+int				check_config(t_game_file *parsed_file, char *line);
+int				check_texture_config(t_game_file *parsed_file, char *line);
+int				check_color_config(t_game_file *parsed_file, char *line);
+int 			check_resolution_config(t_game_file *parsed_file, char *line);
 
 //initialize mlx game vars
 int 			load_game(t_mlx_vars **vars, t_game_file *parsed_file);
@@ -210,6 +159,7 @@ t_player		*init_player(t_game_file *parsed_file, int cell_size);
 double			set_rotation_angle(char card);
 void			free_game_struct(t_mlx_vars *vars);
 void 			free_parsed_file(t_game_file *parsed_file);
+void			free_text_path(t_game_file *parsed_file);
 int				exit_game(t_mlx_vars *vars);
 int 			create_images(t_mlx_vars *vars);
 

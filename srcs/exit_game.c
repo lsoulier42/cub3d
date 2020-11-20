@@ -6,26 +6,39 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 01:36:40 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/15 21:09:30 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/20 16:46:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "cub3d.h"
 
+void	free_text_path(t_game_file *parsed_file)
+{
+	if (parsed_file->no_text)
+		free(parsed_file->no_text);
+	if (parsed_file->so_text)
+		free(parsed_file->so_text);
+	if (parsed_file->we_text)
+		free(parsed_file->we_text);
+	if (parsed_file->ea_text)
+		free(parsed_file->ea_text);
+	if (parsed_file->sprite_text)
+		free(parsed_file->sprite_text);
+}
+
 void	free_parsed_file(t_game_file *parsed_file)
 {
 	int i;
 
 	i = -1;
-	while (parsed_file->map[++i])
-		free(parsed_file->map[i]);
-	free(parsed_file->map);
-	free(parsed_file->no_text);
-	free(parsed_file->so_text);
-	free(parsed_file->we_text);
-	free(parsed_file->ea_text);
-	free(parsed_file->sprite_text);
+	if (parsed_file->map)
+	{
+		while (parsed_file->map[++i])
+			free(parsed_file->map[i]);
+		free(parsed_file->map);
+	}
+	free_text_path(parsed_file);
 	free(parsed_file);
 }
 

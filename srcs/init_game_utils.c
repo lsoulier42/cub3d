@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 21:12:16 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/15 21:13:55 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/20 18:41:56 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ t_player	*init_player(t_game_file *parsed_file, int cell_size)
 	player->turn_direction = 0;
 	player->walk_direction = 0;
 	player->rotation_angle = set_rotation_angle(card);
-	player->move_speed = 3.0;
-	player->rotation_speed = (3.0 * M_PI) / 180;
+	player->move_speed = parsed_file->win_res.width * 4.0 / FOUR_K_RES_WIDTH;
+	player->rotation_speed = (player->move_speed * M_PI) / 180;
 	player->direction_angle = 0;
 	return (player);
 }

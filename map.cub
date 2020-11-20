@@ -1,12 +1,11 @@
 R 1920 1080
+
+F 128, 128, 128
+C 105, 105, 105
 NO /home/user42/cub3d/img/wall.xpm
 SO /home/user42/cub3d/img/wall2.xpm
 WE /home/user42/cub3d/img/wall.xpm
 EA /home/user42/cub3d/img/wall.xpm
-
-S /Users/louise/cub3d/textures/tiles.gif
-F 128, 128, 128
-C 105, 105, 105
 
         1111111111111111111111111
         1000000000110000000000001
