@@ -23,11 +23,12 @@ SRCS=		main.c \
 			render_background.c \
 			texture.c \
 			init_game_utils.c \
-			check_config.c
+			check_config.c \
+			save_bmp.c
 OBJS=		${addprefix srcs/,${SRCS:.c=.o}}
 HEAD=		-I includes -I libft/includes -I minilibx
 CC=			gcc
-CFLAGS=		-Wall -Werror -Wextra
+CFLAGS=
 LIBFT_DIR=	libft
 MLX_DIR=	minilibx
 LDFLAGS=	-L ${LIBFT_DIR} -L ${MLX_DIR}

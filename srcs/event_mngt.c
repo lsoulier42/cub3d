@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 01:57:58 by louise            #+#    #+#             */
-/*   Updated: 2020/11/21 00:14:16 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/21 09:49:19 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,6 @@ int		key_release_hook(int keycode, t_mlx_vars *vars)
 	return (1);
 }
 
-void	save_bmp(t_mlx_vars *vars)
-{
-	(void)vars;
-	vars->save = 0;
-}
-
 int		update_hook(t_mlx_vars *vars)
 {
 	update_player_position(vars);
@@ -59,7 +53,7 @@ int		update_hook(t_mlx_vars *vars)
 	render_wall(vars);
 	//render_minimap(vars);
 	if (vars->save)
-		save_bmp(vars);
+		save_bmp(vars, vars->parsed_file->win_res);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->view->img, 0, 0);
 	//mlx_put_image_to_window(vars->mlx, vars->win, vars->minimap->img, 0, 0);
 	return (1);

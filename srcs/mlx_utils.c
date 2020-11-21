@@ -15,7 +15,13 @@
 
 int		create_trgb(int t, int r, int g, int b)
 {
-	return (t << 24 | r << 16 | g << 8 | b);
+	int color;
+
+	color = t << 24;
+	color |= r << 16;
+	color |= g << 8;
+	color |= b;
+	return (color);
 }
 
 int		color_trgb(int const_color)
