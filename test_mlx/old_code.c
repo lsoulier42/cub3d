@@ -400,3 +400,28 @@ color = get_texture_color(vars->south_text, wall_line, y / height_ratio);
 my_mlx_pixel_put(vars->view, location.x, location.y + y, color);
 }
 }
+
+
+t_bmp_color	*fill_color_buffer(t_image_data *first_frame, t_dimension img_res)
+{
+	t_bmp_color *color_buffer;
+	t_bmp_color	bmp_color;
+	int			x;
+	int 		y;
+
+	x = -1;
+	color_buffer = (t_bmp_color*)malloc(img_res.width
+										* img_res.height * sizeof(t_bmp_color));
+	if (!color_buffer)
+		return (NULL);
+	while (++x < img_res.width)
+	{
+		y = -1;
+		while (++y < img_res.height)
+		{
+			bmp_color = convert_trgb_to_bmp(first_frame, x, y);
+			color_buffer[((int)img_res.width * y) + x] = bmp_color;
+		}
+	}
+	return (color_buffer);
+}

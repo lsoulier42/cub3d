@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/21 11:43:40 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/21 14:10:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,19 +121,7 @@ typedef struct	s_line_drawing
 	t_point	abs;
 }				t_line_drawing;
 
-typedef struct	s_bmp_color
-{
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
-}				t_bmp_color;
 
-typedef struct	s_bmp_img
-{
-	t_bmp_color	*color_buffer;
-	int 		width;
-	int 		height;
-}				t_bmp_img;
 
 char			**realloc_map(char **data, int prev_size, int new_size);
 
@@ -251,10 +239,6 @@ void 			map_texture(t_mlx_vars *vars, t_dimension elem_dimension, int ray_index)
 void			set_line_texture(t_mlx_vars *vars, t_texture_data *text, t_dimension elem_dimension, int ray_index);
 int				get_texture_offset_x(t_point wall_hit, int was_hit_vertical,
 							int cell_size, int text_width);
-
-//functions about saving the BMP picture
 int				save_bmp(t_image_data *first_frame, t_dimension img_res);
-t_bmp_img 		*init_img(int width, int height);
-t_bmp_color		convert_trgb_to_bmp(t_image_data *img, int x, int y);
-t_bmp_color 	*fill_color_buffer(t_image_data *first_frame, t_dimension img_res);
+
 #endif

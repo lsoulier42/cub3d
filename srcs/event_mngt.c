@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 01:57:58 by louise            #+#    #+#             */
-/*   Updated: 2020/11/21 09:49:19 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/21 13:58:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ int		update_hook(t_mlx_vars *vars)
 	render_wall(vars);
 	//render_minimap(vars);
 	if (vars->save)
-		save_bmp(vars, vars->parsed_file->win_res);
+	{
+		save_bmp(vars->view, vars->parsed_file->win_res);
+		vars->save = 0;
+	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->view->img, 0, 0);
 	//mlx_put_image_to_window(vars->mlx, vars->win, vars->minimap->img, 0, 0);
 	return (1);
