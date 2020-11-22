@@ -41,28 +41,20 @@ SRC_FILES=	ft_memset.c \
 			ft_lstclear.c \
 			ft_lstiter.c \
 			ft_lstmap.c \
-			btree_apply_by_level.c \
 			ft_is_prime.c \
 			ft_putnbr_base.c \
-			btree_apply_infix.c \
 			ft_islowcase.c \
 			ft_putstr.c \
-			btree_apply_prefix.c \
 			ft_isspace.c \
 			ft_range.c \
-			btree_apply_suffix.c \
 			ft_isupcase.c \
 			ft_rev_int_tab.c \
-			btree_create_node.c \
 			ft_joinstrs.c \
 			ft_sort_int_tab.c \
-			btree_insert_data.c \
 			ft_lstadd_strs.c \
 			ft_split_charset.c \
-			btree_level_count.c \
 			ft_lstat.c \
 			ft_sqrt.c \
-			btree_search_item.c \
 			ft_lstfind.c \
 			ft_strcapitalize.c \
 			ft_abs.c \
@@ -93,8 +85,7 @@ SRC_FILES=	ft_memset.c \
 			ft_ftoa.c \
 			ft_addsuffix.c \
 			ft_addprefix.c \
-			get_next_line.c \
-			get_next_line_utils.c
+			get_next_line.c
 OBJS=		${SRC_FILES:.c=.o}
 HEAD=		includes
 CC=			gcc

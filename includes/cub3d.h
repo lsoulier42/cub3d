@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/21 14:10:45 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/22 13:37:50 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct	s_texture_data
 	int			endian;
 	int 		width;
 	int 		height;
+	int 		default_color;
 }				t_texture_data;
 
 typedef struct	s_player
@@ -123,8 +124,6 @@ typedef struct	s_line_drawing
 
 
 
-char			**realloc_map(char **data, int prev_size, int new_size);
-
 //error fct
 void			error_msg(int error_type);
 void			error_msg_alloc(int error_type);
@@ -134,25 +133,6 @@ void 			error_msg_parsing(int error_type);
 //basic struct fct
 void			set_point(t_point *point, double x, double y);
 void			set_dimension(t_dimension *dimension, double width, double height);
-
-//parsing functions
-int				check_cub_file(char *path);
-int 			check_extension_file(char *path, char *ext);
-t_game_file		*parse_file(char *path);
-t_game_file		*init_parsed_file(void);
-int				read_cub_file(t_game_file *parsed_file, int fd);
-int				set_window_res(char *line, t_dimension *win_res);
-int				set_map_texture(char *line, char **text_path);
-int 			set_map_color(char *line, int *color);
-int 			check_color_format(char *line);
-int 			set_map(t_game_file *parsed_file, char **line, int fd);
-char			**create_map(char **line, int fd);
-int 			set_player_start(t_game_file *parsed_file);
-int				check_map(char **map);
-int				check_config(t_game_file *parsed_file, char *line);
-int				check_texture_config(t_game_file *parsed_file, char *line);
-int				check_color_config(t_game_file *parsed_file, char *line);
-int 			check_resolution_config(t_game_file *parsed_file, char *line);
 
 //initialize mlx game vars
 int 			init_game(t_mlx_vars *vars, char *first_arg, int save_opt);
@@ -167,6 +147,9 @@ void 			free_parsed_file(t_game_file *parsed_file);
 void			free_text_path(t_game_file *parsed_file);
 int				exit_game(t_mlx_vars *vars);
 int 			create_images(t_mlx_vars *vars);
+t_texture_data	*load_texture(t_mlx_vars *vars, char *filepath, int default_color);
+int 			check_filepath_text(char *filepath);
+int 			init_texture_files(t_mlx_vars *vars);
 
 //render fct
 void			render_minimap(t_mlx_vars *vars);

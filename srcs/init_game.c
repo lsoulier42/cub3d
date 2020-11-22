@@ -6,18 +6,18 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:27:36 by louise            #+#    #+#             */
-/*   Updated: 2020/11/21 00:10:18 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/22 01:20:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "libft.h"
+#include "parsing.h"
 
 int init_game(t_mlx_vars *vars, char *first_arg, int save_opt)
 {
 	t_game_file	*parsed_file;
 
-	parsed_file = parse_file(first_arg);
+	parsed_file = load_config_file(first_arg);
 	if (!parsed_file)
 	{
 		error_msg(PARSING_ERROR);

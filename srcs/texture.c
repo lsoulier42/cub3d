@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 17:59:34 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/18 00:10:43 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/22 01:22:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,28 @@ int		get_texture_offset_x(t_point wall_hit, int was_hit_vertical,
 	return (offset_x);
 }
 
+void 	set_line_limits(t_dimension win_res, t_dimension elem_dimension,
+	int *wall_top_pixel, int *wall_bottom_pixel)
+{
+	*wall_top_pixel = (win_res.height / 2) - (elem_dimension.height / 2);
+	if (*wall_top_pixel < 0)
+		*wall_top_pixel = 0;
+	*wall_bottom_pixel = (win_res.height / 2) + (elem_dimension.height / 2);
+	if (*wall_bottom_pixel > win_res.height)
+		*wall_bottom_pixel = win_res.height;
+}
+
 void	set_line_texture(t_mlx_vars *vars, t_texture_data *text,
 	t_dimension elem_dimension, int ray_index)
 {
 	t_point	texture_offset;
 	int		y;
-	int		wall_bottom_pixel;
 	int		wall_top_pixel;
+	int		wall_bottom_pixel;
+	int 	color;
 
-	wall_top_pixel = (vars->parsed_file->win_res.height / 2)
-		- (elem_dimension.height / 2);
-	if (wall_top_pixel < 0)
-		wall_top_pixel = 0;
-	wall_bottom_pixel = (vars->parsed_file->win_res.height / 2)
-		+ (elem_dimension.height / 2);
-	if (wall_bottom_pixel > vars->parsed_file->win_res.height)
-		wall_bottom_pixel = vars->parsed_file->win_res.height;
+	set_line_limits(vars->parsed_file->win_res, elem_dimension,
+		&wall_top_pixel, &wall_bottom_pixel);
 	y = wall_top_pixel - 1;
 	texture_offset.x = get_texture_offset_x(vars->rays[ray_index].wall_hit,
 		vars->rays[ray_index].was_hit_vertical, vars->cell_size, text->width);
@@ -61,9 +67,11 @@ void	set_line_texture(t_mlx_vars *vars, t_texture_data *text,
 		texture_offset.y = (int)(y + (elem_dimension.height / 2)
 			- (vars->parsed_file->win_res.height / 2))
 			* (text->height / elem_dimension.height);
-		int test = get_texture_color(text, texture_offset.x, texture_offset.y);
-		my_mlx_pixel_put(vars->view, ray_index, y,
-			test);
+		if (text->img)
+			color = get_texture_color(text, texture_offset.x, texture_offset.y);
+		else
+			color = text->default_color;
+		my_mlx_pixel_put(vars->view, ray_index, y, color);
 	}
 }
 

@@ -6,13 +6,12 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/17 16:06:44 by louise            #+#    #+#             */
-/*   Updated: 2020/10/15 23:32:03 by louise           ###   ########.fr       */
+/*   Updated: 2020/11/22 01:33:15 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 32
 # endif
@@ -27,13 +26,6 @@ typedef struct	s_list
 	void			*content;
 	struct s_list	*next;
 }				t_list;
-
-typedef struct	s_btree
-{
-	struct s_btree	*left;
-	struct s_btree	*right;
-	void			*item;
-}				t_btree;
 
 typedef struct	s_list_file
 {
@@ -136,22 +128,7 @@ void			ft_list_sort(t_list **begin, int (*cmp)());
 t_list			*ft_lstat(t_list *begin, unsigned int nbr);
 t_list			*ft_lstadd_strs(int size, char **strs);
 
-t_btree			*btree_create_node(void *item);
-void			btree_apply_prefix(t_btree *root, void (*applyf)(void *));
-void			btree_apply_infix(t_btree *root, void (*applyf)(void *));
-void			btree_apply_suffix(t_btree *root, void (*applyf)(void *));
-void			*btree_search_item(t_btree *root, void *data_ref,
-		int (*cmpf)(void *, void *));
-int				btree_level_count(t_btree *root);
-void			btree_insert_data(t_btree **root, void *item,
-		int (*cmpf)(void *, void *));
-void			btree_apply_by_level(t_btree *root, void (*applyf)(void *item,
-			int current_level, int is_first));
-
-int				set_begin_line(char *buff, char **line_begin);
-char			*join_buff(char *line, char *buff, int buff_len);
-int				move_buff(char (*buff)[BUFFER_SIZE], int offset);
-int				read_file(int fd, char (*buff)[BUFFER_SIZE], char **line);
-t_list_file		*get_or_put_buffer(int fd, t_list_file **first);
 int				get_next_line(int fd, char **line);
+int				begin_line(char **line, char *buffer, int *offset);
+int				fill_line(char **line, char *buffer, int *offset);
 #endif

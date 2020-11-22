@@ -1,9 +1,14 @@
-NAME=		Cub3D
+NAME=		cub3D
 SRCS=		main.c \
-			parse_file.c \
-			set_map.c \
-			set_settings.c \
-			set_struct.c \
+			parsing.c \
+			cub_file.c \
+			parsing_utils.c \
+			parsing_resolution.c \
+			parsing_textures.c \
+			parsing_colors.c \
+			parsing_map.c \
+			parsing_player.c \
+			struct_utils.c \
 			exit_game.c \
 			error_utils.c \
 			mlx_utils.c \
@@ -23,7 +28,6 @@ SRCS=		main.c \
 			render_background.c \
 			texture.c \
 			init_game_utils.c \
-			check_config.c \
 			save_bmp.c
 OBJS=		${addprefix srcs/,${SRCS:.c=.o}}
 HEAD=		-I includes -I libft/includes -I minilibx

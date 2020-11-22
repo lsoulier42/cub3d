@@ -6,14 +6,13 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 16:23:25 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/20 19:01:35 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/22 02:55:42 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONSTANTS_H
 # define CONSTANTS_H
-# define CARD_CHARSET "NSEW"
-# define CONFIG_CHARSET "RNSWEFC"
+
 # define ESCAPE 65307
 # define W_KEY 119
 # define S_KEY 115
@@ -78,6 +77,7 @@ typedef enum	e_const_error
 	TEXTURE_EXT_ERROR,
 	MAP_NOT_CLOSED_ERROR,
 	MAP_TAB_ALLOCATION_ERROR,
-	NO_PLAYER_START_ERROR
+	NO_PLAYER_START_ERROR,
+	BACKGROUND_COLOR_ERROR
 }				t_const_error;
 #endif

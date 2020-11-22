@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 01:53:44 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/20 19:01:43 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/22 02:55:42 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void 	error_msg_parsing(int error_type)
 		ft_putstr("Invalid map : map not closed with walls.\n");
 	else if (error_type == NO_PLAYER_START_ERROR)
 		ft_putstr("Player start hasn't been found.\n");
+	else if (error_type == BACKGROUND_COLOR_ERROR)
+		ft_putstr("One of the background color is not set.\n");
 	else
 		ft_putstr("Unknown parsing error.\n");
 }
