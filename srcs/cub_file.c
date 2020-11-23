@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 13:37:56 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/22 13:41:56 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/22 13:51:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int			check_cub_file(char *path)
 
 	if (!check_extension_file(path, ".cub"))
 	{
-		error_msg(EXT_ERROR);
+		error_msg(CUB_FILE_ERROR);
 		return (-1);
 	}
 	fd = open(path, O_RDONLY);

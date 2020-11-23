@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 13:34:19 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/22 14:00:25 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/23 00:05:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,23 @@ char	**create_map(char **line, int fd)
 	line_nb = 0;
 	ret_gnl = 1;
 	map = NULL;
-	while (ret_gnl)
+	while (ret_gnl >= 0)
 	{
 		map = realloc_map(map, line_nb, line_nb + 1);
 		if (!map)
 		{
-			error_msg_alloc(MAP_TAB_ALLOCATION_ERROR);
+			error_msg(ALLOCATION_ERROR);
 			return (NULL);
 		}
-		map[line_nb] = ft_strdup(*line);
+		if (ret_gnl != 0)
+			map[line_nb] = ft_strdup(*line);
 		free(*line);
+		if (ret_gnl == 0)
+			break ;
 		line_nb++;
 		ret_gnl = get_next_line(fd, line);
 	}
-	map[line_nb] = NULL;
+	*line = NULL;
 	return (map);
 }
 

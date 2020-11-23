@@ -6,14 +6,13 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 17:46:02 by louise            #+#    #+#             */
-/*   Updated: 2020/11/14 17:05:26 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/22 23:02:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "cub3d.h"
 
-int		create_trgb(int t, int r, int g, int b)
+int	create_trgb(int t, int r, int g, int b)
 {
 	int color;
 
@@ -24,35 +23,7 @@ int		create_trgb(int t, int r, int g, int b)
 	return (color);
 }
 
-int		color_trgb(int const_color)
-{
-	int color;
-
-	color = 0;
-	if (const_color == BLACK)
-		color = create_trgb(0, 0, 0, 0);
-	else if (const_color == WHITE)
-		color = create_trgb(0, 255, 255, 255);
-	else if (const_color == RED)
-		color = create_trgb(0, 255, 0, 0);
-	else if (const_color == BLUE)
-		color = create_trgb(0, 0, 0, 255);
-	else if (const_color == YELLOW)
-		color = create_trgb(0, 255, 255, 0);
-	else if (const_color == GREEN)
-		color = create_trgb(0, 0, 255, 0);
-	else if (const_color == PURPLE)
-		color = create_trgb(0, 128, 0, 128);
-	else if (const_color == PINK)
-		color = create_trgb(0, 255, 192, 203);
-	else if (const_color == ORANGE)
-		color = create_trgb(0, 255, 168, 0);
-	else if (const_color == GRAY)
-		color = create_trgb(0, 180, 180, 180);
-	return (color);
-}
-
-void	my_mlx_pixel_put(t_image_data *img, int x, int y, int color)
+void my_mlx_pixel_put(t_image_data *img, int x, int y, int color)
 {
 	char	*dst;
 
@@ -60,10 +31,46 @@ void	my_mlx_pixel_put(t_image_data *img, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void	my_mlx_new_image(void *mlx_ptr, t_image_data *img,
+int	my_mlx_new_image(void *mlx_ptr, t_image_data *img,
 	int width, int height)
 {
 	img->img = mlx_new_image(mlx_ptr, width, height);
+	if (!img->img)
+	{
+		error_msg(IMAGE_ERROR);
+		return (0);
+	}
 	img->addr = mlx_get_data_addr(img->img,
 		&(img->bits_per_pixel), &(img->line_length), &(img->endian));
+	return (1);
+}
+
+void	draw_rect(t_image_data *img, t_point location,
+				  t_dimension dimension, int color)
+{
+	double x;
+	double y;
+
+	x = -1;
+	while (++x < dimension.width)
+	{
+		y = -1;
+		while (++y < dimension.height)
+			my_mlx_pixel_put(img, location.x + x, location.y + y, color);
+	}
+}
+
+int		load_texture(t_mlx_vars *vars, t_texture_data *text, char *filepath)
+{
+	text->img = mlx_xpm_file_to_image(vars->mlx,
+									  filepath, &text->width, &text->height);
+	if (!text->img)
+	{
+		error_msg(TEXTURE_ERROR);
+		error_msg_texture(filepath);
+		return (0);
+	}
+	text->addr = mlx_get_data_addr(text->img,
+								   &text->bits_per_pixel, &text->line_length, &text->endian);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 13:30:10 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/22 14:17:30 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/23 01:59:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,76 +16,103 @@
 int		parse_colors(t_game_file *parsed_file, char *line)
 {
 	if (ft_strnstr(line, "F", 1) != NULL)
-		if (!set_background_color(line, &parsed_file->floor_color))
+	{
+		if (parsed_file->floor_color != -1)
+		{
+			error_msg_parsing(COLOR_ALREADY_SET_ERROR);
 			return (0);
+		}
+		if (!set_background_colors(line, &parsed_file->floor_color))
+			return (0);
+	}
 	if (ft_strnstr(line, "C", 1) != NULL)
-		if (!set_background_color(line, &parsed_file->ceiling_color))
+	{
+		if (parsed_file->ceiling_color != -1)
+		{
+			error_msg_parsing(COLOR_ALREADY_SET_ERROR);
 			return (0);
+		}
+		if (!set_background_colors(line, &parsed_file->ceiling_color))
+			return (0);
+	}
 	return (1);
 }
 
-int check_color_format(char *line)
+int		check_color_format(char *line)
 {
+	int		nb_comas;
 	int		i;
-	int 	nb_coma;
-	int 	no_error;
 	char 	*new_line;
+	int 	error_occurred;
 
 	i = -1;
-	nb_coma = 0;
-	new_line = trim_spaces(line);
-	no_error = new_line && ft_isdigit(*new_line);
-	while (new_line[++i] && no_error)
+	nb_comas = 0;
+	error_occurred = 0;
+	new_line = trim_spaces(line + 1);
+	if (!new_line)
+		return (0);
+	if (!ft_isdigit(*new_line))
+		error_occurred = 1;
+	while (new_line[++i])
 	{
 		if (new_line[i] == ',')
-		{
-			nb_coma++;
-			if (!ft_isdigit(new_line[i + 1]))
-				no_error = 0;
-		}
-		if (new_line[i] != ',' && !ft_isdigit(new_line[i]))
-			no_error = 0;
+			nb_comas++;
+		if (!ft_isdigit(new_line[i]) && new_line[i] != ',')
+			error_occurred = 1;
 	}
-	if (nb_coma != 2)
-		no_error = 0;
+	if (nb_comas != 2 || !ft_isdigit(new_line [i - 1]))
+		error_occurred = 1;
 	free(new_line);
-	return (no_error);
+	return (!error_occurred);
 }
 
-int	set_background_color(char *line, int *color)
+int atoi_color(char *line, int index)
 {
-	int		r;
-	int		g;
-	int		b;
+	char	*new_line;
+	int 	ret_nb;
+	char 	*tmp;
 
-	line += 2;
-	if (!ft_isdigit(*line) || !check_color_format(line))
+	new_line = trim_spaces(line + 2);
+	tmp = new_line;
+	if (!new_line)
+		return (-1);
+	if (index == 1)
+		ret_nb = ft_atoi(new_line);
+	else
+	{
+		while (*new_line && *new_line != ',')
+			new_line++;
+		if (index == 2)
+			ret_nb = ft_atoi(new_line + 1);
+		else
+		{
+			new_line++;
+			while (*new_line && *new_line != ',')
+				new_line++;
+			ret_nb = ft_atoi(new_line + 1);
+		}
+	}
+	free(tmp);
+	return (ret_nb);
+}
+
+int	set_background_colors(char *line, int *color)
+{
+	t_parsing_color	colors;
+	if (!check_color_format(line))
 	{
 		error_msg_parsing(COLOR_SETTING_ERROR);
 		return (0);
 	}
-	r = ft_atoi(line);
-	while (*line && *line != ',')
-		line++;
-	line++;
-	g = ft_atoi(line);
-	while (*line && *line != ',')
-		line++;
-	line++;
-	b = ft_atoi(line);
-	if (r < 0 || g < 0 || b < 0 || r > 255 || g > 255 || b > 255)
+	colors.r = atoi_color(line, 1);
+	colors.g = atoi_color(line, 2);
+	colors.b = atoi_color(line, 3);
+	if (colors.r < 0 || colors.g < 0 || colors.b < 0
+	        || colors.r > 255 || colors.g > 255 || colors.b > 255)
 	{
 		error_msg_parsing(COLOR_SETTING_ERROR);
 		return (0);
 	}
-	*color = create_trgb(0, r, g, b);
-	return (1);
-}
-
-int 		check_background(int floor_color, int ceiling_color)
-{
-	if((floor_color == -1 && ceiling_color != -1)
-	   || (floor_color != -1 && ceiling_color == -1))
-		return (0);
+	*color = create_trgb(0, colors.r, colors.g, colors.b);
 	return (1);
 }

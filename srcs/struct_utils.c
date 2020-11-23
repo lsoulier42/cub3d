@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "libft.h"
 
 void	set_dimension(t_dimension *dimension, double width, double height)
 {

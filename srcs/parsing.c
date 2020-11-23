@@ -6,27 +6,19 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 19:25:00 by louise            #+#    #+#             */
-/*   Updated: 2020/11/22 13:51:59 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/23 02:26:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-t_game_file	*init_parsed_file(void)
+void 	init_parsed_file(t_game_file *parsed_file)
 {
-	t_game_file	*parsed_file;
-
-	parsed_file = (t_game_file*)malloc(sizeof(t_game_file));
-	if (!parsed_file)
-	{
-		error_msg_alloc(PARSED_FILE_ALLOC_ERROR);
-		return (NULL);
-	}
 	parsed_file->map = NULL;
 	parsed_file->player_start_card = 0;
 	set_point(&(parsed_file->player_start), 0, 0);
 	set_dimension(&(parsed_file->map_res), 0, 0);
-	set_dimension(&(parsed_file->win_res), 800, 600);
+	set_dimension(&(parsed_file->win_res), 0, 0);
 	parsed_file->no_text = NULL;
 	parsed_file->so_text = NULL;
 	parsed_file->we_text = NULL;
@@ -34,49 +26,58 @@ t_game_file	*init_parsed_file(void)
 	parsed_file->sprite_text = NULL;
 	parsed_file->floor_color = -1;
 	parsed_file->ceiling_color = -1;
-	return (parsed_file);
+	parsed_file->settings_complete = 0;
+}
+
+int 		parse_map_loop(t_game_file *parsed_file, int fd)
+{
+	char	*next_line;
+	int		error_occurred;
+
+	next_line = trim_white_lines(fd);
+	error_occurred = 0;
+	if (next_line && ft_strchr(SETTINGS_CHARSET, *next_line) != NULL)
+	{
+		error_msg_parsing(SETTINGS_ALREADY_COMPLETE);
+		free(next_line);
+		return (0);
+	}
+	if (!parse_map(parsed_file, &next_line, fd))
+		error_occurred = 1;
+	return (!error_occurred);
 }
 
 int			parse_config_file(t_game_file *parsed_file, int fd)
 {
-	char	*line;
-	int 	ret_gnl;
+	int no_error;
 
-	ret_gnl = 1;
-	line = NULL;
-	while (ret_gnl)
+	if (parse_settings(parsed_file, fd))
 	{
-		ret_gnl = get_next_line(fd, &line);
-		if (ft_strchr(CONFIG_CHARSET, *line) != NULL)
+		if (parsed_file->settings_complete == 1)
+			no_error = parse_map_loop(parsed_file, fd);
+		else
 		{
-			if (!parse_settings(parsed_file, line))
-				return (0);
+			no_error = 0;
+			error_msg_parsing(MISSING_SETTINGS_ERROR);
 		}
-		else if (*line && *line != '\n')
-			if (!parse_map(parsed_file, &line, fd))
-				return (0);
 	}
-	return (1);
+	else
+		no_error = 0;
+	return (no_error);
 }
 
-t_game_file		*load_config_file(char *path)
+int	load_config_file(t_game_file *parsed_file, char *path)
 {
-	t_game_file	*parsed_file;
 	int			fd;
 
 	fd = check_cub_file(path);
-	parsed_file = init_parsed_file();
-	if (fd < 0 || !parsed_file)
-		return (NULL);
+	if (fd < 0)
+		return (0);
+	init_parsed_file(parsed_file);
 	if (!parse_config_file(parsed_file, fd))
 	{
-		free_parsed_file(parsed_file);
-		return (NULL);
-	}
-	if(!check_background(parsed_file->floor_color, parsed_file->ceiling_color))
-	{
-		error_msg_parsing(BACKGROUND_COLOR_ERROR);
+		free_parsed_file(*parsed_file);
 		return (0);
 	}
-	return (parsed_file);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 16:00:41 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/15 17:14:03 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/22 19:12:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@ void	find_horizontal_intercept_loop(t_mlx_vars *vars,
 	offset_facing_up = 0;
 	if (!ray->facing_down)
 		offset_facing_up = 1;
-	while (next.x >= 0 && next.x < vars->parsed_file->win_res.width
-		&& next.y >= 0 && next.y < vars->parsed_file->win_res.height)
+	while (next.x >= 0 && next.x < vars->parsed_file.win_res.width
+		&& next.y >= 0 && next.y < vars->parsed_file.win_res.height)
 	{
 		set_point(&next_touch, next.x, next.y - offset_facing_up);
 		wall_hit_content = is_wall_raycasting(vars, next_touch);
 		if (wall_hit_content != '0')
 		{
 			set_point(&ray->wall_hit, next.x, next.y);
-			ray->distance = distance_points(vars->player->current_pos,
+			ray->distance = distance_points(vars->player.current_pos,
 				ray->wall_hit);
 			ray->wall_hit_content = wall_hit_content;
 			ray->was_hit_north = !offset_facing_up;
@@ -46,18 +46,16 @@ void	find_horizontal_intercept(t_mlx_vars *vars, t_ray *ray)
 {
 	t_point	first;
 	t_point	step;
-	int		cell_size;
 
-	cell_size = vars->cell_size;
-	first.y = floor(vars->player->current_pos.y / cell_size) * cell_size;
+	first.y = floor(vars->player.current_pos.y / CELL_SIZE) * CELL_SIZE;
 	if (ray->facing_down)
-		first.y += vars->cell_size;
-	first.x = vars->player->current_pos.x
-		+ ((first.y - vars->player->current_pos.y) / tan(ray->angle));
-	step.y = vars->cell_size;
+		first.y += CELL_SIZE;
+	first.x = vars->player.current_pos.x
+		+ ((first.y - vars->player.current_pos.y) / tan(ray->angle));
+	step.y = CELL_SIZE;
 	if (!ray->facing_down)
 		step.y *= -1;
-	step.x = vars->cell_size / tan(ray->angle);
+	step.x = CELL_SIZE / tan(ray->angle);
 	if ((ray->facing_left && step.x > 0) || (!ray->facing_left && step.x < 0))
 		step.x *= -1;
 	find_horizontal_intercept_loop(vars, ray, first, step);
@@ -87,14 +85,14 @@ void	find_vertical_intercept_loop(t_mlx_vars *vars, t_ray *ray,
 	offset_facing_left = 0;
 	if (ray->facing_left)
 		offset_facing_left = 1;
-	while (next.x >= 0 && next.x < vars->parsed_file->win_res.width
-		&& next.y >= 0 && next.y < vars->parsed_file->win_res.height)
+	while (next.x >= 0 && next.x < vars->parsed_file.win_res.width
+		&& next.y >= 0 && next.y < vars->parsed_file.win_res.height)
 	{
 		set_point(&next_touch, next.x - offset_facing_left, next.y);
 		wall_hit_content = is_wall_raycasting(vars, next_touch);
 		if (wall_hit_content != '0')
 		{
-			vertical_len = distance_points(vars->player->current_pos, next);
+			vertical_len = distance_points(vars->player.current_pos, next);
 			if (vertical_len < ray->distance || ray->distance == 0)
 				reset_ray_setting(ray, vertical_len, next, wall_hit_content);
 			break ;
@@ -108,18 +106,16 @@ void	find_vertical_intercept(t_mlx_vars *vars, t_ray *ray)
 {
 	t_point	first;
 	t_point step;
-	int		cell_size;
 
-	cell_size = vars->cell_size;
-	first.x = floor(vars->player->current_pos.x / cell_size) * cell_size;
+	first.x = floor(vars->player.current_pos.x / CELL_SIZE) * CELL_SIZE;
 	if (!ray->facing_left)
-		first.x += cell_size;
-	first.y = vars->player->current_pos.y
-		+ ((first.x - vars->player->current_pos.x) * tan(ray->angle));
-	step.x = vars->cell_size;
+		first.x += CELL_SIZE;
+	first.y = vars->player.current_pos.y
+		+ ((first.x - vars->player.current_pos.x) * tan(ray->angle));
+	step.x = CELL_SIZE;
 	if (ray->facing_left)
 		step.x *= -1;
-	step.y = vars->cell_size * tan(ray->angle);
+	step.y = CELL_SIZE * tan(ray->angle);
 	if ((!ray->facing_down && step.y > 0) || (ray->facing_down && step.y < 0))
 		step.y *= -1;
 	find_vertical_intercept_loop(vars, ray, first, step);
