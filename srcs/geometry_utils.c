@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 12:12:08 by louise            #+#    #+#             */
-/*   Updated: 2020/11/17 23:44:56 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/24 19:33:44 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ double	degree_to_radian(double angle)
 
 double	normalize_angle(double angle)
 {
-	angle = fmod(angle, (2 * M_PI));
+	if (angle > 2 * M_PI)
+		angle = fmod(angle, (2 * M_PI));
 	if (angle < 0)
 		angle += (2 * M_PI);
 	return (angle);

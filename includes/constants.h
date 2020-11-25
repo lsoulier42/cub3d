@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 16:23:25 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/22 22:47:06 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/24 18:31:59 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 # define A_KEY 97
 # define D_KEY 100
 # define FOV_ANGLE 60
-# define CELL_SIZE 16
 # define FOUR_K_RES_WIDTH 3840
 # define FOUR_K_RES_HEIGHT 2160
 # ifndef PROJECT_NAME
 #  define PROJECT_NAME "Cub3D"
 # endif
+# define INTENSITY_FACTOR 0.5
 
 typedef enum	e_arrow
 {

@@ -59,6 +59,7 @@ void	exit_game_red_cross(t_mlx_vars *vars)
 	mlx_destroy_display(vars->mlx);
 	free(vars->mlx);
 	free_parsed_file(vars->parsed_file);
+	free(vars->sprites);
 }
 
 int		exit_game(t_mlx_vars *vars)
@@ -68,6 +69,7 @@ int		exit_game(t_mlx_vars *vars)
 	mlx_destroy_display(vars->mlx);
 	free(vars->mlx);
 	free_parsed_file(vars->parsed_file);
+	free(vars->sprites);
 	exit(0);
 	return (1);
 }

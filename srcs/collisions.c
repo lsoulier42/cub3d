@@ -21,8 +21,8 @@ int		is_wall(t_mlx_vars *vars, double x, double y)
 
 	map = vars->parsed_file.map;
 	map_res = vars->parsed_file.map_res;
-	index_x = floor(x / CELL_SIZE);
-	index_y = floor(y / CELL_SIZE);
+	index_x = floor(x / vars->cell_size);
+	index_y = floor(y / vars->cell_size);
 	if (index_x < 0 || index_y < 0
 		|| index_x >= map_res.width || index_y >= map_res.height)
 		return (1);
@@ -51,4 +51,5 @@ void	update_player_position(t_mlx_vars *vars, t_player *player)
 		player->current_pos.x = next_position.x;
 		player->current_pos.y = next_position.y;
 	}
+	player->rotation_angle = normalize_angle(player->rotation_angle);
 }

@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 20:03:06 by user42            #+#    #+#             */
-/*   Updated: 2020/11/22 23:10:47 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/24 15:14:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ char	is_wall_raycasting(t_mlx_vars *vars, t_point next_touch)
 
 	map = vars->parsed_file.map;
 	map_res = vars->parsed_file.map_res;
-	index_x = floor(next_touch.x / CELL_SIZE);
-	index_y = floor(next_touch.y / CELL_SIZE);
+	index_x = floor(next_touch.x / vars->cell_size);
+	index_y = floor(next_touch.y / vars->cell_size);
 	if (index_x < 0 || index_y < 0
 		|| index_x >= map_res.width || index_y >= map_res.height)
 		return ('1');
@@ -54,15 +54,12 @@ void	cast_all_rays(t_mlx_vars *vars)
 	double	ray_angle;
 	int		i;
 	int		nb_column;
-	double	to_projection_plane;
 
 	i = -1;
 	nb_column = vars->parsed_file.win_res.width;
-	to_projection_plane = (vars->parsed_file.win_res.width / 2)
-			/ tan (degree_to_radian(FOV_ANGLE / 2));
 	while (++i < nb_column)
 	{
-		ray_angle = vars->player.rotation_angle + atan((i - (nb_column / 2)) / to_projection_plane);
+		ray_angle = vars->player.rotation_angle + atan((i - (nb_column / 2)) / vars->distance_to_projection_plane);
 		init_ray(&vars->rays[i], normalize_angle(ray_angle));
 		find_horizontal_intercept(vars, &vars->rays[i]);
 		find_vertical_intercept(vars, &vars->rays[i]);

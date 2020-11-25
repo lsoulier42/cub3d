@@ -59,18 +59,3 @@ void	draw_rect(t_image_data *img, t_point location,
 			my_mlx_pixel_put(img, location.x + x, location.y + y, color);
 	}
 }
-
-int		load_texture(t_mlx_vars *vars, t_texture_data *text, char *filepath)
-{
-	text->img = mlx_xpm_file_to_image(vars->mlx,
-									  filepath, &text->width, &text->height);
-	if (!text->img)
-	{
-		error_msg(TEXTURE_ERROR);
-		error_msg_texture(filepath);
-		return (0);
-	}
-	text->addr = mlx_get_data_addr(text->img,
-								   &text->bits_per_pixel, &text->line_length, &text->endian);
-	return (1);
-}

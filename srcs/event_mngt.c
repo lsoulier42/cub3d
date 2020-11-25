@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 01:57:58 by louise            #+#    #+#             */
-/*   Updated: 2020/11/22 23:17:18 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/25 00:24:46 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int		update_hook(t_mlx_vars *vars)
 	cast_all_rays(vars);
 	render_background(vars);
 	render_wall(vars);
+	render_sprites(vars);
 	if (vars->save)
 	{
 		save_bmp(&vars->view, vars->parsed_file.win_res);

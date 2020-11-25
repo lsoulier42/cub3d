@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:27:36 by louise            #+#    #+#             */
-/*   Updated: 2020/11/22 23:29:34 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/25 17:57:57 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,15 @@
 
 int		create_game_struct(t_mlx_vars *vars, int save_opt)
 {
-	init_player(&vars->player, vars->parsed_file);
+	if (vars->parsed_file.win_res.width > 320)
+		vars->cell_size = 16;
+	else
+		vars->cell_size = 5;
+	vars->distance_to_projection_plane = (vars->parsed_file.win_res.width / 2)
+		/ tan(degree_to_radian(FOV_ANGLE / 2));
+	if (!init_sprites(vars))
+		return (0);
+	init_player(&vars->player, vars->parsed_file, vars->cell_size);
 	vars->save = save_opt;
 	if (!create_window(vars))
 		return (0);
@@ -23,15 +31,16 @@ int		create_game_struct(t_mlx_vars *vars, int save_opt)
 	return (1);
 }
 
-void	init_player(t_player *player, t_game_file parsed_file)
+void	init_player(t_player *player, t_game_file parsed_file, int cell_size)
 {
 	t_point		start;
 	char		card;
-	double angle;
+	double		angle;
 
 	start = parsed_file.player_start;
 	card = parsed_file.player_start_card;
-	set_point(&player->current_pos, start.x * CELL_SIZE, start.y * CELL_SIZE);
+	set_point(&player->current_pos, (start.x * cell_size) + cell_size / 2,
+			  (start.y * cell_size) + cell_size / 2);
 	player->turn_direction = 0;
 	player->walk_direction = 0;
 	if (card == 'S')
@@ -44,6 +53,7 @@ void	init_player(t_player *player, t_game_file parsed_file)
 		angle = M_PI;
 	player->rotation_angle = angle;
 	player->move_speed = parsed_file.win_res.width * 4.0 / FOUR_K_RES_WIDTH;
+	player->move_speed *= cell_size / 16.0;
 	player->rotation_speed = (player->move_speed * M_PI) / 180;
 	player->direction_angle = 0;
 }
@@ -86,7 +96,7 @@ int		create_images(t_mlx_vars *vars)
 	if (!my_mlx_new_image(vars->mlx, &vars->view,
 		win_res.width, win_res.height)
 		|| !my_mlx_new_image(vars->mlx, &vars->minimap,
-		   map_res.width * CELL_SIZE,map_res.height * CELL_SIZE))
+		   map_res.width * vars->cell_size,map_res.height * vars->cell_size))
 		return (0);
 	if (!load_texture(vars, &vars->south_text, vars->parsed_file.so_text)
 		|| !load_texture(vars, &vars->north_text, vars->parsed_file.no_text)

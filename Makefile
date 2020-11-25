@@ -13,6 +13,7 @@ SRCS=		main.c \
 			exit_game.c \
 			error_utils.c \
 			mlx_utils.c \
+			mlx_utils2.c \
 			collisions.c \
 			init_game.c \
 			geometry_utils.c \
@@ -21,8 +22,9 @@ SRCS=		main.c \
 			raycasting_intercept.c \
 			render_wall.c \
 			render_background.c \
-			texture.c \
-			save_bmp.c
+			textures.c \
+			save_bmp.c \
+			sprites.c
 OBJS=		${addprefix srcs/,${SRCS:.c=.o}}
 HEAD=		-I includes -I libft/includes -I minilibx
 CC=			gcc
@@ -34,11 +36,10 @@ LIBS=		-lm -lft -lmlx -lXext -lX11
 
 .c.o:
 		${CC} ${CFLAGS} ${HEAD} -c $< -o ${<:.c=.o}
-${NAME}:	${OBJS}
+$(NAME):	${OBJS}
 		make -C ${LIBFT_DIR}
 		make -C ${MLX_DIR}
 		${CC} ${CFLAGS} ${LDFLAGS} -D PROJECT_NAME="${NAME}" ${OBJS} -o ${NAME} ${LIBS}
-		./cub3D map.cub;
 all:	${NAME}
 clean:
 		rm -rf ${OBJS}

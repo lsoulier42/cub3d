@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/22 23:34:36 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/25 18:12:27 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@ typedef struct	s_dimension
 	double width;
 	double height;
 }				t_dimension;
+
+typedef struct 	s_sprite
+{
+	t_point	position;
+	double	distance;
+	double	angle;
+	int 	is_visible;
+
+}				t_sprite;
 
 typedef struct	s_game_file
 {
@@ -70,7 +79,6 @@ typedef struct	s_texture_data
 	int			endian;
 	int 		width;
 	int 		height;
-	int 		default_color;
 }				t_texture_data;
 
 typedef struct	s_player
@@ -114,6 +122,10 @@ typedef struct	s_mlx_vars
 	t_texture_data	west_text;
 	t_texture_data	east_text;
 	t_texture_data	sprites_text;
+	int 			cell_size;
+	double 			distance_to_projection_plane;
+	int 			nb_sprites;
+	t_sprite 		*sprites;
 }				t_mlx_vars;
 
 //error fct
@@ -128,7 +140,7 @@ void			set_dimension(t_dimension *dimension, double width, double height);
 //initialize mlx game vars
 int 			create_game_struct(t_mlx_vars *vars, int save_opt);
 int				create_window(t_mlx_vars *vars);
-void			init_player(t_player *player, t_game_file parsed_file);
+void			init_player(t_player *player, t_game_file parsed_file, int cell_size);
 int 			create_images(t_mlx_vars *vars);
 int 			load_texture(t_mlx_vars *vars, t_texture_data *text, char *filepath);
 int 			check_filepath_text(char *filepath);
@@ -137,8 +149,7 @@ int 			check_filepath_text(char *filepath);
 int				is_wall(t_mlx_vars *vars, double x, double y);
 void			update_player_position(t_mlx_vars *vars, t_player *player);
 void			render_wall(t_mlx_vars *vars);
-double			fishbowl_correct(t_mlx_vars *vars, t_ray ray,
-					double projection_plane_distance);
+double			fishbowl_correct(t_mlx_vars *vars, t_ray ray);
 void			render_background(t_mlx_vars *vars);
 
 //event fcts
@@ -171,10 +182,23 @@ void			reset_ray_setting(t_ray *ray, double vertical_len, t_point wall_found,
 
 //textures fct
 int 			get_texture_color(t_texture_data *img, int x, int y);
-void 			map_texture(t_mlx_vars *vars, t_dimension elem_dimension, int ray_index);
-void			set_line_texture(t_mlx_vars *vars, t_texture_data *text, t_dimension elem_dimension, int ray_index);
-int				get_texture_offset_x(t_point wall_hit, int was_hit_vertical, int text_width);
+void			map_texture(t_mlx_vars *vars, double wall_height,
+					int ray_index);
+void			set_line_texture(t_mlx_vars *vars, t_texture_data *text, double wall_height, int ray_index);
+void 			set_wall_limits(t_dimension win_res, double wall_height,
+						int *wall_top_pixel, int *wall_bottom_pixel);
+int				get_texture_offset_x(t_point wall_hit, int was_hit_vertical,
+								int text_width, int cell_size);
+int				get_texture_offset_y(double current_y,
+								double wall_height, int win_height, int text_height);
 int				save_bmp(t_image_data *first_frame, t_dimension img_res);
+int				change_color_intensity(int color, double factor);
+
+//sprites function
+int init_sprites(t_mlx_vars *vars);
+void render_sprites(t_mlx_vars *vars);
+double calculate_sprite_angle(t_point sprite_position, t_point player_position, double player_rotation_angle);
+int sprite_is_visible(double sprite_angle);
 
 //exit game
 void 			free_mlx_struct(t_mlx_vars *vars);
