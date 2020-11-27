@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 17:59:34 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/25 17:11:29 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/27 03:09:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		get_texture_offset_y(double current_y,
 	return (offset_y);
 }
 
-void 	set_wall_limits(t_dimension win_res, double wall_height,
+void	set_wall_limits(t_dimension win_res, double wall_height,
 	int *wall_top_pixel, int *wall_bottom_pixel)
 {
 	*wall_top_pixel = (win_res.height / 2.0) - (wall_height / 2);
@@ -57,7 +57,7 @@ void	set_line_texture(t_mlx_vars *vars, t_texture_data *text,
 	int		y;
 	int		wall_top_pixel;
 	int		wall_bottom_pixel;
-	int 	color;
+	int		color;
 
 	set_wall_limits(vars->parsed_file.win_res, wall_height,
 		&wall_top_pixel, &wall_bottom_pixel);

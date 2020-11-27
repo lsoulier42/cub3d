@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 01:53:44 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/22 23:33:38 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/27 02:41:28 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	error_msg(int error_type)
 		ft_putstr("Error\nUnknown error.\n");
 }
 
-void 	error_msg_parsing(int error_type)
+void	error_msg_parsing(int error_type)
 {
 	ft_putstr("Error\n");
 	if (error_type == FORMAT_RESOLUTION_ERROR)
@@ -57,7 +57,7 @@ void 	error_msg_parsing(int error_type)
 		ft_putstr("Unknown parsing error.\n");
 }
 
-void 	error_msg_texture(char *filepath)
+void	error_msg_texture(char *filepath)
 {
 	ft_putstr("This texture file was involved in the error : ");
 	if (filepath)

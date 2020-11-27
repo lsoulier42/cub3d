@@ -53,7 +53,7 @@ int	set_texture_path(char *line, char **text_path)
 	return (1);
 }
 
-int		check_filepath_text(char *filepath)
+int	check_filepath_text(char *filepath)
 {
 	int fd;
 

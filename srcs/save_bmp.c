@@ -6,17 +6,17 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 09:47:53 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/21 19:53:37 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/27 03:07:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "save_bmp.h"
 
-t_bmp_color	convert_trgb_to_bmp(t_image_data *img, int x, int y)
+t_bmp_color		convert_trgb_to_bmp(t_image_data *img, int x, int y)
 {
 	t_bmp_color	pixel_color;
 	int			color;
-	char 		*dst;
+	char		*dst;
 
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	color = *(unsigned int*)dst;
@@ -26,9 +26,9 @@ t_bmp_color	convert_trgb_to_bmp(t_image_data *img, int x, int y)
 	return (pixel_color);
 }
 
-int 			get_correction_byte(int image_width)
+int				get_correction_byte(int image_width)
 {
-	char 	correction_byte[4];
+	char	correction_byte[4];
 
 	correction_byte[0] = 0;
 	correction_byte[1] = 3;
@@ -59,12 +59,12 @@ t_file_header	fill_bmp_header(t_dimension img_res)
 	return (frame_head);
 }
 
-void	fill_bmp(t_image_data *frame, t_file_header header, int fd)
+void			fill_bmp(t_image_data *frame, t_file_header header, int fd)
 {
 	t_bmp_color		color;
 	unsigned char	pixel_color[3];
 	t_point			coord;
-	int 			offset_byte;
+	int				offset_byte;
 
 	coord.y = -1;
 	offset_byte = get_correction_byte(header.img_header.width);
@@ -87,9 +87,9 @@ void	fill_bmp(t_image_data *frame, t_file_header header, int fd)
 	}
 }
 
-int		save_bmp(t_image_data *first_frame, t_dimension img_res)
+int				save_bmp(t_image_data *first_frame, t_dimension img_res)
 {
-	int 			fd;
+	int				fd;
 	t_file_header	header;
 
 	fd = open(BMP_FILE_NAME, O_CREAT | O_WRONLY, S_IRWXU | S_IRWXG | S_IRWXO);
@@ -97,7 +97,7 @@ int		save_bmp(t_image_data *first_frame, t_dimension img_res)
 		return (0);
 	header = fill_bmp_header(img_res);
 	fill_bmp(first_frame, header, fd);
-	if (close (fd) == -1)
+	if (close(fd) == -1)
 		return (0);
 	return (1);
 }

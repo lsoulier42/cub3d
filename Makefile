@@ -1,4 +1,4 @@
-NAME=		cub3D
+NAME=		Cub3D
 SRCS=		main.c \
 			parsing.c \
 			cub_file.c \
@@ -24,11 +24,12 @@ SRCS=		main.c \
 			render_background.c \
 			textures.c \
 			save_bmp.c \
-			sprites.c
+			sprites.c \
+			sprites_utils.c
 OBJS=		${addprefix srcs/,${SRCS:.c=.o}}
 HEAD=		-I includes -I libft/includes -I minilibx
 CC=			gcc
-CFLAGS=
+CFLAGS=		-Wall -Werror -Wextra
 LIBFT_DIR=	libft
 MLX_DIR=	minilibx
 LDFLAGS=	-L ${LIBFT_DIR} -L ${MLX_DIR}

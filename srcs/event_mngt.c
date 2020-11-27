@@ -56,7 +56,7 @@ int		update_hook(t_mlx_vars *vars)
 	cast_all_rays(vars);
 	render_background(vars);
 	render_wall(vars);
-	render_sprites(vars);
+	process_sprites(vars);
 	if (vars->save)
 	{
 		save_bmp(&vars->view, vars->parsed_file.win_res);

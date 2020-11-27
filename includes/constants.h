@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 16:23:25 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/24 18:31:59 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/27 03:18:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # ifndef PROJECT_NAME
 #  define PROJECT_NAME "Cub3D"
 # endif
-# define INTENSITY_FACTOR 0.5
 
 typedef enum	e_arrow
 {

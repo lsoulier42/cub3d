@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/21 13:35:49 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/21 19:47:41 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/27 03:17:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ typedef struct	s_image_header
 	int		color_img_array;
 }				t_image_header;
 
-typedef struct 	s_file_header
+typedef struct	s_file_header
 {
-	char 				signature[2];
-	int 				size;
-	int 				reserved;
+	char				signature[2];
+	int					size;
+	int					reserved;
 	int					offset_img;
 	t_image_header		img_header;
 }				t_file_header;

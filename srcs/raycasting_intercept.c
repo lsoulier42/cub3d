@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 16:00:41 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/24 21:14:34 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/27 03:05:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	find_horizontal_intercept(t_mlx_vars *vars, t_ray *ray)
 	t_point	first;
 	t_point	step;
 
-	first.y = floor(vars->player.current_pos.y / vars->cell_size) * vars->cell_size;
+	first.y = floor(vars->player.current_pos.y / vars->cell_size)
+		* vars->cell_size;
 	if (ray->facing_down)
 		first.y += vars->cell_size;
 	first.x = vars->player.current_pos.x
@@ -80,7 +81,6 @@ void	find_vertical_intercept_loop(t_mlx_vars *vars, t_ray *ray,
 	int		offset_facing_left;
 	char	wall_hit_content;
 	double	vertical_len;
-	double 	distance_to_sprite_vertical;
 
 	offset_facing_left = 0;
 	if (ray->facing_left)
@@ -106,7 +106,8 @@ void	find_vertical_intercept(t_mlx_vars *vars, t_ray *ray)
 	t_point	first;
 	t_point step;
 
-	first.x = floor(vars->player.current_pos.x / vars->cell_size) * vars->cell_size;
+	first.x = floor(vars->player.current_pos.x / vars->cell_size)
+		* vars->cell_size;
 	if (!ray->facing_left)
 		first.x += vars->cell_size;
 	first.y = vars->player.current_pos.y

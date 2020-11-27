@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 01:36:40 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/23 00:06:41 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/27 02:45:21 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	free_parsed_file(t_game_file parsed_file)
 		free(parsed_file.sprite_text);
 }
 
-void 	free_mlx_struct(t_mlx_vars *vars)
+void	free_mlx_struct(t_mlx_vars *vars)
 {
 	if (vars->view.img)
 		mlx_destroy_image(vars->mlx, vars->view.img);
@@ -59,7 +59,10 @@ void	exit_game_red_cross(t_mlx_vars *vars)
 	mlx_destroy_display(vars->mlx);
 	free(vars->mlx);
 	free_parsed_file(vars->parsed_file);
-	free(vars->sprites);
+	if (vars->sprites)
+		free(vars->sprites);
+	if (vars->rays)
+		free(vars->rays);
 }
 
 int		exit_game(t_mlx_vars *vars)
@@ -69,7 +72,10 @@ int		exit_game(t_mlx_vars *vars)
 	mlx_destroy_display(vars->mlx);
 	free(vars->mlx);
 	free_parsed_file(vars->parsed_file);
-	free(vars->sprites);
+	if (vars->sprites)
+		free(vars->sprites);
+	if (vars->rays)
+		free(vars->rays);
 	exit(0);
 	return (1);
 }

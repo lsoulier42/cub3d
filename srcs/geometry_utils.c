@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 12:12:08 by louise            #+#    #+#             */
-/*   Updated: 2020/11/24 19:33:44 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/27 01:01:33 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ double	distance_points(t_point start, t_point end)
 
 	dx = end.x - start.x;
 	dy = end.y - start.y;
-	distance = sqrt(pow(dy, 2) + pow(dx, 2));
+	distance = sqrt(pow(dx, 2) + pow(dy, 2));
 	return (distance);
 }
 
@@ -34,8 +34,7 @@ double	degree_to_radian(double angle)
 
 double	normalize_angle(double angle)
 {
-	if (angle > 2 * M_PI)
-		angle = fmod(angle, (2 * M_PI));
+	angle = fmod(angle, (2 * M_PI));
 	if (angle < 0)
 		angle += (2 * M_PI);
 	return (angle);

@@ -12,7 +12,7 @@
 
 #include "parsing.h"
 
-void 	init_parsed_file(t_game_file *parsed_file)
+void	init_parsed_file(t_game_file *parsed_file)
 {
 	parsed_file->map = NULL;
 	parsed_file->player_start_card = 0;
@@ -29,7 +29,7 @@ void 	init_parsed_file(t_game_file *parsed_file)
 	parsed_file->settings_complete = 0;
 }
 
-int 		parse_map_loop(t_game_file *parsed_file, int fd)
+int		parse_map_loop(t_game_file *parsed_file, int fd)
 {
 	char	*next_line;
 	int		error_occurred;
@@ -47,7 +47,7 @@ int 		parse_map_loop(t_game_file *parsed_file, int fd)
 	return (!error_occurred);
 }
 
-int			parse_config_file(t_game_file *parsed_file, int fd)
+int		parse_config_file(t_game_file *parsed_file, int fd)
 {
 	int no_error;
 
@@ -66,7 +66,7 @@ int			parse_config_file(t_game_file *parsed_file, int fd)
 	return (no_error);
 }
 
-int	load_config_file(t_game_file *parsed_file, char *path)
+int		load_config_file(t_game_file *parsed_file, char *path)
 {
 	int			fd;
 

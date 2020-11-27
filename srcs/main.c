@@ -26,11 +26,11 @@ int	main(int argc, char **argv)
 		if (save_opt || argc == 2)
 		{
 			if (!load_config_file(&vars.parsed_file, argv[1]))
-				return(0);
+				return (0);
 			if (!create_game_struct(&vars, save_opt))
 			{
 				free_parsed_file(vars.parsed_file);
-				return(0);
+				return (0);
 			}
 			event_mngt(&vars);
 			exit_game_red_cross(&vars);

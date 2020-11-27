@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 03:26:35 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/22 19:42:11 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/27 02:40:42 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,15 @@ int		is_wall(t_mlx_vars *vars, double x, double y)
 	if (index_x < 0 || index_y < 0
 		|| index_x >= map_res.width || index_y >= map_res.height)
 		return (1);
-	else
-		return (map[index_y][index_x] != '0');
+	return (map[index_y][index_x] != '0');
 }
 
 void	update_player_position(t_mlx_vars *vars, t_player *player)
 {
 	double			move_step;
 	t_point			next_position;
-	double 			xstep;
-	double 			ystep;
+	double			xstep;
+	double			ystep;
 
 	player->rotation_angle += player->turn_direction
 									* player->rotation_speed;

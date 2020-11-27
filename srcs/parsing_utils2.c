@@ -12,9 +12,9 @@
 
 #include "parsing.h"
 
-int 		line_is_whitespace(char *str)
+int		line_is_whitespace(char *str)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	if (!str)
@@ -25,13 +25,13 @@ int 		line_is_whitespace(char *str)
 	return (1);
 }
 
-char		*trim_white_lines(int fd)
+char	*trim_white_lines(int fd)
 {
 	int		ret_gnl;
 	char	*line;
 
 	ret_gnl = 1;
-	while(ret_gnl)
+	while (ret_gnl)
 	{
 		ret_gnl = get_next_line(fd, &line);
 		if (ret_gnl == -1)
@@ -49,9 +49,9 @@ char		*trim_white_lines(int fd)
 
 char	*trim_spaces(char *str)
 {
-	int new_size;
-	int i;
-	char *new_str;
+	int		new_size;
+	int		i;
+	char	*new_str;
 
 	new_size = 0;
 	i = -1;

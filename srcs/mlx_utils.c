@@ -6,13 +6,13 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 17:46:02 by louise            #+#    #+#             */
-/*   Updated: 2020/11/22 23:02:25 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/27 02:55:00 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	create_trgb(int t, int r, int g, int b)
+int		create_trgb(int t, int r, int g, int b)
 {
 	int color;
 
@@ -23,7 +23,7 @@ int	create_trgb(int t, int r, int g, int b)
 	return (color);
 }
 
-void my_mlx_pixel_put(t_image_data *img, int x, int y, int color)
+void	my_mlx_pixel_put(t_image_data *img, int x, int y, int color)
 {
 	char	*dst;
 
@@ -31,7 +31,7 @@ void my_mlx_pixel_put(t_image_data *img, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-int	my_mlx_new_image(void *mlx_ptr, t_image_data *img,
+int		my_mlx_new_image(void *mlx_ptr, t_image_data *img,
 	int width, int height)
 {
 	img->img = mlx_new_image(mlx_ptr, width, height);
@@ -46,7 +46,7 @@ int	my_mlx_new_image(void *mlx_ptr, t_image_data *img,
 }
 
 void	draw_rect(t_image_data *img, t_point location,
-				  t_dimension dimension, int color)
+	t_dimension dimension, int color)
 {
 	double x;
 	double y;

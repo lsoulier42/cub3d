@@ -59,7 +59,8 @@ void	cast_all_rays(t_mlx_vars *vars)
 	nb_column = vars->parsed_file.win_res.width;
 	while (++i < nb_column)
 	{
-		ray_angle = vars->player.rotation_angle + atan((i - (nb_column / 2)) / vars->distance_to_projection_plane);
+		ray_angle = vars->player.rotation_angle
+			+ atan((i - (nb_column / 2)) / vars->distance_to_projection_plane);
 		init_ray(&vars->rays[i], normalize_angle(ray_angle));
 		find_horizontal_intercept(vars, &vars->rays[i]);
 		find_vertical_intercept(vars, &vars->rays[i]);
