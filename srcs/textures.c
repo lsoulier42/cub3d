@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 17:59:34 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/27 03:09:40 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/27 11:28:13 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,18 @@ int		get_texture_offset_y(double current_y,
 	return (offset_y);
 }
 
-void	set_wall_limits(t_dimension win_res, double wall_height,
-	int *wall_top_pixel, int *wall_bottom_pixel)
+void	set_texture_limits(t_dimension win_res,
+	double texture_height_in_screen, int *texture_top_pixel,
+	int *texture_bottom_pixel)
 {
-	*wall_top_pixel = (win_res.height / 2.0) - (wall_height / 2);
-	if (*wall_top_pixel < 0)
-		*wall_top_pixel = 0;
-	*wall_bottom_pixel = (win_res.height / 2.0) + (wall_height / 2);
-	if (*wall_bottom_pixel > win_res.height)
-		*wall_bottom_pixel = win_res.height;
+	*texture_top_pixel = (win_res.height / 2.0)
+		- (texture_height_in_screen / 2);
+	if (*texture_top_pixel < 0)
+		*texture_top_pixel = 0;
+	*texture_bottom_pixel = (win_res.height / 2.0)
+		+ (texture_height_in_screen / 2);
+	if (*texture_bottom_pixel > win_res.height)
+		*texture_bottom_pixel = win_res.height;
 }
 
 void	set_line_texture(t_mlx_vars *vars, t_texture_data *text,
@@ -59,7 +62,7 @@ void	set_line_texture(t_mlx_vars *vars, t_texture_data *text,
 	int		wall_bottom_pixel;
 	int		color;
 
-	set_wall_limits(vars->parsed_file.win_res, wall_height,
+	set_texture_limits(vars->parsed_file.win_res, wall_height,
 		&wall_top_pixel, &wall_bottom_pixel);
 	y = wall_top_pixel - 1;
 	texture_offset.x = get_texture_offset_x(vars->rays[ray_index].wall_hit,

@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 02:34:37 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/27 03:09:09 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/27 11:23:50 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ void	get_sprites_positions(t_mlx_vars *vars)
 			data.sprite_index = i;
 			data.sprite_height = vars->distance_to_projection_plane *
 				(vars->cell_size / vars->sprites[i].distance);
-			data.sprite_top_pixel = (vars->parsed_file.win_res.height / 2)
-				- (data.sprite_height / 2.0);
-			data.sprite_bottom_pixel = (vars->parsed_file.win_res.height / 2)
-				+ (data.sprite_height / 2.0);
+			set_texture_limits(vars->parsed_file.win_res, data.sprite_height,
+				&data.sprite_top_pixel, &data.sprite_bottom_pixel);
 			sprite_width = vars->distance_to_projection_plane
 				/ ((cos(vars->sprites[i].angle) * vars->sprites[i].distance));
 			data.first_x_position = vars->distance_to_projection_plane
@@ -75,9 +73,8 @@ void	render_sprite(t_mlx_vars *vars, t_sprite_positions data)
 		&& data.first_x_position + drawing.x > 0)
 	{
 		ray_distance = vars->rays[(int)(data.first_x_position
-										+ drawing.x)].distance;
-		if (ray_distance > vars->sprites[data.sprite_index].distance
-			&& data.sprite_top_pixel > 0)
+			+ drawing.x)].distance;
+		if (ray_distance > vars->sprites[data.sprite_index].distance)
 		{
 			sprite_texture_offset.x = drawing.x *
 				vars->sprites_text.width / data.sprite_height;

@@ -185,8 +185,9 @@ void			map_texture(t_mlx_vars *vars, double wall_height,
 					int ray_index);
 void			set_line_texture(t_mlx_vars *vars, t_texture_data *text,
 					double wall_height, int ray_index);
-void			set_wall_limits(t_dimension win_res, double wall_height,
-					int *wall_top_pixel, int *wall_bottom_pixel);
+void			set_texture_limits(t_dimension win_res,
+					double texture_height_in_screen, int *texture_top_pixel,
+					int *texture_bottom_pixel);
 int				get_texture_offset_x(t_point wall_hit, int was_hit_vertical,
 					int text_width, int cell_size);
 int				get_texture_offset_y(double current_y,
