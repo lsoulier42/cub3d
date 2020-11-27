@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 13:35:26 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/27 03:03:24 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/27 19:37:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,25 @@ char	**realloc_map(char **data, int prev_size, int new_size)
 	i = -1;
 	new_data = (char**)malloc(sizeof(char*) * new_size);
 	if (!new_data)
+	{
+		if (prev_size != 0)
+			free(data);
 		return (NULL);
+	}
 	while (++i < prev_size)
 		new_data[i] = data[i];
 	new_data[i] = NULL;
 	if (prev_size != 0)
 		free(data);
 	return (new_data);
+}
+
+void free_alloc_map(char **map)
+{
+	int i;
+
+	i = -1;
+	while (map[++i])
+		free(map[i]);
+	free(map);
 }

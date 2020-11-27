@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 16:23:25 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/27 03:18:09 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/27 20:24:15 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,14 @@ typedef enum	e_const_error
 	FORMAT_RESOLUTION_ERROR,
 	COLOR_SETTING_ERROR,
 	MAP_NOT_CLOSED_ERROR,
-	NO_PLAYER_START_ERROR,
 	MISSING_SETTINGS_ERROR,
 	SETTINGS_ALREADY_COMPLETE,
 	COLOR_ALREADY_SET_ERROR,
 	TEXTURE_NOT_FOUND,
-	ALLOCATION_ERROR
+	ALLOCATION_ERROR,
+	MAP_EMPTY_ERROR,
+	INVALID_PLAYER_START,
+	SETTING_INVALID,
+	TEXTURE_ALREADY_SET_ERROR
 }				t_const_error;
 #endif

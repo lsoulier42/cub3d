@@ -1,4 +1,4 @@
-NAME=		Cub3D
+NAME=		cub3D
 SRCS=		main.c \
 			parsing.c \
 			cub_file.c \

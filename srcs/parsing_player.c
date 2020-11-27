@@ -6,37 +6,38 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 13:56:44 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/22 13:57:38 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/27 19:29:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int	parse_player_start(t_game_file *parsed_file)
+int	parse_player_star(char **map, t_point *player_start,
+	char *player_start_card)
 {
-	int		x;
-	int		y;
-	char	*row;
-	int		found;
+	int x;
+	int y;
+	int nb_start;
 
 	y = -1;
-	row = *parsed_file->map;
-	found = 0;
-	while (!found && row)
+	nb_start = 0;
+	while (map[++y])
 	{
 		x = -1;
-		row = parsed_file->map[++y];
-		while (!found && row[++x])
-			if (ft_strchr(CARD_CHARSET, row[x]) != NULL)
-				found = 1;
+		while (map[y] && map[y][++x])
+		{
+			if (ft_strchr(CARD_CHARSET, map[y][x]) != NULL)
+			{
+				set_point(player_start, x, y);
+				nb_start++;
+			}
+		}
 	}
-	if (!found)
+	*player_start_card = map[(int)player_start->y][(int)player_start->x];
+	if (nb_start != 1)
 	{
-		error_msg_parsing(NO_PLAYER_START_ERROR);
+		error_msg_parsing(INVALID_PLAYER_START);
 		return (0);
 	}
-	set_point(&(parsed_file->player_start), x, y);
-	parsed_file->player_start_card = parsed_file->map[y][x];
-	parsed_file->map[y][x] = '0';
 	return (1);
 }

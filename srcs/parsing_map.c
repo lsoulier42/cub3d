@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 13:34:19 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/23 00:05:04 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/27 19:40:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,42 @@
 int		parse_map(t_game_file *parsed_file, char **line, int fd)
 {
 	char	**map;
-	int		map_width;
-	int		y;
 
+	if (!*line)
+	{
+		error_msg_parsing(MAP_EMPTY_ERROR);
+		return (0);
+	}
 	map = create_map(line, fd);
-	y = -1;
-	map_width = 0;
 	if (!map)
 		return (0);
 	if (!check_map(map))
+	{
+		free_alloc_map(map);
 		return (0);
+	}
+	if (!set_map_settings(parsed_file, map))
+		return (0);
+	return (1);
+}
+
+int		set_map_settings(t_game_file *parsed_file, char **map)
+{
+	int		map_width;
+	int		y;
+
+	y = -1;
+	map_width = 0;
 	parsed_file->map = map;
 	while (map[++y])
 		if ((int)ft_strlen(map[y]) > map_width)
 			map_width = ft_strlen(map[y]);
 	set_dimension(&parsed_file->map_res, map_width, y);
-	if (!parse_player_start(parsed_file))
+	if (!parse_player_star(parsed_file->map, &parsed_file->player_start,
+		&parsed_file->player_start_card))
 		return (0);
+	parsed_file->map[(int)parsed_file->player_start.y]
+		[(int)parsed_file->player_start.x] = '0';
 	return (1);
 }
 
@@ -64,9 +83,31 @@ char	**create_map(char **line, int fd)
 	return (map);
 }
 
-int		check_map(char **map)
+int		invalid_map(char **map, int y, int map_height, int line_len)
 {
 	int		x;
+	int		next_len;
+	int		previous_len;
+
+	x = -1;
+	if (y > 0)
+		previous_len = ft_strlen(map[y - 1]);
+	next_len = y + 1 != map_height ? ft_strlen(map[y + 1]) : 0;
+	while (map[y][++x])
+		if ((ft_strchr(NOT_WALL, map[y][x]) != NULL) && (y == 0 || x == 0
+			|| y == (map_height - 1) || x == (line_len - 1)
+			|| x - 1 > previous_len || x + 1 > next_len
+			|| map[y - 1][x] == ' ' || map[y + 1][x] == ' '
+			|| map[y][x - 1] == ' ' || map[y][x + 1] == ' '))
+		{
+			error_msg_parsing(MAP_NOT_CLOSED_ERROR);
+			return (1);
+		}
+	return (0);
+}
+
+int		check_map(char **map)
+{
 	int		y;
 	int		line_len;
 	int		map_height;
@@ -77,17 +118,9 @@ int		check_map(char **map)
 		map_height++;
 	while (map[++y])
 	{
-		x = -1;
-		line_len = (int)ft_strlen(map[y]);
-		while (map[y][++x])
-			if ((ft_strchr(NOT_WALL, map[y][x]) != NULL) && (y == 0 || x == 0
-				|| y == (map_height - 1) || x == (line_len - 1)
-				|| map[y - 1][x] == ' ' || map[y + 1][x] == ' '
-				|| map[y][x - 1] == ' ' || map[y][x + 1] == ' '))
-			{
-				error_msg_parsing(MAP_NOT_CLOSED_ERROR);
-				return (0);
-			}
+		line_len = ft_strlen(map[y]);
+		if (invalid_map(map, y, map_height, line_len))
+			return (0);
 	}
 	return (1);
 }

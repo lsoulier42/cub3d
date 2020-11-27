@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 01:53:44 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/27 02:41:28 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/27 20:24:59 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,20 @@ void	error_msg_parsing(int error_type)
 		ft_putstr("Texture file not found.\n");
 	else if (error_type == MAP_NOT_CLOSED_ERROR)
 		ft_putstr("Invalid map : map not closed with walls.\n");
-	else if (error_type == NO_PLAYER_START_ERROR)
-		ft_putstr("Player start hasn't been found.\n");
+	else if (error_type == INVALID_PLAYER_START)
+		ft_putstr("Player start has 0 or more than 1 positions.\n");
 	else if (error_type == MISSING_SETTINGS_ERROR)
 		ft_putstr("One of the settings is missing.\n");
 	else if (error_type == COLOR_ALREADY_SET_ERROR)
 		ft_putstr("One color has already been set for this background.\n");
 	else if (error_type == SETTINGS_ALREADY_COMPLETE)
 		ft_putstr("All settings are already complete.\n");
+	else if (error_type == MAP_EMPTY_ERROR)
+		ft_putstr("Map is empty.\n");
+	else if (error_type == SETTING_INVALID)
+		ft_putstr("Invalid setting format.\n");
+	else if (error_type == TEXTURE_ALREADY_SET_ERROR)
+		ft_putstr("One texture has already been set for this side.\n");
 	else
 		ft_putstr("Unknown parsing error.\n");
 }
