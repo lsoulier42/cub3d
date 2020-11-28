@@ -6,23 +6,17 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 01:36:40 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/27 02:45:21 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 16:39:44 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "parsing.h"
 
 void	free_parsed_file(t_game_file parsed_file)
 {
-	int i;
-
-	i = -1;
 	if (parsed_file.map)
-	{
-		while (parsed_file.map[++i])
-			free(parsed_file.map[i]);
-		free(parsed_file.map);
-	}
+		free_double_tab(parsed_file.map);
 	if (parsed_file.no_text)
 		free(parsed_file.no_text);
 	if (parsed_file.so_text)
@@ -39,8 +33,6 @@ void	free_mlx_struct(t_mlx_vars *vars)
 {
 	if (vars->view.img)
 		mlx_destroy_image(vars->mlx, vars->view.img);
-	if (vars->minimap.img)
-		mlx_destroy_image(vars->mlx, vars->minimap.img);
 	if (vars->south_text.img)
 		mlx_destroy_image(vars->mlx, vars->south_text.img);
 	if (vars->north_text.img)
@@ -53,29 +45,14 @@ void	free_mlx_struct(t_mlx_vars *vars)
 		mlx_destroy_image(vars->mlx, vars->sprites_text.img);
 }
 
-void	exit_game_red_cross(t_mlx_vars *vars)
-{
-	free_mlx_struct(vars);
-	mlx_destroy_display(vars->mlx);
-	free(vars->mlx);
-	free_parsed_file(vars->parsed_file);
-	if (vars->sprites)
-		free(vars->sprites);
-	if (vars->rays)
-		free(vars->rays);
-}
-
 int		exit_game(t_mlx_vars *vars)
 {
 	free_mlx_struct(vars);
 	mlx_destroy_window(vars->mlx, vars->win);
 	mlx_destroy_display(vars->mlx);
 	free(vars->mlx);
+	free(vars->sprites);
+	free(vars->rays);
 	free_parsed_file(vars->parsed_file);
-	if (vars->sprites)
-		free(vars->sprites);
-	if (vars->rays)
-		free(vars->rays);
-	exit(0);
 	return (1);
 }

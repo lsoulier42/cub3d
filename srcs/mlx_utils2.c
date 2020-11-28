@@ -6,14 +6,21 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 14:29:21 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/27 01:48:13 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 14:06:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "parsing.h"
 
 int		load_texture(t_mlx_vars *vars, t_texture_data *text, char *filepath)
 {
+	if (!check_extension_file(filepath, ".xpm"))
+	{
+		error_msg(TEXTURE_ERROR);
+		error_msg_texture(filepath);
+		return (0);
+	}
 	text->img = mlx_xpm_file_to_image(vars->mlx,
 		filepath, &text->width, &text->height);
 	if (!text->img)

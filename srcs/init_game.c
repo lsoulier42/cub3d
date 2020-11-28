@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:27:36 by louise            #+#    #+#             */
-/*   Updated: 2020/11/27 02:54:06 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 21:58:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 
 int		create_game_struct(t_mlx_vars *vars, int save_opt)
 {
-	if (vars->parsed_file.win_res.width > 320)
-		vars->cell_size = 16;
-	else
-		vars->cell_size = 5;
+	vars->cell_size = 16;
 	vars->distance_to_projection_plane = (vars->parsed_file.win_res.width / 2)
 		/ tan(degree_to_radian(FOV_ANGLE / 2));
 	vars->rays = (t_ray*)malloc(sizeof(t_ray)
@@ -59,9 +56,8 @@ void	init_player(t_player *player, t_game_file parsed_file, int cell_size)
 	else
 		angle = M_PI;
 	player->rotation_angle = angle;
-	player->move_speed = parsed_file.win_res.width * 4.0 / FOUR_K_RES_WIDTH;
-	player->move_speed *= cell_size / 16.0;
-	player->rotation_speed = (player->move_speed * M_PI) / 180;
+	player->move_speed = 2.0;
+	player->rotation_speed = (4 * M_PI) / 180;
 	player->direction_angle = 0;
 }
 
@@ -96,15 +92,16 @@ int		create_window(t_mlx_vars *vars)
 int		create_images(t_mlx_vars *vars)
 {
 	t_dimension	win_res;
-	t_dimension map_res;
 
+	vars->view.img = NULL;
+	vars->south_text.img = NULL;
+	vars->north_text.img = NULL;
+	vars->west_text.img = NULL;
+	vars->east_text.img = NULL;
+	vars->sprites_text.img = NULL;
 	win_res = vars->parsed_file.win_res;
-	map_res = vars->parsed_file.map_res;
 	if (!my_mlx_new_image(vars->mlx, &vars->view,
-		win_res.width, win_res.height)
-		|| !my_mlx_new_image(vars->mlx, &vars->minimap,
-		map_res.width * vars->cell_size,
-		map_res.height * vars->cell_size))
+		win_res.width, win_res.height))
 		return (0);
 	if (!load_texture(vars, &vars->south_text, vars->parsed_file.so_text)
 		|| !load_texture(vars, &vars->north_text, vars->parsed_file.no_text)

@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/27 03:16:52 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 19:02:07 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct	s_sprite_positions
 	int		sprite_top_pixel;
 	double	sprite_height;
 	int		sprite_bottom_pixel;
-	int		first_x_position;
+	double	first_x_position;
 }				t_sprite_positions;
 
 typedef struct	s_game_file
@@ -124,7 +124,6 @@ typedef struct	s_mlx_vars
 	t_player		player;
 	t_ray			*rays;
 	int				save;
-	t_image_data	minimap;
 	t_image_data	view;
 	t_texture_data	south_text;
 	t_texture_data	north_text;
@@ -207,5 +206,4 @@ void			draw_sprite(t_mlx_vars *vars, t_sprite_positions data,
 void			free_mlx_struct(t_mlx_vars *vars);
 void			free_parsed_file(t_game_file parsed_file);
 int				exit_game(t_mlx_vars *vars);
-void			exit_game_red_cross(t_mlx_vars *vars);
 #endif

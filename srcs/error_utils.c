@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 01:53:44 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/27 20:24:59 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 20:36:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	error_msg(int error_type)
 		ft_putstr("Error\n Allocating memory failed.\n");
 	else if (error_type == TEXTURE_ERROR)
 		ft_putstr("Error\nLoading texture error.\n");
+	else if (error_type == UNKNOWN_ELEMENT_ERROR)
+		ft_putstr("Error\nUnknown element found in map.\n");
 	else
 		ft_putstr("Error\nUnknown error.\n");
 }
@@ -59,8 +61,8 @@ void	error_msg_parsing(int error_type)
 		ft_putstr("Invalid setting format.\n");
 	else if (error_type == TEXTURE_ALREADY_SET_ERROR)
 		ft_putstr("One texture has already been set for this side.\n");
-	else
-		ft_putstr("Unknown parsing error.\n");
+	else if (error_type == RESOLUTION_ALREADY_SET)
+		ft_putstr("Resolution has already been set.\n");
 }
 
 void	error_msg_texture(char *filepath)

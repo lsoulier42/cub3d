@@ -6,78 +6,64 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 13:35:26 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/27 19:37:36 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 13:01:00 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int		parse_settings(t_game_file *parsed_file, int fd)
-{
-	char	*line;
-	int		ret_gnl;
-	int		error_occurred;
-
-	ret_gnl = 1;
-	line = NULL;
-	error_occurred = 0;
-	while (ret_gnl && !error_occurred && !parsed_file->settings_complete)
-	{
-		ret_gnl = get_next_line(fd, &line);
-		if (ret_gnl == -1)
-			return (0);
-		if (ft_strchr(SETTINGS_CHARSET, *line) != NULL)
-		{
-			if (!parse_resolution(parsed_file, line))
-				error_occurred = 1;
-			if (!parse_textures(parsed_file, line))
-				error_occurred = 1;
-			if (!parse_colors(parsed_file, line))
-				error_occurred = 1;
-			check_missing_settings(parsed_file);
-		}
-		free(line);
-	}
-	return (!error_occurred);
-}
-
-void	check_missing_settings(t_game_file *parsed_file)
-{
-	if (parsed_file->floor_color != -1 && parsed_file->ceiling_color != -1
-		&& parsed_file->win_res.width != 0 && parsed_file->win_res.height != 0
-		&& parsed_file->so_text != NULL && parsed_file->no_text != NULL
-		&& parsed_file->ea_text != NULL && parsed_file->we_text != NULL
-		&& parsed_file->sprite_text != NULL)
-		parsed_file->settings_complete = 1;
-}
-
-char	**realloc_map(char **data, int prev_size, int new_size)
-{
-	char	**new_data;
-	int		i;
-
-	i = -1;
-	new_data = (char**)malloc(sizeof(char*) * new_size);
-	if (!new_data)
-	{
-		if (prev_size != 0)
-			free(data);
-		return (NULL);
-	}
-	while (++i < prev_size)
-		new_data[i] = data[i];
-	new_data[i] = NULL;
-	if (prev_size != 0)
-		free(data);
-	return (new_data);
-}
-
-void free_alloc_map(char **map)
+void	free_double_tab(char **tab)
 {
 	int i;
 
 	i = -1;
-	while (map[++i])
-		free(map[i]);
-	free(map);
+	while (tab[++i])
+		free(tab[i]);
+	free(tab);
+}
+
+int		nb_tab_values(char **values)
+{
+	int i;
+
+	i = 0;
+	while (values[i])
+		i++;
+	return (i);
+}
+
+int		line_is_whitespace(char *str)
+{
+	int	i;
+
+	i = -1;
+	if (!str)
+		return (0);
+	while (str[++i])
+		if (!ft_isspace(str[i]))
+			return (0);
+	return (1);
+}
+
+char	*trim_white_lines(int fd)
+{
+	int		ret_gnl;
+	char	*line;
+
+	ret_gnl = 1;
+	line = NULL;
+	while (ret_gnl)
+	{
+		ret_gnl = get_next_line(fd, &line);
+		if (ret_gnl == -1)
+			return (NULL);
+		if (line_is_whitespace(line))
+		{
+			free(line);
+			line = NULL;
+		}
+		else
+			break ;
+	}
+	return (line);
 }

@@ -7,6 +7,7 @@ SRC_FILES=	ft_memset.c \
 			ft_strrchr.c \
 			ft_memccpy.c \
 			ft_memmove.c \
+			ft_strcmp.c \
 			ft_strncmp.c \
 			ft_memchr.c \
 			ft_memcmp.c \

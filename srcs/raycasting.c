@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 20:03:06 by user42            #+#    #+#             */
-/*   Updated: 2020/11/24 15:14:51 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 21:44:50 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	is_wall_raycasting(t_mlx_vars *vars, t_point next_touch)
 	index_x = floor(next_touch.x / vars->cell_size);
 	index_y = floor(next_touch.y / vars->cell_size);
 	if (index_x < 0 || index_y < 0
-		|| index_x >= map_res.width || index_y >= map_res.height)
+		|| index_x >= map_res.width - 1 || index_y >= map_res.height - 1)
 		return ('1');
 	else
 		return (map[index_y][index_x]);

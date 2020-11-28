@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:36:08 by louise            #+#    #+#             */
-/*   Updated: 2020/11/27 18:11:46 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 16:42:23 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,10 @@ int	main(int argc, char **argv)
 				return (0);
 			if (!create_game_struct(&vars, save_opt))
 			{
-				free_parsed_file(vars.parsed_file);
+				exit_game(&vars);
 				return (0);
 			}
 			event_mngt(&vars);
-			exit_game_red_cross(&vars);
 		}
 	}
 	if (argc < 2 || (argc == 3 && !save_opt) || argc > 3)

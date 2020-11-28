@@ -6,32 +6,25 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 16:23:25 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/27 20:24:15 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 18:26:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONSTANTS_H
 # define CONSTANTS_H
-
+# define FOV_ANGLE 60
 # define ESCAPE 65307
 # define W_KEY 119
 # define S_KEY 115
 # define A_KEY 97
 # define D_KEY 100
-# define FOV_ANGLE 60
-# define FOUR_K_RES_WIDTH 3840
-# define FOUR_K_RES_HEIGHT 2160
+# define ARROW_LEFT 65361
+# define ARROW_UP 65362
+# define ARROW_RIGHT 65363
+# define ARROW_DOWN 65364
 # ifndef PROJECT_NAME
 #  define PROJECT_NAME "Cub3D"
 # endif
-
-typedef enum	e_arrow
-{
-	ARROW_LEFT = 65361,
-	ARROW_UP,
-	ARROW_RIGHT,
-	ARROW_DOWN
-}				t_arrow;
 
 typedef enum	e_const_error
 {
@@ -53,6 +46,8 @@ typedef enum	e_const_error
 	MAP_EMPTY_ERROR,
 	INVALID_PLAYER_START,
 	SETTING_INVALID,
-	TEXTURE_ALREADY_SET_ERROR
+	TEXTURE_ALREADY_SET_ERROR,
+	RESOLUTION_ALREADY_SET,
+	UNKNOWN_ELEMENT_ERROR
 }				t_const_error;
 #endif
