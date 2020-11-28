@@ -12,13 +12,13 @@
 
 #include "cub3d.h"
 
-void	set_dimension(t_dimension *dimension, double width, double height)
+void	set_dimension(t_dimension *dimension, float width, float height)
 {
 	dimension->width = width;
 	dimension->height = height;
 }
 
-void	set_point(t_point *point, double x, double y)
+void	set_point(t_point *point, float x, float y)
 {
 	point->x = x;
 	point->y = y;

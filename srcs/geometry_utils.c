@@ -12,11 +12,11 @@
 
 #include "cub3d.h"
 
-double	distance_points(t_point start, t_point end)
+float	distance_points(t_point start, t_point end)
 {
-	double	distance;
-	double	dx;
-	double	dy;
+	float	distance;
+	float	dx;
+	float	dy;
 
 	dx = end.x - start.x;
 	dy = end.y - start.y;
@@ -24,15 +24,15 @@ double	distance_points(t_point start, t_point end)
 	return (distance);
 }
 
-double	degree_to_radian(double angle)
+float	degree_to_radian(float angle)
 {
-	double radian;
+	float radian;
 
 	radian = (M_PI * angle) / 180;
 	return (radian);
 }
 
-double	normalize_angle(double angle)
+float	normalize_angle(float angle)
 {
 	angle = fmod(angle, (2 * M_PI));
 	if (angle < 0)

@@ -12,7 +12,7 @@
 
 #include "parsing.h"
 
-void	free_double_tab(char **tab)
+void	free_twod_array(char **tab)
 {
 	int i;
 

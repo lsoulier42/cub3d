@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/28 19:02:07 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 23:42:15 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,21 @@
 
 typedef struct	s_point
 {
-	double x;
-	double y;
+	float x;
+	float y;
 }				t_point;
 
 typedef struct	s_dimension
 {
-	double width;
-	double height;
+	float width;
+	float height;
 }				t_dimension;
 
 typedef struct	s_sprite
 {
 	t_point	position;
-	double	distance;
-	double	angle;
+	float	distance;
+	float	angle;
 	int		is_visible;
 
 }				t_sprite;
@@ -48,9 +48,9 @@ typedef struct	s_sprite_positions
 {
 	int		sprite_index;
 	int		sprite_top_pixel;
-	double	sprite_height;
+	float	sprite_height;
 	int		sprite_bottom_pixel;
-	double	first_x_position;
+	float	first_x_position;
 }				t_sprite_positions;
 
 typedef struct	s_game_file
@@ -95,16 +95,16 @@ typedef struct	s_player
 	t_point			current_pos;
 	int				turn_direction;
 	int				walk_direction;
-	double			direction_angle;
-	double			rotation_angle;
-	double			move_speed;
-	double			rotation_speed;
+	float			direction_angle;
+	float			rotation_angle;
+	float			move_speed;
+	float			rotation_speed;
 }				t_player;
 
 typedef struct	s_ray
 {
-	double	distance;
-	double	angle;
+	float	distance;
+	float	angle;
 	t_point	wall_hit;
 	int		facing_down;
 	int		facing_left;
@@ -123,15 +123,13 @@ typedef struct	s_mlx_vars
 	t_game_file		parsed_file;
 	t_player		player;
 	t_ray			*rays;
-	int				save;
 	t_image_data	view;
 	t_texture_data	south_text;
 	t_texture_data	north_text;
 	t_texture_data	west_text;
 	t_texture_data	east_text;
 	t_texture_data	sprites_text;
-	int				cell_size;
-	double			distance_to_projection_plane;
+	float			distance_to_projection_plane;
 	int				nb_sprites;
 	t_sprite		*sprites;
 }				t_mlx_vars;
@@ -139,21 +137,22 @@ typedef struct	s_mlx_vars
 void			error_msg(int error_type);
 void			error_msg_texture(char *filepath);
 void			error_msg_parsing(int error_type);
-void			set_point(t_point *point, double x, double y);
-void			set_dimension(t_dimension *dimension, double width,
-					double height);
+void			set_point(t_point *point, float x, float y);
+void			set_dimension(t_dimension *dimension, float width,
+					float height);
 int				create_game_struct(t_mlx_vars *vars, int save_opt);
+int				create_mlx_ptr(t_mlx_vars *vars);
+int				create_game_struct_suite(t_mlx_vars *vars);
 int				create_window(t_mlx_vars *vars);
-void			init_player(t_player *player, t_game_file parsed_file,
-					int cell_size);
+void			init_player(t_player *player, t_game_file parsed_file);
 int				create_images(t_mlx_vars *vars);
 int				load_texture(t_mlx_vars *vars, t_texture_data *text,
 					char *filepath);
 int				check_filepath_text(char *filepath);
-int				is_wall(t_mlx_vars *vars, double x, double y);
+int				is_wall(t_mlx_vars *vars, float x, float y);
 void			update_player_position(t_mlx_vars *vars, t_player *player);
 void			render_wall(t_mlx_vars *vars);
-double			fishbowl_correct(t_mlx_vars *vars, t_ray ray);
+float			fishbowl_correct(t_mlx_vars *vars, t_ray ray);
 void			render_background(t_mlx_vars *vars);
 int				key_press_hook(int keycode, t_mlx_vars *vars);
 int				key_release_hook(int keycode, t_mlx_vars *vars);
@@ -165,11 +164,11 @@ void			my_mlx_pixel_put(t_image_data *img, int x, int y, int color);
 int				create_trgb(int t, int r, int g, int b);
 void			draw_rect(t_image_data *img, t_point location,
 					t_dimension dimension, int color);
-double			distance_points(t_point start, t_point end);
-double			degree_to_radian(double angle);
-double			normalize_angle(double angle);
+float			distance_points(t_point start, t_point end);
+float			degree_to_radian(float angle);
+float			normalize_angle(float angle);
 void			cast_all_rays(t_mlx_vars *vars);
-void			init_ray(t_ray *ray, double ray_angle);
+void			init_ray(t_ray *ray, float ray_angle);
 void			find_horizontal_intercept(t_mlx_vars *vars, t_ray *ray);
 void			find_horizontal_intercept_loop(t_mlx_vars *vars,
 					t_ray *ray, t_point next, t_point step);
@@ -177,27 +176,27 @@ char			is_wall_raycasting(t_mlx_vars *vars, t_point next_touch);
 void			find_vertical_intercept(t_mlx_vars *vars, t_ray *ray);
 void			find_vertical_intercept_loop(t_mlx_vars *vars,
 					t_ray *ray, t_point next, t_point step);
-void			reset_ray_setting(t_ray *ray, double vertical_len,
+void			reset_ray_setting(t_ray *ray, float vertical_len,
 					t_point wall_found, char hit_content);
 int				get_texture_color(t_texture_data *img, int x, int y);
-void			map_texture(t_mlx_vars *vars, double wall_height,
+void			map_texture(t_mlx_vars *vars, float wall_height,
 					int ray_index);
 void			set_line_texture(t_mlx_vars *vars, t_texture_data *text,
-					double wall_height, int ray_index);
+					float wall_height, int ray_index);
 void			set_texture_limits(t_dimension win_res,
-					double texture_height_in_screen, int *texture_top_pixel,
+					float texture_height_in_screen, int *texture_top_pixel,
 					int *texture_bottom_pixel);
 int				get_texture_offset_x(t_point wall_hit, int was_hit_vertical,
-					int text_width, int cell_size);
-int				get_texture_offset_y(double current_y,
-					double wall_height, int win_height, int text_height);
+					int text_width);
+int				get_texture_offset_y(float current_y,
+					float wall_height, int win_height, int text_height);
 int				save_bmp(t_image_data *first_frame, t_dimension img_res);
 int				init_sprites(t_mlx_vars *vars);
 void			init_sprite(t_mlx_vars *vars);
 void			process_sprites(t_mlx_vars *vars);
-double			calculate_sprite_angle(t_point sprite_position,
-					t_point player_position, double player_rotation_angle);
-int				sprite_is_visible(double sprite_angle);
+float			calculate_sprite_angle(t_point sprite_position,
+					t_point player_position, float player_rotation_angle);
+int				sprite_is_visible(float sprite_angle);
 void			sort_sprites(t_sprite *sprites, int nb_sprites);
 void			get_sprites_positions(t_mlx_vars *vars);
 void			render_sprite(t_mlx_vars *vars, t_sprite_positions data);
@@ -206,4 +205,5 @@ void			draw_sprite(t_mlx_vars *vars, t_sprite_positions data,
 void			free_mlx_struct(t_mlx_vars *vars);
 void			free_parsed_file(t_game_file parsed_file);
 int				exit_game(t_mlx_vars *vars);
+void			render_one_frame(t_mlx_vars *vars);
 #endif

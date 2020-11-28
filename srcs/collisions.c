@@ -6,13 +6,13 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 03:26:35 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/27 02:40:42 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 22:08:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		is_wall(t_mlx_vars *vars, double x, double y)
+int		is_wall(t_mlx_vars *vars, float x, float y)
 {
 	int			index_x;
 	int			index_y;
@@ -21,8 +21,8 @@ int		is_wall(t_mlx_vars *vars, double x, double y)
 
 	map = vars->parsed_file.map;
 	map_res = vars->parsed_file.map_res;
-	index_x = floor(x / vars->cell_size);
-	index_y = floor(y / vars->cell_size);
+	index_x = floor(x);
+	index_y = floor(y);
 	if (index_x < 0 || index_y < 0
 		|| index_x >= map_res.width || index_y >= map_res.height)
 		return (1);
@@ -31,10 +31,10 @@ int		is_wall(t_mlx_vars *vars, double x, double y)
 
 void	update_player_position(t_mlx_vars *vars, t_player *player)
 {
-	double			move_step;
+	float			move_step;
 	t_point			next_position;
-	double			xstep;
-	double			ystep;
+	float			xstep;
+	float			ystep;
 
 	player->rotation_angle += player->turn_direction
 									* player->rotation_speed;

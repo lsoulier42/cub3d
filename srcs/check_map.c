@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 13:01:59 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/28 21:09:49 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/29 00:19:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int		check_around(char **map, int x, int y)
 {
 	if (map[y - 1][x] == ' ' || map[y + 1][x] == ' '
-	   || map[y][x - 1] == ' ' || map[y][x + 1] == ' '
-	   || !map[y - 1][x - 1] || map[y - 1][x - 1] == ' '
-	   || !map[y + 1][x - 1] || map[y + 1][x - 1] == ' '
-	   || !map[y - 1][x + 1] || map[y - 1][x + 1] == ' '
-	   || !map[y + 1][x + 1] || map[y + 1][x + 1] == ' ')
+		|| map[y][x - 1] == ' ' || map[y][x + 1] == ' '
+		|| !map[y - 1][x - 1] || map[y - 1][x - 1] == ' '
+		|| !map[y + 1][x - 1] || map[y + 1][x - 1] == ' '
+		|| !map[y - 1][x + 1] || map[y - 1][x + 1] == ' '
+		|| !map[y + 1][x + 1] || map[y + 1][x + 1] == ' ')
 		return (0);
 	return (1);
 }
@@ -40,7 +40,7 @@ int		invalid_map(char **map, int y, int map_height, int line_len)
 			|| y == (map_height - 1) || x == (line_len - 1)
 			|| x - 1 > previous_len || x + 1 > next_len
 			|| !check_around(map, x, y)))
-			{
+		{
 			error_msg_parsing(MAP_NOT_CLOSED_ERROR);
 			return (1);
 		}

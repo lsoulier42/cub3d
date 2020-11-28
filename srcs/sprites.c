@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 15:50:11 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/28 20:05:42 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/29 00:18:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ void	init_sprite(t_mlx_vars *vars)
 			if (vars->parsed_file.map[y][x] == '2')
 			{
 				set_point(&vars->sprites[sprite_id].position,
-					(x * vars->cell_size) + vars->cell_size / 2,
-					(y * vars->cell_size) + vars->cell_size / 2);
+					x + 0.5, y + 0.5);
 				vars->sprites[sprite_id].distance = 0;
 				vars->sprites[sprite_id].angle = 0;
 				vars->sprites[sprite_id].is_visible = 0;
@@ -65,12 +64,12 @@ int		init_sprites(t_mlx_vars *vars)
 	return (1);
 }
 
-double	calculate_sprite_angle(t_point sprite_position,
-	t_point player_position, double player_rotation_angle)
+float	calculate_sprite_angle(t_point sprite_position,
+	t_point player_position, float player_rotation_angle)
 {
 	t_point	position_to_player;
-	double	angle_to_orthogonal_plane;
-	double	sprite_angle;
+	float	angle_to_orthogonal_plane;
+	float	sprite_angle;
 
 	set_point(&position_to_player,
 		sprite_position.x - player_position.x,
@@ -81,7 +80,7 @@ double	calculate_sprite_angle(t_point sprite_position,
 	return (sprite_angle);
 }
 
-int		sprite_is_visible(double sprite_angle)
+int		sprite_is_visible(float sprite_angle)
 {
 	if (sprite_angle < -M_PI)
 		sprite_angle += 2 * M_PI;
@@ -93,8 +92,8 @@ int		sprite_is_visible(double sprite_angle)
 void	process_sprites(t_mlx_vars *vars)
 {
 	int		i;
-	double	distance;
-	double	angle;
+	float	distance;
+	float	angle;
 
 	i = -1;
 	while (++i < vars->nb_sprites)

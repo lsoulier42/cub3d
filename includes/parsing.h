@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 13:30:56 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/28 20:33:55 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 22:47:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ int				parse_player_star(char **map, t_point *player_start,
 					char *player_start_card);
 int				invalid_map(char **map, int y, int map_height, int line_len);
 int				check_around(char **map, int x, int y);
-void			free_double_tab(char **tab);
+int				complete_map(t_game_file *parsed_file);
+void			free_twod_array(char **tab);
 #endif

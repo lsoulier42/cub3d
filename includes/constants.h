@@ -6,12 +6,15 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 16:23:25 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/28 18:26:53 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 23:06:00 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONSTANTS_H
 # define CONSTANTS_H
+# define MY_SCREEN_WIDTH 1920
+# define MY_INCREMENT_SPEED 0.3
+# define MY_INCREMENT_ROTATION 2.0
 # define FOV_ANGLE 60
 # define ESCAPE 65307
 # define W_KEY 119

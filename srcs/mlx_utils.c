@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 17:46:02 by louise            #+#    #+#             */
-/*   Updated: 2020/11/27 02:55:00 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/29 00:23:08 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ int		my_mlx_new_image(void *mlx_ptr, t_image_data *img,
 void	draw_rect(t_image_data *img, t_point location,
 	t_dimension dimension, int color)
 {
-	double x;
-	double y;
+	float x;
+	float y;
 
 	x = -1;
 	while (++x < dimension.width)

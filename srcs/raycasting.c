@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 20:03:06 by user42            #+#    #+#             */
-/*   Updated: 2020/11/28 21:44:50 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 22:40:27 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ char	is_wall_raycasting(t_mlx_vars *vars, t_point next_touch)
 
 	map = vars->parsed_file.map;
 	map_res = vars->parsed_file.map_res;
-	index_x = floor(next_touch.x / vars->cell_size);
-	index_y = floor(next_touch.y / vars->cell_size);
+	index_x = floor(next_touch.x);
+	index_y = floor(next_touch.y);
 	if (index_x < 0 || index_y < 0
 		|| index_x >= map_res.width - 1 || index_y >= map_res.height - 1)
 		return ('1');
@@ -30,7 +30,7 @@ char	is_wall_raycasting(t_mlx_vars *vars, t_point next_touch)
 		return (map[index_y][index_x]);
 }
 
-void	init_ray(t_ray *ray, double ray_angle)
+void	init_ray(t_ray *ray, float ray_angle)
 {
 	ray->angle = ray_angle;
 	set_point(&ray->wall_hit, 0, 0);
@@ -51,7 +51,7 @@ void	init_ray(t_ray *ray, double ray_angle)
 
 void	cast_all_rays(t_mlx_vars *vars)
 {
-	double	ray_angle;
+	float	ray_angle;
 	int		i;
 	int		nb_column;
 

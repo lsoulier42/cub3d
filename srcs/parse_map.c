@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/22 13:34:19 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/28 13:20:43 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/29 00:14:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,43 @@ int		set_map_settings(t_game_file *parsed_file)
 		if ((int)ft_strlen(map[y]) > map_width)
 			map_width = ft_strlen(map[y]);
 	set_dimension(&parsed_file->map_res, map_width, y);
+	if (!complete_map(parsed_file))
+	{
+		error_msg(ALLOCATION_ERROR);
+		return (0);
+	}
 	if (!parse_player_star(parsed_file->map, &parsed_file->player_start,
 		&parsed_file->player_start_card))
 		return (0);
 	parsed_file->map[(int)parsed_file->player_start.y]
 		[(int)parsed_file->player_start.x] = '0';
+	return (1);
+}
+
+int		complete_map(t_game_file *parsed_file)
+{
+	int		line_len;
+	int		x;
+	int		y;
+	char	*new_line;
+
+	y = -1;
+	while (parsed_file->map[++y])
+	{
+		line_len = (int)ft_strlen(parsed_file->map[y]);
+		x = -1;
+		if (line_len < parsed_file->map_res.width)
+		{
+			new_line = ft_calloc(parsed_file->map_res.width + 1, sizeof(char));
+			if (!new_line)
+				return (0);
+			ft_strlcpy(new_line, parsed_file->map[y], line_len + 1);
+			free(parsed_file->map[y]);
+			parsed_file->map[y] = new_line;
+			while (++x < parsed_file->map_res.width - line_len)
+				parsed_file->map[y][line_len + x] = ' ';
+		}
+	}
 	return (1);
 }
 

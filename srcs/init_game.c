@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:27:36 by louise            #+#    #+#             */
-/*   Updated: 2020/11/28 21:58:20 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 23:33:08 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,51 +14,26 @@
 
 int		create_game_struct(t_mlx_vars *vars, int save_opt)
 {
-	vars->cell_size = 16;
 	vars->distance_to_projection_plane = (vars->parsed_file.win_res.width / 2)
 		/ tan(degree_to_radian(FOV_ANGLE / 2));
-	vars->rays = (t_ray*)malloc(sizeof(t_ray)
-		* vars->parsed_file.win_res.width);
-	if (!vars->rays)
-	{
-		error_msg(ALLOCATION_ERROR);
+	vars->rays = NULL;
+	vars->sprites = NULL;
+	vars->mlx = NULL;
+	vars->win = NULL;
+	if (!create_game_struct_suite(vars))
 		return (0);
-	}
-	if (!init_sprites(vars))
-		return (0);
-	init_player(&vars->player, vars->parsed_file, vars->cell_size);
-	vars->save = save_opt;
-	if (!create_window(vars))
+	if (!create_mlx_ptr(vars))
 		return (0);
 	if (!create_images(vars))
 		return (0);
+	if (save_opt)
+	{
+		render_one_frame(vars);
+		return (0);
+	}
+	if (!create_window(vars))
+		return (0);
 	return (1);
-}
-
-void	init_player(t_player *player, t_game_file parsed_file, int cell_size)
-{
-	t_point		start;
-	char		card;
-	double		angle;
-
-	start = parsed_file.player_start;
-	card = parsed_file.player_start_card;
-	set_point(&player->current_pos, (start.x * cell_size) + cell_size / 2,
-		(start.y * cell_size) + cell_size / 2);
-	player->turn_direction = 0;
-	player->walk_direction = 0;
-	if (card == 'S')
-		angle = M_PI / 2;
-	else if (card == 'N')
-		angle = (3 * M_PI) / 2;
-	else if (card == 'E')
-		angle = 0;
-	else
-		angle = M_PI;
-	player->rotation_angle = angle;
-	player->move_speed = 2.0;
-	player->rotation_speed = (4 * M_PI) / 180;
-	player->direction_angle = 0;
 }
 
 int		create_window(t_mlx_vars *vars)
@@ -68,12 +43,6 @@ int		create_window(t_mlx_vars *vars)
 	int			screen_height;
 
 	win_res = &vars->parsed_file.win_res;
-	vars->mlx = mlx_init();
-	if (!vars->mlx)
-	{
-		error_msg(MLX_INIT_ERROR);
-		return (0);
-	}
 	mlx_get_screen_size(vars->mlx, &screen_width, &screen_height);
 	if (screen_width < win_res->width)
 		set_dimension(win_res, screen_width, win_res->height);

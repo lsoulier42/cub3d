@@ -6,28 +6,27 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 17:05:47 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/25 00:25:08 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 22:08:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-double	fishbowl_correct(t_mlx_vars *vars, t_ray ray)
+float	fishbowl_correct(t_mlx_vars *vars, t_ray ray)
 {
-	double correct_distance;
-	double correct_angle;
-	double wall_height;
+	float correct_distance;
+	float correct_angle;
+	float wall_height;
 
 	correct_angle = ray.angle - normalize_angle(vars->player.rotation_angle);
 	correct_distance = ray.distance * cos(correct_angle);
-	wall_height = vars->distance_to_projection_plane
-		* (vars->cell_size / correct_distance);
+	wall_height = vars->distance_to_projection_plane / correct_distance;
 	return (wall_height);
 }
 
 void	render_wall(t_mlx_vars *vars)
 {
-	double		wall_height;
+	float		wall_height;
 	int			i;
 
 	i = -1;

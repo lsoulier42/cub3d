@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/14 01:36:40 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/28 16:39:44 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 22:08:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	free_parsed_file(t_game_file parsed_file)
 {
 	if (parsed_file.map)
-		free_double_tab(parsed_file.map);
+		free_twod_array(parsed_file.map);
 	if (parsed_file.no_text)
 		free(parsed_file.no_text);
 	if (parsed_file.so_text)
@@ -48,11 +48,17 @@ void	free_mlx_struct(t_mlx_vars *vars)
 int		exit_game(t_mlx_vars *vars)
 {
 	free_mlx_struct(vars);
-	mlx_destroy_window(vars->mlx, vars->win);
-	mlx_destroy_display(vars->mlx);
-	free(vars->mlx);
-	free(vars->sprites);
-	free(vars->rays);
+	if (vars->win)
+		mlx_destroy_window(vars->mlx, vars->win);
+	if (vars->mlx)
+	{
+		mlx_destroy_display(vars->mlx);
+		free(vars->mlx);
+	}
+	if (vars->sprites)
+		free(vars->sprites);
+	if (vars->rays)
+		free(vars->rays);
 	free_parsed_file(vars->parsed_file);
 	return (1);
 }

@@ -6,41 +6,14 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 17:59:34 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/27 11:28:13 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 22:26:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		get_texture_offset_x(t_point wall_hit, int was_hit_vertical,
-	int text_width, int cell_size)
-{
-	int	offset_x;
-
-	if (was_hit_vertical)
-		offset_x = fmod(wall_hit.y, cell_size)
-			* (text_width / cell_size);
-	else
-		offset_x = fmod(wall_hit.x, cell_size)
-			* (text_width / cell_size);
-	return (offset_x);
-}
-
-int		get_texture_offset_y(double current_y,
-	double wall_height, int win_height, int text_height)
-{
-	int offset_y;
-
-	offset_y = (int)(current_y + (wall_height / 2.0)
-		- (win_height / 2.0))
-		* (text_height / wall_height);
-	if (offset_y < 0)
-		offset_y = 0;
-	return (offset_y);
-}
-
 void	set_texture_limits(t_dimension win_res,
-	double texture_height_in_screen, int *texture_top_pixel,
+	float texture_height_in_screen, int *texture_top_pixel,
 	int *texture_bottom_pixel)
 {
 	*texture_top_pixel = (win_res.height / 2.0)
@@ -54,7 +27,7 @@ void	set_texture_limits(t_dimension win_res,
 }
 
 void	set_line_texture(t_mlx_vars *vars, t_texture_data *text,
-	double wall_height, int ray_index)
+	float wall_height, int ray_index)
 {
 	t_point	texture_offset;
 	int		y;
@@ -66,7 +39,7 @@ void	set_line_texture(t_mlx_vars *vars, t_texture_data *text,
 		&wall_top_pixel, &wall_bottom_pixel);
 	y = wall_top_pixel - 1;
 	texture_offset.x = get_texture_offset_x(vars->rays[ray_index].wall_hit,
-		vars->rays[ray_index].was_hit_vertical, text->width, vars->cell_size);
+		vars->rays[ray_index].was_hit_vertical, text->width);
 	while (++y < wall_bottom_pixel)
 	{
 		texture_offset.y = get_texture_offset_y(y, wall_height,
@@ -76,7 +49,7 @@ void	set_line_texture(t_mlx_vars *vars, t_texture_data *text,
 	}
 }
 
-void	map_texture(t_mlx_vars *vars, double wall_height,
+void	map_texture(t_mlx_vars *vars, float wall_height,
 	int ray_index)
 {
 	if (vars->rays[ray_index].was_hit_south)

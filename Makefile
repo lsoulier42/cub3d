@@ -1,4 +1,4 @@
-NAME=		cub3D
+NAME=		Cub3D
 SRCS=		main.c \
 			parsing.c \
 			cub_file.c \
@@ -15,9 +15,9 @@ SRCS=		main.c \
 			exit_game.c \
 			error_utils.c \
 			mlx_utils.c \
-			mlx_utils2.c \
 			collisions.c \
 			init_game.c \
+			init_game_utils.c \
 			geometry_utils.c \
 			event_mngt.c \
 			raycasting.c \
@@ -25,7 +25,9 @@ SRCS=		main.c \
 			render_wall.c \
 			render_background.c \
 			textures.c \
+			textures_utils.c \
 			save_bmp.c \
+			save_bmp_utils.c \
 			sprites.c \
 			sprites_utils.c
 OBJS=		${addprefix srcs/,${SRCS:.c=.o}}

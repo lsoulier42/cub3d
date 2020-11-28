@@ -62,15 +62,15 @@ int		parse_settings_suite(t_game_file *parsed_file, char *line)
 	if (!config_available(values))
 	{
 		error_msg_parsing(SETTING_INVALID);
-		free_double_tab(values);
+		free_twod_array(values);
 		return (0);
 	}
 	if (!get_settings(parsed_file, values))
 	{
-		free_double_tab(values);
+		free_twod_array(values);
 		return (0);
 	}
-	free_double_tab(values);
+	free_twod_array(values);
 	return (1);
 }
 

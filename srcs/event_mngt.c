@@ -57,11 +57,6 @@ int		update_hook(t_mlx_vars *vars)
 	render_background(vars);
 	render_wall(vars);
 	process_sprites(vars);
-	if (vars->save)
-	{
-		save_bmp(&vars->view, vars->parsed_file.win_res);
-		vars->save = 0;
-	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->view.img, 0, 0);
 	return (1);
 }

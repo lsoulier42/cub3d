@@ -6,7 +6,7 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 16:00:41 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/27 03:05:34 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/28 22:34:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@ void	find_horizontal_intercept_loop(t_mlx_vars *vars,
 	t_ray *ray, t_point next, t_point step)
 {
 	t_point	next_touch;
-	int		offset_facing_up;
+	float	offset_facing_up;
 	char	wall_hit_content;
 
-	offset_facing_up = 0;
+	offset_facing_up = 0.0;
 	if (!ray->facing_down)
-		offset_facing_up = 1;
+		offset_facing_up = 1.0;
 	while (next.x >= 0 && next.x < vars->parsed_file.win_res.width
 		&& next.y >= 0 && next.y < vars->parsed_file.win_res.height)
 	{
 		set_point(&next_touch, next.x, next.y - offset_facing_up);
 		wall_hit_content = is_wall_raycasting(vars, next_touch);
-		if (wall_hit_content == '1')
+		if (wall_hit_content == '1' || wall_hit_content == ' ')
 		{
 			set_point(&ray->wall_hit, next.x, next.y);
 			ray->distance = distance_points(vars->player.current_pos,
@@ -46,22 +46,21 @@ void	find_horizontal_intercept(t_mlx_vars *vars, t_ray *ray)
 	t_point	first;
 	t_point	step;
 
-	first.y = floor(vars->player.current_pos.y / vars->cell_size)
-		* vars->cell_size;
+	first.y = floor(vars->player.current_pos.y);
 	if (ray->facing_down)
-		first.y += vars->cell_size;
+		first.y += 1;
 	first.x = vars->player.current_pos.x
 		+ ((first.y - vars->player.current_pos.y) / tan(ray->angle));
-	step.y = vars->cell_size;
+	step.y = 1;
 	if (!ray->facing_down)
 		step.y *= -1;
-	step.x = vars->cell_size / tan(ray->angle);
+	step.x = 1 / tan(ray->angle);
 	if ((ray->facing_left && step.x > 0) || (!ray->facing_left && step.x < 0))
 		step.x *= -1;
 	find_horizontal_intercept_loop(vars, ray, first, step);
 }
 
-void	reset_ray_setting(t_ray *ray, double vertical_len, t_point wall_found,
+void	reset_ray_setting(t_ray *ray, float vertical_len, t_point wall_found,
 	char hit_content)
 {
 	ray->distance = vertical_len;
@@ -78,19 +77,19 @@ void	find_vertical_intercept_loop(t_mlx_vars *vars, t_ray *ray,
 	t_point next, t_point step)
 {
 	t_point	next_touch;
-	int		offset_facing_left;
+	float	offset_facing_left;
 	char	wall_hit_content;
-	double	vertical_len;
+	float	vertical_len;
 
-	offset_facing_left = 0;
+	offset_facing_left = 0.0;
 	if (ray->facing_left)
-		offset_facing_left = 1;
+		offset_facing_left = 1.0;
 	while (next.x >= 0 && next.x < vars->parsed_file.win_res.width
 		&& next.y >= 0 && next.y < vars->parsed_file.win_res.height)
 	{
 		set_point(&next_touch, next.x - offset_facing_left, next.y);
 		wall_hit_content = is_wall_raycasting(vars, next_touch);
-		if (wall_hit_content == '1')
+		if (wall_hit_content == '1' || wall_hit_content == ' ')
 		{
 			vertical_len = distance_points(vars->player.current_pos, next);
 			if (vertical_len < ray->distance || ray->distance == 0)
@@ -106,16 +105,15 @@ void	find_vertical_intercept(t_mlx_vars *vars, t_ray *ray)
 	t_point	first;
 	t_point step;
 
-	first.x = floor(vars->player.current_pos.x / vars->cell_size)
-		* vars->cell_size;
+	first.x = floor(vars->player.current_pos.x);
 	if (!ray->facing_left)
-		first.x += vars->cell_size;
+		first.x += 1;
 	first.y = vars->player.current_pos.y
 		+ ((first.x - vars->player.current_pos.x) * tan(ray->angle));
-	step.x = vars->cell_size;
+	step.x = 1;
 	if (ray->facing_left)
 		step.x *= -1;
-	step.y = vars->cell_size * tan(ray->angle);
+	step.y = tan(ray->angle);
 	if ((!ray->facing_down && step.y > 0) || (ray->facing_down && step.y < 0))
 		step.y *= -1;
 	find_vertical_intercept_loop(vars, ray, first, step);

@@ -1,37 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_utils2.c                                       :+:      :+:    :+:   */
+/*   textures_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/23 14:29:21 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/28 14:06:20 by user42           ###   ########.fr       */
+/*   Created: 2020/11/29 00:23:25 by lsoulier          #+#    #+#             */
+/*   Updated: 2020/11/29 00:23:59 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "parsing.h"
 
-int		load_texture(t_mlx_vars *vars, t_texture_data *text, char *filepath)
+int		get_texture_offset_x(t_point wall_hit, int was_hit_vertical,
+								int text_width)
 {
-	if (!check_extension_file(filepath, ".xpm"))
-	{
-		error_msg(TEXTURE_ERROR);
-		error_msg_texture(filepath);
-		return (0);
-	}
-	text->img = mlx_xpm_file_to_image(vars->mlx,
-		filepath, &text->width, &text->height);
-	if (!text->img)
-	{
-		error_msg(TEXTURE_ERROR);
-		error_msg_texture(filepath);
-		return (0);
-	}
-	text->addr = mlx_get_data_addr(text->img,
-		&text->bits_per_pixel, &text->line_length, &text->endian);
-	return (1);
+	int	offset_x;
+
+	if (was_hit_vertical)
+		offset_x = fmod(wall_hit.y, 1) * text_width;
+	else
+		offset_x = fmod(wall_hit.x, 1) * text_width;
+	return (offset_x);
+}
+
+int		get_texture_offset_y(float current_y,
+	float wall_height, int win_height, int text_height)
+{
+	int offset_y;
+
+	offset_y = (current_y + (wall_height / 2.0)
+		- (win_height / 2.0))
+		* (text_height / wall_height);
+	if (offset_y < 0)
+		offset_y = 0;
+	return (offset_y);
 }
 
 int		get_texture_color(t_texture_data *img, int x, int y)
