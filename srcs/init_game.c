@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:27:36 by louise            #+#    #+#             */
-/*   Updated: 2020/11/28 23:33:08 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/30 12:02:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,26 @@
 
 int		create_game_struct(t_mlx_vars *vars, int save_opt)
 {
-	vars->distance_to_projection_plane = (vars->parsed_file.win_res.width / 2)
-		/ tan(degree_to_radian(FOV_ANGLE / 2));
 	vars->rays = NULL;
 	vars->sprites = NULL;
 	vars->mlx = NULL;
 	vars->win = NULL;
-	if (!create_game_struct_suite(vars))
+	if (save_opt)
+	{
+		if (!render_one_frame(vars))
+			error_msg(ERROR_SAVING_BMP_FILE);
 		return (0);
+	}
 	if (!create_mlx_ptr(vars))
+		return (0);
+	if (!create_window(vars))
+		return (0);
+	if (!create_game_struct_suite(vars))
 		return (0);
 	if (!create_images(vars))
 		return (0);
-	if (save_opt)
-	{
-		render_one_frame(vars);
-		return (0);
-	}
-	if (!create_window(vars))
-		return (0);
+	vars->distance_to_projection_plane = (vars->parsed_file.win_res.width / 2)
+		/ tan(degree_to_radian(FOV_ANGLE / 2));
 	return (1);
 }
 
@@ -49,7 +50,8 @@ int		create_window(t_mlx_vars *vars)
 	if (screen_height < win_res->height)
 		set_dimension(win_res, win_res->width, screen_height);
 	vars->win = mlx_new_window(vars->mlx,
-		win_res->width, win_res->height, PROJECT_NAME);
+		vars->parsed_file.win_res.width,
+		vars->parsed_file.win_res.height, PROJECT_NAME);
 	if (!vars->win)
 	{
 		error_msg(MLX_WINDOW_ERROR);

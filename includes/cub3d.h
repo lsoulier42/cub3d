@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:53:16 by louise            #+#    #+#             */
-/*   Updated: 2020/11/28 23:42:15 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/30 12:33:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,5 +205,6 @@ void			draw_sprite(t_mlx_vars *vars, t_sprite_positions data,
 void			free_mlx_struct(t_mlx_vars *vars);
 void			free_parsed_file(t_game_file parsed_file);
 int				exit_game(t_mlx_vars *vars);
-void			render_one_frame(t_mlx_vars *vars);
+int				render_one_frame(t_mlx_vars *vars);
+int				stop_loop(t_mlx_vars *vars);
 #endif

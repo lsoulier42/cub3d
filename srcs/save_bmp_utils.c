@@ -6,20 +6,29 @@
 /*   By: lsoulier <lsoulier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/28 23:38:37 by lsoulier          #+#    #+#             */
-/*   Updated: 2020/11/28 23:42:30 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/30 12:05:16 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "save_bmp.h"
 
-void			render_one_frame(t_mlx_vars *vars)
+int				render_one_frame(t_mlx_vars *vars)
 {
+	if (!create_mlx_ptr(vars))
+		return (0);
+	if (!create_game_struct_suite(vars))
+		return (0);
+	if (!create_images(vars))
+		return (0);
+	vars->distance_to_projection_plane = (vars->parsed_file.win_res.width / 2)
+		/ tan(degree_to_radian(FOV_ANGLE / 2));
 	cast_all_rays(vars);
 	render_background(vars);
 	render_wall(vars);
 	process_sprites(vars);
 	save_bmp(&vars->view, vars->parsed_file.win_res);
+	return (1);
 }
 
 t_bmp_color		convert_trgb_to_bmp(t_image_data *img, int x, int y)

@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/10 01:57:58 by louise            #+#    #+#             */
-/*   Updated: 2020/11/28 16:44:28 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/30 12:36:37 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		key_press_hook(int keycode, t_mlx_vars *vars)
 	else if (keycode == ARROW_LEFT)
 		player->turn_direction = -1;
 	if (keycode == ESCAPE)
-		exit_game(vars);
+		mlx_loop_end(vars->mlx);
 	return (1);
 }
 
@@ -63,7 +63,7 @@ int		update_hook(t_mlx_vars *vars)
 
 void	event_mngt(t_mlx_vars *vars)
 {
-	mlx_hook(vars->win, 33, 1L << 17, &exit_game, vars);
+	mlx_hook(vars->win, 33, 1L << 17, &mlx_loop_end, vars->mlx);
 	mlx_hook(vars->win, 2, 1L << 0, &key_press_hook, vars);
 	mlx_hook(vars->win, 3, 1L << 1, &key_release_hook, vars);
 	mlx_loop_hook(vars->mlx, &update_hook, vars);

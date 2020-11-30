@@ -32,6 +32,8 @@ void	error_msg(int error_type)
 		ft_putstr("Error\nLoading texture error.\n");
 	else if (error_type == UNKNOWN_ELEMENT_ERROR)
 		ft_putstr("Error\nUnknown element found in map.\n");
+	else if (error_type == ERROR_SAVING_BMP_FILE)
+		ft_putstr("Error\nBMP picture couldn't be saved.\n");
 	else
 		ft_putstr("Error\nUnknown error.\n");
 }

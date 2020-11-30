@@ -114,6 +114,7 @@ typedef struct	s_xvar
 	int			do_flush;
 	int			decrgb[6];
 	Atom		wm_delete_window;
+	int			end_loop;
 }				t_xvar;
 
 
@@ -133,6 +134,5 @@ int				mlx_int_get_visual(t_xvar *xvar);
 int				mlx_int_set_win_event_mask(t_xvar *xvar);
 int				mlx_int_str_str_cote(char *str,char *find,int len);
 int				mlx_int_str_str(char *str,char *find,int len);
-
 
 #endif
