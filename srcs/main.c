@@ -6,7 +6,7 @@
 /*   By: louise <lsoulier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 14:36:08 by louise            #+#    #+#             */
-/*   Updated: 2020/11/30 12:32:41 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/30 13:11:13 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv)
 				return (0);
 			}
 			event_mngt(&vars);
-			//exit_game(&vars);
+			exit_game(&vars);
 		}
 	}
 	if (argc < 2 || (argc == 3 && !save_opt) || argc > 3)
